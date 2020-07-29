@@ -6,11 +6,11 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'client', 'build')))
 
-app.use('static', express.static(path.join(__dirname, 'public')))
+app.use('/app2/', express.static(path.join(__dirname, 'client2', 'build')));
+app.get('/app2/*', (req,res)=> {
+    res.sendFile(path.join(__dirname, './client2/build','index.html'));
+})
 
-app.get('/', (req,res)=>{
-    res.send('flowers smell nice');
-});
 
 app.get("/static", (req, res)=> {
     let image = "<img src={'/camera.png'} />"
@@ -18,6 +18,13 @@ app.get("/static", (req, res)=> {
 })
 
 app.get('/flower', (req,res)=>{
+    res.json({
+        name: 'Dandelion',
+        colour: 'Blue-ish'
+    })
+})
+
+app.get('app2/flower', (req,res)=>{
     res.json({
         name: 'Dandelion',
         colour: 'Blue-ish'
