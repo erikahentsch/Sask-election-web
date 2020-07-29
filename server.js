@@ -4,11 +4,12 @@ const path = require('path')
 const PORT = process.env.HTTP_PORT || 4001;
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.use(express.static(path.join(__dirname, 'client', 'build')))
 
-app.use('/app1/', express.static(path.join(__dirname, 'client2', 'build')))
-app.get('/app1', (req,res)=>{
-    res.sendFile(path.join(__dirname, 'client2/build', 'index.html'));
+app.use('static', express.static(path.join(__dirname, 'public')))
+
+app.get('/', (req,res)=>{
+    res.send('flowers smell nice');
 });
 
 app.get("/static", (req, res)=> {
