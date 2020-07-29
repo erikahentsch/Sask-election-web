@@ -21,7 +21,7 @@ const Map = (props) => {
     return (
         <div>
             <ComposableMap projection="geoMercator" projectionConfig={{scale: 108}}>
-                <ZoomableGroup disableZooming center={zoomCenter.center} zoom={zoomCenter.zoom}>
+                <ZoomableGroup center={zoomCenter.center} zoom={zoomCenter.zoom}>
                     <Geographies geography={'/SASK_Union_proj_lakes.json'}>
                         {({geographies})=>
                             geographies.map(geo=>{
