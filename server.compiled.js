@@ -5,11 +5,14 @@ var express = require('express');
 var path = require('path');
 
 var PORT = process.env.HTTP_PORT || 4001;
-var app = express();
-app.use(express["static"](path.join(__dirname, 'client', 'build')));
-app.use('/app2/', express["static"](path.join(__dirname, 'client2', 'build')));
+var app = express(); //serve static files//
+
+app.use(express["static"]('public')); //server map-app//
+
+app.use(express["static"](path.join(__dirname, 'map-widget', 'build')));
+app.use('/app2/', express["static"](path.join(__dirname, 'graph-widget', 'build')));
 app.get('/app2/*', function (req, res) {
-  res.sendFile(path.join(__dirname, './client2/build', 'index.html'));
+  res.sendFile(path.join(__dirname, './graph-widget/build', 'index.html'));
 });
 app.get("/static", function (req, res) {
   var image = "<img src={'/camera.png'} />";

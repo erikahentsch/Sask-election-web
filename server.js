@@ -4,11 +4,15 @@ const path = require('path')
 const PORT = process.env.HTTP_PORT || 4001;
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'client', 'build')))
+//serve static files//
+app.use(express.static('public'));
 
-app.use('/app2/', express.static(path.join(__dirname, 'client2', 'build')));
+//server map-app//
+app.use(express.static(path.join(__dirname, 'map-widget', 'build')))
+
+app.use('/app2/', express.static(path.join(__dirname, 'graph-widget', 'build')));
 app.get('/app2/*', (req,res)=> {
-    res.sendFile(path.join(__dirname, './client2/build','index.html'));
+    res.sendFile(path.join(__dirname, './graph-widget/build','index.html'));
 })
 
 
@@ -30,6 +34,7 @@ app.get('app2/flower', (req,res)=>{
         colour: 'Blue-ish'
     })
 })
+
 
 app.listen(PORT, ()=>{
     console.log(`Server listening at port ${PORT}.`)
