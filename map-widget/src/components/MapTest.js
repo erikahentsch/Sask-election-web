@@ -59,12 +59,23 @@ const styles= makeStyles({
         handleFill();
     }, [props.data])
 
+    useEffect(()=> {
+        console.log('zoom to riding', props.selectedRiding)
+        if (props.selectedRiding) {
+            zoomToED(props.selectedRiding.name)
+        }
+    }, [props.selectedRiding])
+
     const getPartyResults = (EDName) => {
-        if (props.data) {
-            let partyResults = props.data.data.find(ed=>
-                ed.name.toUpperCase() === EDName.toUpperCase()
-            )
-            return partyResults
+        try {
+            if (props.data) {
+                let partyResults = props.data.data.find(ed=>
+                    ed.name.toUpperCase() === EDName.toUpperCase()
+                )
+                return partyResults
+            }
+        } catch (e) {
+            console.log("Couldn't get party results")
         }
     }
     
@@ -108,15 +119,17 @@ const styles= makeStyles({
         var layerBounds = e.layer.getBounds();
         const map = mapRef.current.leafletElement;
         map.fitBounds(layerBounds)
+        const clickedRiding = e.layer.feature.properties.Constituen
+        const partyResults = getPartyResults(clickedRiding)
+        props.handleSelectRiding(partyResults)
     }
 
-    const zoomToED = () => {
+    const zoomToED = (ridingName) => {
         const map = mapRef.current.leafletElement;
         const geo = geoRef.current.leafletElement;
-        const test = "LAST MOUNTAIN-TOUCHWOOD"
         var findLayer = null;
         geo.eachLayer(layer=>{
-            if (layer.feature.properties.Constituen === test.toUpperCase()) {
+            if (layer.feature.properties.Constituen === ridingName.toUpperCase()) {
                 findLayer = layer
             }
         })
@@ -141,22 +154,13 @@ const styles= makeStyles({
                 />
 
                 {geo && <GeoJSON ref={geoRef} style={handleFill} data={geo} onClick={handleClick} />  }   
-
-                <Marker position={position}>
-                    <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
                 <Control position="topleft">
-                    <a className={`leaflet-control-zoom ${classes.resetButton}`} onClick={resetBounds}>
+                    <a id="zoomOut" style={{color: 'black !important'}} className={`leaflet-control-zoom ${classes.resetButton}`} onClick={resetBounds}>
                         <ZoomOutMapIcon />
 
                     </a>
                 </Control>
-                {/* <MapControl position={'topleft'}/> */}
             </Map>
-
-            {/* <a className={`leaflet-control-zoom ${classes.resetButton}`} title="Reset" role="button" onClick={resetBounds}><ZoomOutMapIcon/></a> */}
       </div>
     )
 }

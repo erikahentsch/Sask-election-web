@@ -24,6 +24,7 @@ function App() {
   const [data, setData] = useState(null)
   const [loading, toggleLoading] = useState(true)
   const [parties, setParties] = useState(null)
+  const [selectedResults, setSelectedResults] = useState(null)
 
   const classes = styles();
 
@@ -45,11 +46,18 @@ function App() {
       })
   }
 
+  const handleSelectRiding = (results) => {
+    console.log(results)
+    setSelectedResults(results)
+  }
+
   return (
     <div id={'map-widget-app'} className={classes.app}>
       <MapDiv 
         data={data}
         parties={parties}
+        handleSelectRiding={handleSelectRiding}
+        selectedRiding={selectedResults}
         />
         {/* <TransformWrapper
           options={{
@@ -59,7 +67,9 @@ function App() {
         >
           <Map />
         </TransformWrapper> */}
-        <Sidebar data={data} />
+        <Sidebar data={data} 
+          results={selectedResults} 
+          handleSelectRiding={handleSelectRiding}/>
     </div>
   );
 }
