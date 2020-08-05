@@ -9,7 +9,7 @@ import {makeStyles} from '@material-ui/core'
 
 const styles= makeStyles({
     mapContainer: {
-        flex: 3,
+        flex: 4,
         position: 'relative'
     },
     resetButton: {
@@ -146,7 +146,7 @@ const styles= makeStyles({
             <Map 
                 ref={mapRef} 
                 maxBounds={[[29.305561325527698, -130.53515625000003], [74.16408546675687, -90.54296875000001]]}
-                minZoom={5}    
+                minZoom={3}    
             >
                 <TileLayer
                 attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

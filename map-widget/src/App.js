@@ -67,7 +67,9 @@ function App() {
         >
           <Map />
         </TransformWrapper> */}
-        <Sidebar data={data} 
+        <Sidebar 
+          data={data} 
+          parties={parties}
           results={selectedResults} 
           handleSelectRiding={handleSelectRiding}/>
     </div>

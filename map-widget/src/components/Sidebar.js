@@ -10,7 +10,7 @@ import Results from './Results'
 
 const styles = makeStyles({
     sidebar: {
-        flex: 1, 
+        flex: 2, 
         position: 'relative',
         display: 'flex',
         overflow: 'hidden'
@@ -30,7 +30,7 @@ const styles = makeStyles({
     },
     content: {
         marginBottom: 10,
-        height: 'calc(100% - 30px)',
+        height: 'calc(100% - 50px)',
         overflowX: 'hidden',
         overflowY: 'scroll'
 
@@ -121,7 +121,10 @@ const Sidebar = (props) =>  {
                     </div>
                     <div className={classes.content}>
                         {props.data && menu === 'results' && 
-                            <Results data={results} />
+                            <Results 
+                                data={results}
+                                parties={props.parties}
+                            />
                         }
                     </div>
                 </div>
