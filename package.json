@@ -6,13 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:server": "babel server.js --out-file server.compiled.js",
-    "build:client2": "cd graph-widget && npm run build", 
+    "build:client2": "cd graph-widget && npm run build",
     "build:client": "cd map-widget && npm run build",
     "build": "npm run build:server && npm run build:client2 && npm run build:client",
     "start": "nodemon --exec babel-node server.js --ignore client",
     "dev:graph": "concurrently \"nodemon server.js\" \"cd graph-widget/ && npm start\" ",
     "dev:map": "concurrently \"nodemon server.js\" \"cd map-widget/ && npm start\" "
-
   },
   "keywords": [],
   "author": "",
@@ -21,7 +20,10 @@
     "@babel/core": "^7.10.5",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

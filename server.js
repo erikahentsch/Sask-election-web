@@ -1,14 +1,25 @@
 const express = require('express')
 const path = require('path')
+const fetch = require('node-fetch')
+require('dotenv').config();
 
 const PORT = process.env.HTTP_PORT || 4001;
+const fs = require('fs')
 const app = express();
+
 
 //serve static files//
 app.use(express.static('public'));
 
+//start fetch data//
+app.get('/', function (req, res) {
+    res.send('Hello World!')
+})
+
 //server map-app//
 app.use(express.static(path.join(__dirname, 'map-widget', 'build')))
+
+
 
 app.use('/app2/', express.static(path.join(__dirname, 'graph-widget', 'build')));
 app.get('/app2/*', (req,res)=> {
@@ -35,7 +46,63 @@ app.get('app2/flower', (req,res)=>{
     })
 })
 
+app.get('/testEnv', (req,res)=> {
+    res.send(process.env.TEST_TEXT || "Test text not found")
+});
 
-app.listen(PORT, ()=>{
-    console.log(`Server listening at port ${PORT}.`)
-})
+function startTimer(req,res,next) {
+    let counter = 0;
+    console.log(`Server test listening at port ${PORT}.`);
+    nextFunction();
+    setInterval(()=>{
+        console.log(counter);
+        nextFunction();
+        counter++;
+    }, 5000)
+}
+const nextFunction = (req,res,next) => {
+    var date = new Date();
+    var test = {
+        "test": 'this is also a test',
+        "date": date
+    }
+
+    var data = JSON.stringify(test);
+
+    fs.writeFile('public/data/test.json', data, finished)
+
+    function finished(err) {
+        console.log('all done')
+    }
+    console.log(date)
+}
+
+//get party data
+function getPartyData() {
+    var url = 'https://elector.blcloud.net/api/party/?json=true'
+
+    fetch(url)
+        .then(res=> {
+            if (res.ok) {
+                return res.json()
+            } 
+        })
+        .then(json=>{
+
+            var data = JSON.stringify(json)
+
+            fs.writeFile('public/data/test.json', data, finished)
+            function finished(err) {
+                console.log('all done')
+            }
+        })
+
+}
+
+app.listen(PORT, getPartyData)
+
+// app.listen(PORT, startTimer)
+
+// app.listen(PORT, ()=> {
+//     console.log(`Server test listening at port ${PORT}.`);
+// })
