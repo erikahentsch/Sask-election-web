@@ -33,13 +33,13 @@ function App() {
   ,[])
 
   const getData = () => {
-    fetch('/data/SASK_2016.json')
+    fetch('/results_2016')
       .then(res=>res.json())
       .then(json=>{
         setData(json);
         toggleLoading(false)
       })
-    fetch('/data/partylist.json')
+    fetch('/partylist')
       .then(res=>res.json())
       .then(json=>{
         setParties(json)

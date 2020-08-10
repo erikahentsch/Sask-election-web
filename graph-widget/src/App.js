@@ -67,7 +67,7 @@ function App() {
   ],[])
 
   const getData = () => {
-    fetch('/data/overallresults.json')
+    fetch('/overallresults')
       .then(res=>{
         console.log(res)
         return res.json()})
