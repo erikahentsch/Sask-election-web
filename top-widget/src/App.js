@@ -73,7 +73,7 @@ const App = () => {
 	const getData = () => {
 		var prefix = process.env.NODE_ENV === 'development' ? './': "";
 
-		fetch(`data/overallresults.json`)
+		fetch(`/overallresults`)
 			.then(res=>{
 				if (res.ok) {
 					return res.json();

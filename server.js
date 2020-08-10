@@ -13,12 +13,18 @@ app.use(express.static('public'));
 
 //start fetch data//
 app.get('/', function (req, res) {
-    res.send('Hello World!')
+    res.sendFile('index.html')
 })
 
 //server map-app//
 app.use(express.static(path.join(__dirname, 'map-widget', 'build')))
 
+
+// Serve map widget
+app.use('/map-widget/', express.static(path.join(__dirname, 'map-widget', 'build')));
+app.get('/map-widget/*', (req,res)=> {
+    res.sendFile(path.join(__dirname, './map-widget/build','index.html'));
+})
 
 // Server graph widget
 app.use('/graph-widget/', express.static(path.join(__dirname, 'graph-widget', 'build')));
@@ -32,24 +38,21 @@ app.get('/top-widget/*', (req,res)=> {
     res.sendFile(path.join(__dirname, './top-widget/build','index.html'));
 })
 
-app.get("/static", (req, res)=> {
-    let image = "<img src={'/camera.png'} />"
-    res.send(image)
+app.get('*/overallresults', (req,res)=> {
+    let results = fs.readFileSync('public/data/overallResults.json')
+    res.send(JSON.parse(results))
 })
 
-app.get('/flower', (req,res)=>{
-    res.json({
-        name: 'Dandelion',
-        colour: 'Blue-ish'
-    })
+app.get('*/results_2016', (req,res)=>{
+    let results = fs.readFileSync('public/data/SASK_2016.json')
+    res.send(JSON.parse(results))
 })
 
-app.get('app2/flower', (req,res)=>{
-    res.json({
-        name: 'Dandelion',
-        colour: 'Blue-ish'
-    })
+app.get('*/partylist', (req,res)=>{
+    let results = fs.readFileSync('public/data/partylist.json')
+    res.send(JSON.parse(results))
 })
+
 
 app.get('/testEnv', (req,res)=> {
     res.send(process.env.TEST_TEXT || "Test text not found")
