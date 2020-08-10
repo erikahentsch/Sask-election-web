@@ -34,5 +34,5 @@
     ]
   },
   "proxy": "http://localhost:4001",
-  "homepage": "http://localhost:4001/graph-widget"
+  "homepage": "http://localhost:4001/top-widget"
 }

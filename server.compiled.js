@@ -20,10 +20,16 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 }); //server map-app//
 
-app.use(express["static"](path.join(__dirname, 'map-widget', 'build')));
-app.use('/app2/', express["static"](path.join(__dirname, 'graph-widget', 'build')));
-app.get('/app2/*', function (req, res) {
+app.use(express["static"](path.join(__dirname, 'map-widget', 'build'))); // Server graph widget
+
+app.use('/graph-widget/', express["static"](path.join(__dirname, 'graph-widget', 'build')));
+app.get('/graph-widget/*', function (req, res) {
   res.sendFile(path.join(__dirname, './graph-widget/build', 'index.html'));
+}); // Server top seat widget
+
+app.use('/top-widget/', express["static"](path.join(__dirname, 'top-widget', 'build')));
+app.get('/top-widget/*', function (req, res) {
+  res.sendFile(path.join(__dirname, './top-widget/build', 'index.html'));
 });
 app.get("/static", function (req, res) {
   var image = "<img src={'/camera.png'} />";
@@ -87,9 +93,10 @@ function getPartyData() {
       console.log('all done');
     }
   });
-}
+} // app.listen(PORT, getPartyData)
+// app.listen(PORT, startTimer)
 
-app.listen(PORT, getPartyData); // app.listen(PORT, startTimer)
-// app.listen(PORT, ()=> {
-//     console.log(`Server test listening at port ${PORT}.`);
-// })
+
+app.listen(PORT, function () {
+  console.log("Server test listening at port ".concat(PORT, "."));
+});

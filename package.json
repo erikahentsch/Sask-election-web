@@ -6,12 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:server": "babel server.js --out-file server.compiled.js",
+    "build:client3": "cd top-widget && npm run build",
     "build:client2": "cd graph-widget && npm run build",
     "build:client": "cd map-widget && npm run build",
-    "build": "npm run build:server && npm run build:client2 && npm run build:client",
+    "build": "npm run build:server && npm run build:client2 && npm run build:client && npm run build:client3",
     "start": "nodemon --exec babel-node server.js --ignore client",
     "dev:graph": "concurrently \"nodemon server.js\" \"cd graph-widget/ && npm start\" ",
-    "dev:map": "concurrently \"nodemon server.js\" \"cd map-widget/ && npm start\" "
+    "dev:map": "concurrently \"nodemon server.js\" \"cd map-widget/ && npm start\" ",
+    "dev:top": "concurrently \"nodemon server.js\" \"cd top-widget/ && npm start\" "
   },
   "keywords": [],
   "author": "",
