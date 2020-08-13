@@ -35,6 +35,11 @@ app.get('/graph-widget/*', function (req, res) {
 app.use('/top-widget/', express["static"](path.join(__dirname, 'top-widget', 'build')));
 app.get('/top-widget/*', function (req, res) {
   res.sendFile(path.join(__dirname, './top-widget/build', 'index.html'));
+}); // Server top barchart widget
+
+app.use('/barchart-widget/', express["static"](path.join(__dirname, 'barchart-widget', 'build')));
+app.get('/barchart-widget/*', function (req, res) {
+  res.sendFile(path.join(__dirname, './barchart-widget/build', 'index.html'));
 });
 app.get('*/overallresults', function (req, res) {
   var results = fs.readFileSync('public/data/overallResults.json');

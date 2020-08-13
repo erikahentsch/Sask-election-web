@@ -103,7 +103,7 @@ const Candidate = (props) => {
     return (
         <div className={classes.candidateRoot}>
             <div className={classes.imageDiv}>
-                <img style={{backgroundColor: props.color}} src="/images.jpg"/>
+                <img style={{backgroundColor: color}} alt="Candidate Headshot" src="/images.jpg"/>
                 <div id="partyCode">{candidate.partyCode}</div>
             </div>
             <div className={classes.candidateLeftDiv}>
@@ -138,7 +138,6 @@ const Results = (props) => {
     const getPartyColor = (candidate) => {
         let color = "#595b5b" 
         if (props.parties.data) {
-            console.log(props.parties.data)
             let findParty = props.parties.data.find(party=>party.nameShort === candidate.partyCode)
             if (findParty) {
                 color = findParty.colour
@@ -157,9 +156,9 @@ const Results = (props) => {
                 <div id="totalVotes">{data.votes.toLocaleString('en')} total votes</div>
             </div>
                 <div>
-                    {props.data.results.map(candidate=> {
+                    {props.data.results.map((candidate, i)=> {
                         let partyColor = getPartyColor(candidate);
-                        return <Candidate color={partyColor} candidate={candidate}/>
+                        return <Candidate key={i} color={partyColor} candidate={candidate}/>
                     })}
                 </div>    
             </>

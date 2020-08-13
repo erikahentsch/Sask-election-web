@@ -38,6 +38,12 @@ app.get('/top-widget/*', (req,res)=> {
     res.sendFile(path.join(__dirname, './top-widget/build','index.html'));
 })
 
+// Server top barchart widget
+app.use('/barchart-widget/', express.static(path.join(__dirname, 'barchart-widget', 'build')));
+app.get('/barchart-widget/*', (req,res)=> {
+    res.sendFile(path.join(__dirname, './barchart-widget/build','index.html'));
+})
+
 app.get('*/overallresults', (req,res)=> {
     let results = fs.readFileSync('public/data/overallResults.json')
     res.send(JSON.parse(results))

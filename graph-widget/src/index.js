@@ -4,11 +4,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+let screenSize= window.screen.width < 500;
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <App small={screenSize ? 'true' : undefined}/>
+    ,document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

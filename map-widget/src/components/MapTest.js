@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Map, MapControl, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet'
+import ReactDOMServer from 'react-dom/server'
+import { Map, TileLayer, GeoJSON } from 'react-leaflet'
 import Control from 'react-leaflet-control'
 import L from 'leaflet'
 
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import {makeStyles} from '@material-ui/core'
+
+import Tooltip from './Tooltip'
 
 const styles= makeStyles({
     mapContainer: {
@@ -30,7 +33,7 @@ const styles= makeStyles({
 
 
  const MapTest = (props) => {
-    const [position, setPosition] = useState({lat: 54, lng: -105, zoom: 5});
+    // const [position, setPosition] = useState({lat: 54, lng: -105, zoom: 5});
     const [initBounds, setInitBounds] = useState();
     const [geo, setgeo] = useState(null);
     const mapRef = useRef(null);
@@ -42,7 +45,6 @@ const styles= makeStyles({
         if(!mapRef) {return}
         
         else {
-            console.log('here')
             fetch('/SASK_Constituency_boundary.json')
                 .then(res=>res.json())
                 .then(json=>{
@@ -50,17 +52,15 @@ const styles= makeStyles({
                     var bounds = L.geoJSON(json).getBounds()
                     setInitBounds(bounds)
                     mapRef.current.leafletElement.fitBounds(bounds)
-                    console.log(L.geoJSON(json))
                 })
         }   
     }, [])
 
-    useEffect(()=>{
-        handleFill();
-    }, [props.data])
+    // useEffect(()=>{
+    //     handleFill();
+    // }, [props.data])
 
     useEffect(()=> {
-        console.log('zoom to riding', props.selectedRiding)
         if (props.selectedRiding) {
             zoomToED(props.selectedRiding.name)
         }
@@ -141,6 +141,16 @@ const styles= makeStyles({
         map.fitBounds(initBounds)
     }
 
+    const getTooltipData = (feature, layer) => {
+        if (feature.properties ) {
+            const featureData = getPartyResults(feature.properties.Constituen)
+            const featureColor = getFillByResults(featureData)
+            if (featureData && featureColor) {
+                layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: false, direction: 'top'})
+            }
+        }
+    }
+
     return (
         <div className={classes.mapContainer}>
             <Map 
@@ -153,9 +163,17 @@ const styles= makeStyles({
                 url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
                 />
 
-                {geo && <GeoJSON ref={geoRef} style={handleFill} data={geo} onClick={handleClick} />  }   
+                {geo && 
+                <GeoJSON 
+                    ref={geoRef} 
+                    style={handleFill} 
+                    data={geo} 
+                    onClick={handleClick} 
+                    onEachFeature={getTooltipData}
+                />  
+                }   
                 <Control position="topleft">
-                    <a id="zoomOut" style={{color: 'black !important'}} className={`leaflet-control-zoom ${classes.resetButton}`} onClick={resetBounds}>
+                    <a id="zoomOut" style={{color: 'black !important'}} className={`leaflet-control-zoom leaflet-bar ${classes.resetButton}`} onClick={resetBounds}>
                         <ZoomOutMapIcon />
 
                     </a>

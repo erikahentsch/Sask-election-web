@@ -13,7 +13,8 @@
     "start": "nodemon --exec babel-node server.js --ignore client",
     "dev:graph": "concurrently \"nodemon server.js\" \"cd graph-widget/ && npm start\" ",
     "dev:map": "concurrently \"nodemon server.js\" \"cd map-widget/ && npm start\" ",
-    "dev:top": "concurrently \"nodemon server.js\" \"cd top-widget/ && npm start\" "
+    "dev:top": "concurrently \"nodemon server.js\" \"cd top-widget/ && npm start\" ",
+    "dev:barchart": "concurrently \"nodemon server.js\" \"cd barchart-widget/ && npm start\" "
   },
   "keywords": [],
   "author": "",

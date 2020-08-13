@@ -2,14 +2,16 @@ import React from 'react'
 
 import {makeStyles} from '@material-ui/core/styles'
 
+
 const styles = makeStyles({
-    seat: props=> ({
-        height: 20, 
+    seat: {
+        height: (props)=>props.small ? 10: 15, 
         minWidth: '4%',
-        margin: '0.2%',
-        backgroundColor:  props.color,
-        flexShrink: 1
-    })
+        margin: '0.1%',
+        backgroundColor:  (props)=>props.color,
+        flexShrink: 1,
+        fontSize: (props)=>props.small ? 14 : 16
+    }
 })
 
 const Seat = (props) => {

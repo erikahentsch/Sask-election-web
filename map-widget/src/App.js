@@ -3,11 +3,12 @@ import './App.css';
 
 import {makeStyles} from '@material-ui/core'
 
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+// import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-import Map from './components/Map.js'
+// import Map from './components/Map.js'
 import MapDiv from './components/MapTest'
 import Sidebar from './components/Sidebar.js'
+import LoadingAnimation from './components/LoadingAnimation'
 
 
 
@@ -53,25 +54,21 @@ function App() {
 
   return (
     <div id={'map-widget-app'} className={classes.app}>
-      <MapDiv 
+      {!loading  ? <MapDiv 
         data={data}
         parties={parties}
         handleSelectRiding={handleSelectRiding}
         selectedRiding={selectedResults}
         />
-        {/* <TransformWrapper
-          options={{
-            limitToBounds: false,
-            maxScale: 1000,
-          }}
-        >
-          <Map />
-        </TransformWrapper> */}
+        :
+        <LoadingAnimation/>
+      }
         <Sidebar 
           data={data} 
           parties={parties}
           results={selectedResults} 
           handleSelectRiding={handleSelectRiding}/>
+        
     </div>
   );
 }

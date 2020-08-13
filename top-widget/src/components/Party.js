@@ -11,7 +11,7 @@ const styles = makeStyles({
         display: 'flex',
         alignItems: 'center',
         fontWeight: 'bold',
-        fontSize: 24,
+        fontSize: props.small ? 8: 14,
         letterSpacing: 2,
         padding: '5px 5px',
         margin: 1,
@@ -21,10 +21,11 @@ const styles = makeStyles({
         justifyContent: 'space-between',
         backgroundColor: props.color 
     }),
-    popVote: {
+    popVote: props=>({
         padding: 5,
-        fontWeight: 'bold'
-    }
+        fontWeight: 'bold',
+        fontSize: props.small ? 8: 14
+    })
 })
 
 const Party = (props) => {

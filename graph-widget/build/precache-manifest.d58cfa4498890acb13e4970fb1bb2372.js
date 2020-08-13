@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0d7f2c712d06b96d94d4f2401a3e2dd7",
+    "revision": "da470468b1d084c1613f371f47e8de72",
     "url": "/graph-widget/index.html"
   },
   {
-    "revision": "16dcdcbd07b406035482",
-    "url": "/graph-widget/static/css/main.5f361e03.chunk.css"
+    "revision": "41312800b8fdadf61dd3",
+    "url": "/graph-widget/static/css/main.2052e739.chunk.css"
   },
   {
-    "revision": "7a85762bd0305a1dd104",
-    "url": "/graph-widget/static/js/2.cce26c70.chunk.js"
+    "revision": "f48a7aae964c5c392970",
+    "url": "/graph-widget/static/js/2.f091c9fc.chunk.js"
   },
   {
     "revision": "58aabe32aae325c8d2caf2ff6956fc48",
-    "url": "/graph-widget/static/js/2.cce26c70.chunk.js.LICENSE.txt"
+    "url": "/graph-widget/static/js/2.f091c9fc.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "16dcdcbd07b406035482",
-    "url": "/graph-widget/static/js/main.f42e337f.chunk.js"
+    "revision": "41312800b8fdadf61dd3",
+    "url": "/graph-widget/static/js/main.495fbbf8.chunk.js"
   },
   {
     "revision": "8f6a46d618d8e8232ca8",

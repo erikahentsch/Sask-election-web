@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-import {makeStyles, Slide} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
@@ -49,7 +49,6 @@ const styles = makeStyles({
 })
 
 const Sidebar = (props) =>  {
-    const [title, setTitle] = useState('Select a riding');
     const [arrow, toggleArrow] = useState(0)
     const classes=styles();
     const [menu, setMenu] = useState('location')
@@ -96,13 +95,13 @@ const Sidebar = (props) =>  {
             >
                 <div className="menu">
                     <div className={classes.title}>
-                        {title.toUpperCase()}
+                        SELECT A RIDING
                     </div>
                     <div className={classes.content}>
                     {
-                        props.data && props.data.data.map(result=> {
+                        props.data && props.data.data.map((result)=> {
                             return (
-                                <LocationButton resultId={result.id} resultData={result} >{result.name}{arrow === result.id && <ChevronRightIcon/>}</LocationButton>
+                                <LocationButton key={result.id} resultId={result.id} resultData={result} >{result.name}{arrow === result.id && <ChevronRightIcon/>}</LocationButton>
                             )
                         })
                     }

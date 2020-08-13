@@ -12,28 +12,36 @@ import GainsBar from './components/GainsBar'
 
 const styles = makeStyles({
 	main: {
+		fontSize: (props) => props.small && 12,
 		// fontFamily: 'Roboto',
 		display: 'flex',
 		position: 'relative',
-		flexDirection: 'row',
+		flexDirection: 'column',
 		padding: '10px 20px',
 		backgroundColor: '#f2f2f2',
 		alignContent: 'center'
 	}, 
+	content: {
+		display: 'flex', 
+		flexDirection: props=>props.small ? 'column' : 'row',
+		paddingBottom: '15px',
+
+	},
 	left: {
 		flex: 3,
-		height: 250,
+		maxHeight: 250,
 		alignItems: 'center',
 		
 	},
 	right: {
 		flex: 4,
-		height: 250
+		maxHeight: 250
 
 	},
 	title: {
 		fontWeight: 'bold',
-		marginLeft: 5
+		marginLeft: 5,
+		fontSize: props=> props.small ? 16 : 18
 	}, 
 	border: {
 		borderRight: '1px solid grey',
@@ -50,17 +58,17 @@ const styles = makeStyles({
 		alignSelf: 'center'
 	},
 	chartDiv: {
-		flex: 2
+		flex: (props) => props.small ? 3 : 2,
 	},
 
 })
 
-function App() {
+function App(props) {
 
   const [data, setData] = useState(null)
   const [loading, toggleLoading] = useState(true)
 
-  const classes = styles();
+  const classes = styles(props);
 
   useEffect(()=>[
     getData()
@@ -79,10 +87,11 @@ function App() {
   }
 
   return (
-    <div className={classes.main}>
-      { !loading && 
-        <>
-        <div className={classes.left}>
+    <div id="graphWidget-main" className={classes.main}>
+	  { !loading && 
+	  <>
+		<div className={classes.content}>
+			<div className={classes.left}>
 				<div className={classes.title}>Popular vote</div>
 				<div className={classes.chartHolder}>
 					<div className={classes.partyBars}>
@@ -94,7 +103,9 @@ function App() {
 					<div className={classes.chartDiv}>
 						{data &&
 							<VictoryPie
-								padding={{top:0,left:20, right: 20, bottom:0}}
+								id="widgetPie"
+								// padding={{top:0,left:20, right: 20, bottom:0}}
+								padding={50}
 								padAngle={({ datum }) => datum.y}
 								innerRadius={130}
 								data={data.partyResults}
@@ -102,7 +113,7 @@ function App() {
 								y={"votesPercent"}
 								labels={({datum})=>''}
 								style={{	
-									data: {fill: (d)=>d.datum.color}
+									data: {fill: (d)=>d.datum.color},
 								}}
 							/>
 						}
@@ -121,8 +132,12 @@ function App() {
 					<GainsDiv data={data}/>
 				</div>
 			</div>
-        </>
-      }
+        </div>
+		<div>
+			<div className={classes.update}>Last updated: { Date(data.generated) }</div>
+		</div>
+		</>
+	  }
     </div>
   );
 }

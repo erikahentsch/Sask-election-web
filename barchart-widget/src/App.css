@@ -1,0 +1,17 @@
+﻿/*Universal style*/
+html {
+	height: 100%;
+}
+body {
+	font-family: Helvetica, sans-serif;
+	height: 100%;
+	margin: 0%;
+}
+
+#root{
+	height: 100%;
+	position: relative;
+}
+
+@media only screen and (max-width: 700px) {
+}
