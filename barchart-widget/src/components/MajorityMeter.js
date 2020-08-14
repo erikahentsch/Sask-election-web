@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import {makeStyles} from '@material-ui/core/styles'
+
+// import {CSSTransition} from 'react-transition-group'
 
 const useStyles = makeStyles({
     meter: {
@@ -15,20 +17,21 @@ const useStyles = makeStyles({
       borderRadius: '0px 5px 5px 0px',
       height: 10,
       margin: 2,
+      animationName: 'animate-bar',
+      animationDuration: '0.5s'
     },
     majorityLine: {
         position: 'absolute',
-        height: 20,
+        height: '120%',
         bottom: -2,
         left: (props)=>props.majority,
         borderLeft: '2px solid black',
     },
     majorityLabel: {
         position: 'absolute',
-        // right: '50%',
         textAlign: 'center',
         marginTop: -22,
-        left: (props)=>`${props.majority}%`,
+        marginLeft: -7,
         fontSize: 14,
         fontWeight: 'bolder'
     }
@@ -38,9 +41,10 @@ const useStyles = makeStyles({
   
 
 function Bar(props) {
+    // const [width, setWidth] = useState(0)
     const { color, votes, ...other } = props;
     const classes = useStyles(props);
-    return <div className={classes.bar} {...other} />;
+    return <div className={`animate-bar ${classes.bar}`} {...other} />;
 }
 
 function Line(props) {
@@ -61,7 +65,7 @@ const Seat = (props) => {
 
     return (
         <div className={classes.meter}>
-            <div className={classes.majorityLabel} style={{right: `${majority}%`}}>31 seats needed for majority</div>
+            <div className={classes.majorityLabel} style={{left: `${majority}%`}}>31 seats needed for majority</div>
             {props.data && props.data.partyResults.map((party, i)=>{
                 if (i === 0) {
                     lead = party.seats

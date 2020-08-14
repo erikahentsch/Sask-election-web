@@ -7,6 +7,7 @@ const styles = makeStyles({
         fontFamily: 'Roboto, Ubuntu, Helvetica',
         display: 'flex',
         flexDirection: 'column',
+        transition: '1s'
     },
     tooltipName: {
         fontSize: 20,

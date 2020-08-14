@@ -48,7 +48,6 @@ function App() {
   }
 
   const handleSelectRiding = (results) => {
-    console.log(results)
     setSelectedResults(results)
   }
 

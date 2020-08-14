@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/elections.png" />
+    <link rel="icon" href="/elections.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>React App</title>
   </head>
@@ -10,12 +10,43 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
         <h1>Saskatchewan 2020 Election</h1>
-        <p>Welcome to the BL Saskatchewan 2020 Election Widget. This endpoint is for set up only and should not be seen by the public. To find path to the correct widget, follow the following links</p>
+        <p>Welcome to the BL Saskatchewan 2020 Election Widget. This endpoint is for set-up navigation and testing only and should not be seen by the public. 
+          Use the following links to find the path to the correct widget.</p>
         <ul>
-            <li><a href="/map-widget">Map Widget</a></li>
-            <li><a href="/top-widget">Top, Seat Chart Widget</a></li>
-            <li><a href="/graph-widget">Graph Widget</a></li>
+            <li><a class="widgetlink" href="/map-widget">Map Widget</a></li>
+            <li><a class="widgetlink" href="/top-widget">Top, Seat Chart Widget</a></li>
+            <li><a class="widgetlink" href="/graph-widget">Graph Widget</a></li>
+            <li><a class="widgetlink" href="/barchart-widget">Barchart Widget</a></li>
         </ul>
     </div>
   </body>
+  <style>
+    #root {
+      font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      padding: 10px 20px;
+      background-color: rgb(235, 235, 235)
+    }
+    #root h1 {
+      font-size: 26px;
+    }
+    #root p {
+      font-size: 20px;
+    }
+    #root li {
+      list-style-type: none;
+      padding: 5px;
+      font-size: 22px;
+      font-weight: bolder;
+    }
+    #root .widgetlink {
+      text-decoration: none;
+      color: rgb(31, 31, 31);
+      transition: 0.5s;
+    }
+    #root a:hover {
+      color: rgb(99, 99, 99);
+      padding-left: 10px;
+    }
+    
+  </style>
 </html>

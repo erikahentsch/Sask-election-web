@@ -97,7 +97,6 @@ const App = () => {
 			parties.push(<Party name={party.nameShort} seats={party.elected} votes={party.votesPercent} color={party.color} />)
 		})
 		if (seats.length < 62) {
-			console.log(seats.length)
 			let seatsRemaining = 61-seats.length
 			for (let k=0; k < seatsRemaining; k++) {
 				seats.push(<Seat key={`none-${k}`} color={'#cccccc'}/>)

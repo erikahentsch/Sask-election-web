@@ -35,6 +35,7 @@ const styles= makeStyles({
  const MapTest = (props) => {
     // const [position, setPosition] = useState({lat: 54, lng: -105, zoom: 5});
     const [initBounds, setInitBounds] = useState();
+    const [currentBounds, setCurrentBounds] = useState();
     const [geo, setgeo] = useState(null);
     const mapRef = useRef(null);
     const geoRef = useRef(null)
@@ -97,31 +98,39 @@ const styles= makeStyles({
 
     const handleFill = (feature) => {
         if (feature) {
-
             let partyResults = getPartyResults(feature.properties.Constituen);
-
             let fill = 'lightgrey'
             if (partyResults) {
                 fill = getFillByResults(partyResults)
             }
-
             return {
                 fillColor: fill,
                 weight: 0.9,
                 color: 'black',
-                fillOpacity: 0.8
+                fillOpacity: 0.9
             }
         }
     }
 
     const handleClick = (e) => {
-        var bounds = e.target.getBounds();
+        // var mapbounds = e.target.getBounds();
         var layerBounds = e.layer.getBounds();
-        const map = mapRef.current.leafletElement;
-        map.fitBounds(layerBounds)
-        const clickedRiding = e.layer.feature.properties.Constituen
-        const partyResults = getPartyResults(clickedRiding)
-        props.handleSelectRiding(partyResults)
+
+        if (currentBounds === layerBounds) {
+            e.layer.closeTooltip()
+        } else {
+            const map = mapRef.current.leafletElement;
+            setCurrentBounds(layerBounds)
+            map.fitBounds(layerBounds)
+            const clickedRiding = e.layer.feature.properties.Constituen
+            const partyResults = getPartyResults(clickedRiding)
+            props.handleSelectRiding(partyResults)
+            e.layer.setStyle({
+                weight: 2,
+                color: 'black',
+                fillOpacity: 1
+            })
+        }
     }
 
     const zoomToED = (ridingName) => {
@@ -133,6 +142,9 @@ const styles= makeStyles({
                 findLayer = layer
             }
         })
+
+       
+
         map.fitBounds(findLayer.getBounds())
     }
 
@@ -141,8 +153,34 @@ const styles= makeStyles({
         map.fitBounds(initBounds)
     }
 
+    function highlightFeature(e) {
+        var layer = e.target;
+    
+        layer.setStyle({
+            weight: 2,
+            color: 'black',
+            fillOpacity: 1
+            // dashArray: '',
+            // filter: 'brightness(50%)'
+        });
+    
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+    }
+
+    function resetFeature(e) {
+        let geojson = geoRef.current.leafletElement
+        geojson.resetStyle(e.target);
+    }
+
     const getTooltipData = (feature, layer) => {
         if (feature.properties ) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetFeature,
+            })
+        
             const featureData = getPartyResults(feature.properties.Constituen)
             const featureColor = getFillByResults(featureData)
             if (featureData && featureColor) {

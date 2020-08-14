@@ -120,6 +120,10 @@ html, body, #root, .App {
   }
 } */
 
+.leaflet-tooltip {
+  transition: opacity 0.3s;
+}
+
 ::-webkit-scrollbar {
   position: absolute !important;
   top: 30px;

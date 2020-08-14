@@ -56,7 +56,6 @@ const Sidebar = (props) =>  {
 
     useEffect(()=>{
         if (props.results) {
-            console.log("setting results")
             setResults(props.results)
             setMenu('results')
 
