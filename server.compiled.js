@@ -40,18 +40,23 @@ app.get('/top-widget/*', function (req, res) {
 app.use('/barchart-widget/', express["static"](path.join(__dirname, 'barchart-widget', 'build')));
 app.get('/barchart-widget/*', function (req, res) {
   res.sendFile(path.join(__dirname, './barchart-widget/build', 'index.html'));
-});
+}); // Server get data files: 
+
 app.get('*/overallresults', function (req, res) {
-  var results = fs.readFileSync('public/data/overallResults.json');
+  var results = fs.readFileSync(process.env.OVERALLELECTIONRESULTS || 'public/data/overallResults.json');
   res.send(JSON.parse(results));
 });
 app.get('*/results_2016', function (req, res) {
-  var results = fs.readFileSync('public/data/SASK_2016.json');
+  var results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/SASK_2016.json');
   res.send(JSON.parse(results));
 });
 app.get('*/partylist', function (req, res) {
-  var results = fs.readFileSync('public/data/partylist.json');
+  var results = fs.readFileSync(process.env.PARTYLIST || 'public/data/partylist.json');
   res.send(JSON.parse(results));
+});
+app.get('*/geoJSON', function (req, res) {
+  var geo = fs.readFileSync(process.env.GEOJSON || 'public/SASK_Constituency_boundary.json');
+  res.send(JSON.parse(geo));
 });
 app.get('/testEnv', function (req, res) {
   res.send(process.env.TEST_TEXT || "Test text not found");

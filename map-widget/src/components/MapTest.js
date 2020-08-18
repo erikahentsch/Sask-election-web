@@ -44,22 +44,45 @@ const styles= makeStyles({
 
     useEffect(()=> {
         if(!mapRef) {return}
-        
         else {
-            fetch('/SASK_Constituency_boundary.json')
+            console.log(process.env)
+
+            fetch('/geoJSON')
                 .then(res=>res.json())
                 .then(json=>{
+                    console.log(json)
                     setgeo(json)
                     var bounds = L.geoJSON(json).getBounds()
                     setInitBounds(bounds)
-                    mapRef.current.leafletElement.fitBounds(bounds)
+                    var map = mapRef.current.leafletElement
+                    map.fitBounds(bounds)
+                    map.setMaxBounds(bounds)
                 })
         }   
     }, [])
 
     // useEffect(()=>{
-    //     handleFill();
-    // }, [props.data])
+    //     // console.log(props.selectedRiding)
+    //     if (geoRef.current) {
+    //         let featurelayer = null
+    //         geoRef.current.leafletElement.eachLayer(layer=>{
+    //             if(layer.feature.properties.Constituen === props.selectedRiding.name.toUpperCase()) {
+    //                 featurelayer = layer
+    //             }
+    //         })
+    //         console.log("feature layer",featurelayer)
+    //         if (featurelayer) {
+    //             featurelayer.setStyle({
+    //                     weight: 2,
+    //                     color: 'black',
+    //                     fillOpacity: 1
+    //                     // dashArray: '',
+    //                     // filter: 'brightness(50%)'
+    //                 });
+    //         }
+    //     }
+
+    // }, [props.selectedRiding])
 
     useEffect(()=> {
         if (props.selectedRiding) {
@@ -134,18 +157,19 @@ const styles= makeStyles({
     }
 
     const zoomToED = (ridingName) => {
-        const map = mapRef.current.leafletElement;
-        const geo = geoRef.current.leafletElement;
-        var findLayer = null;
-        geo.eachLayer(layer=>{
-            if (layer.feature.properties.Constituen === ridingName.toUpperCase()) {
-                findLayer = layer
-            }
-        })
-
-       
-
-        map.fitBounds(findLayer.getBounds())
+        try {
+            const map = mapRef.current.leafletElement;
+            const geo = geoRef.current.leafletElement;
+            var findLayer = null;
+            geo.eachLayer(layer=>{
+                if (layer.feature.properties.Constituen === ridingName.toUpperCase()) {
+                    findLayer = layer
+                }
+            })
+            map.fitBounds(findLayer.getBounds())
+        } catch(err) {
+            console.log("Error zooming to "+ ridingName)
+        }
     }
 
     const resetBounds = () => {
@@ -155,7 +179,7 @@ const styles= makeStyles({
 
     function highlightFeature(e) {
         var layer = e.target;
-    
+        
         layer.setStyle({
             weight: 2,
             color: 'black',
@@ -170,8 +194,20 @@ const styles= makeStyles({
     }
 
     function resetFeature(e) {
-        let geojson = geoRef.current.leafletElement
-        geojson.resetStyle(e.target);
+        // console.log(props)
+        // if (props.selectedRiding && e.target.feature) {
+        //     console.log(e.target.feature.properties.Constituen !== props.selectedRiding.name.toUpperCase())
+
+        //     if (e.target.feature.properties.Constituen !== props.selectedRiding.name.toUpperCase()) {
+
+        //         let geojson = geoRef.current.leafletElement
+        //         geojson.resetStyle(e.target);
+        //     }
+    
+        // } else {
+            let geojson = geoRef.current.leafletElement
+            geojson.resetStyle(e.target);
+        // }
     }
 
     const getTooltipData = (feature, layer) => {
@@ -180,11 +216,16 @@ const styles= makeStyles({
                 mouseover: highlightFeature,
                 mouseout: resetFeature,
             })
-        
-            const featureData = getPartyResults(feature.properties.Constituen)
-            const featureColor = getFillByResults(featureData)
-            if (featureData && featureColor) {
-                layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: false, direction: 'top'})
+
+            try {
+                const featureData = getPartyResults(feature.properties.Constituen)
+                const featureColor = getFillByResults(featureData)
+                if (featureData && featureColor) {
+                    layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: false, direction: 'top'})
+                }
+
+            } catch(e) {
+
             }
         }
     }
@@ -193,7 +234,7 @@ const styles= makeStyles({
         <div className={classes.mapContainer}>
             <Map 
                 ref={mapRef} 
-                maxBounds={[[29.305561325527698, -130.53515625000003], [74.16408546675687, -90.54296875000001]]}
+                // maxBounds={[[29.305561325527698, -130.53515625000003], [74.16408546675687, -90.54296875000001]]}
                 minZoom={3}    
             >
                 <TileLayer

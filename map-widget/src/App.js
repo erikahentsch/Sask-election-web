@@ -40,11 +40,15 @@ function App() {
         setData(json);
         toggleLoading(false)
       })
+      .catch(err=>console.log("Error fetching FULLELECTIONDATA, check your env variables and try again"))
+    
     fetch('/partylist')
       .then(res=>res.json())
       .then(json=>{
         setParties(json)
       })
+      .catch(err=>console.log("Error fetching PARTYLIST, check your env variables and try again"))
+
   }
 
   const handleSelectRiding = (results) => {

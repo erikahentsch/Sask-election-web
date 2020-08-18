@@ -44,21 +44,24 @@ app.get('/barchart-widget/*', (req,res)=> {
     res.sendFile(path.join(__dirname, './barchart-widget/build','index.html'));
 })
 
+// Server get data files: 
 app.get('*/overallresults', (req,res)=> {
-    let results = fs.readFileSync('public/data/overallResults.json')
+    let results = fs.readFileSync(process.env.OVERALLELECTIONRESULTS || 'public/data/overallResults.json')
     res.send(JSON.parse(results))
 })
-
 app.get('*/results_2016', (req,res)=>{
-    let results = fs.readFileSync('public/data/SASK_2016.json')
+    let results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/SASK_2016.json')
     res.send(JSON.parse(results))
 })
-
 app.get('*/partylist', (req,res)=>{
-    let results = fs.readFileSync('public/data/partylist.json')
+    let results = fs.readFileSync(process.env.PARTYLIST || 'public/data/partylist.json')
     res.send(JSON.parse(results))
 })
 
+app.get('*/geoJSON', (req,res)=> {
+    let geo = fs.readFileSync(process.env.GEOJSON || 'public/SASK_Constituency_boundary.json')
+    res.send(JSON.parse(geo))
+})
 
 app.get('/testEnv', (req,res)=> {
     res.send(process.env.TEST_TEXT || "Test text not found")
