@@ -53,7 +53,6 @@ const App = (props) => {
 
 	const classes = styles(props);
 
-	const [counter, setCounter] = useState(60)
 	const [data, setData] = useState(null)
 
 	// const small = window.screen.width < 500
@@ -64,19 +63,19 @@ const App = (props) => {
 	},[])
 
 	const startTimer = () => {
-		console.log("updating")
-		let remaining = counter
+		let remaining = 30
 		setInterval(()=>{
 			remaining --;
 			if (remaining <= 0) {
+				console.log("updating")
 				getData();
-				remaining = counter.counter
+				remaining = 30
 			}
 		}, 1000);
-	}
+	  }
+	
 
 	const getData = () => {
-		// var prefix = process.env.NODE_ENV === 'development' ? './': "";
 
 		fetch(`/overallresults`)
 			.then(res=>{
@@ -87,6 +86,7 @@ const App = (props) => {
 			.then(json=>
 				setData(json)
 			)
+			.catch(err=>console.log("Error fetching overall results"))
 	}
 
 	const seats = [];

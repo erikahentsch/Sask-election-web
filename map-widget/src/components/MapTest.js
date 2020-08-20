@@ -56,33 +56,10 @@ const styles= makeStyles({
                     setInitBounds(bounds)
                     var map = mapRef.current.leafletElement
                     map.fitBounds(bounds)
-                    map.setMaxBounds(bounds)
+                    // map.setMaxBounds(bounds)
                 })
         }   
     }, [])
-
-    // useEffect(()=>{
-    //     // console.log(props.selectedRiding)
-    //     if (geoRef.current) {
-    //         let featurelayer = null
-    //         geoRef.current.leafletElement.eachLayer(layer=>{
-    //             if(layer.feature.properties.Constituen === props.selectedRiding.name.toUpperCase()) {
-    //                 featurelayer = layer
-    //             }
-    //         })
-    //         console.log("feature layer",featurelayer)
-    //         if (featurelayer) {
-    //             featurelayer.setStyle({
-    //                     weight: 2,
-    //                     color: 'black',
-    //                     fillOpacity: 1
-    //                     // dashArray: '',
-    //                     // filter: 'brightness(50%)'
-    //                 });
-    //         }
-    //     }
-
-    // }, [props.selectedRiding])
 
     useEffect(()=> {
         if (props.selectedRiding) {
@@ -104,24 +81,30 @@ const styles= makeStyles({
     }
     
     const getFillByResults = (results) =>{
-        if(props.parties) {
-            let fill = props.parties.data.find(party=>{
-                if (results.results[0].votes > 0) {   
-                    return party.nameShort === results.results[0].partyCode
+        try {
+            if(props.parties) {
+                let fill = props.parties.find(party=>{
+                    if (results.results[0].votes > 0) {   
+                        return party.nameShort === results.results[0].partyCode
+                    }
+                })
+                console.log(fill.color)
+                if (fill) {
+                    return fill.color
+                } else {
+                    return 'lightgrey'
                 }
-            })
-            if (fill) {
-                return fill.colour
-            } else {
-                return 'lightgrey'
-            }
-        }
+            } 
+        } catch(err) {
+            console.log("Error getting Geo Fill for ", results.name)
+            return 'lightgrey'
+        } 
     }
 
 
     const handleFill = (feature) => {
         if (feature) {
-            let partyResults = getPartyResults(feature.properties.Constituen);
+            let partyResults = getPartyResults(feature.properties.Name);
             let fill = 'lightgrey'
             if (partyResults) {
                 fill = getFillByResults(partyResults)
@@ -145,7 +128,7 @@ const styles= makeStyles({
             const map = mapRef.current.leafletElement;
             setCurrentBounds(layerBounds)
             map.fitBounds(layerBounds)
-            const clickedRiding = e.layer.feature.properties.Constituen
+            const clickedRiding = e.layer.feature.properties.Name
             const partyResults = getPartyResults(clickedRiding)
             props.handleSelectRiding(partyResults)
             e.layer.setStyle({
@@ -162,7 +145,8 @@ const styles= makeStyles({
             const geo = geoRef.current.leafletElement;
             var findLayer = null;
             geo.eachLayer(layer=>{
-                if (layer.feature.properties.Constituen === ridingName.toUpperCase()) {
+                // console.log(layer.feature.properties.Name)
+                if (layer.feature.properties.Name.toUpperCase() === ridingName.toUpperCase()) {
                     findLayer = layer
                 }
             })
@@ -218,7 +202,7 @@ const styles= makeStyles({
             })
 
             try {
-                const featureData = getPartyResults(feature.properties.Constituen)
+                const featureData = getPartyResults(feature.properties.Name)
                 const featureColor = getFillByResults(featureData)
                 if (featureData && featureColor) {
                     layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: false, direction: 'top'})

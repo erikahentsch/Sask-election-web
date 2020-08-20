@@ -17,6 +17,7 @@ const styles = makeStyles({
     height: '100%',
     display: 'flex',
     flexDirection: 'row',
+    
   }
 })
 
@@ -29,11 +30,25 @@ function App() {
 
   const classes = styles();
 
-  useEffect(()=>
+  useEffect(()=>{
     getData()
-  ,[])
+    startTimer()
+  },[])
+
+  const startTimer = () => {
+    let remaining = 30
+    setInterval(()=>{
+      remaining --;
+      if (remaining <= 0) {
+        console.log("updating")
+        getData();
+        remaining = 30
+      }
+    }, 1000);
+    }
 
   const getData = () => {
+    console.log("fetching")
     fetch('/results_2016')
       .then(res=>res.json())
       .then(json=>{
@@ -42,12 +57,12 @@ function App() {
       })
       .catch(err=>console.log("Error fetching FULLELECTIONDATA, check your env variables and try again"))
     
-    fetch('/partylist')
+    fetch('/overallresults')
       .then(res=>res.json())
       .then(json=>{
-        setParties(json)
+        setParties(json.partyResults)
       })
-      .catch(err=>console.log("Error fetching PARTYLIST, check your env variables and try again"))
+      .catch(err=>console.log("Error fetching OVERALLRESULTS, check your env variables and try again"))
 
   }
 

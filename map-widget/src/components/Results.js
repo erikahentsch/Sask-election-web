@@ -137,10 +137,10 @@ const Results = (props) => {
 
     const getPartyColor = (candidate) => {
         let color = "#595b5b" 
-        if (props.parties.data) {
-            let findParty = props.parties.data.find(party=>party.nameShort === candidate.partyCode)
+        if (props.parties) {
+            let findParty = props.parties.find(party=>party.nameShort === candidate.partyCode)
             if (findParty) {
-                color = findParty.colour
+                color = findParty.color
             }
         }
         return color

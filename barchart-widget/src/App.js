@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import {withStyles, makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 //Components
 import Seat from './components/Seat'
@@ -22,56 +22,53 @@ const styles = makeStyles({
 		justifyContent: 'space-between'
 	},
 	title: {
-		fontSize: 26,
+		fontSize: props => props.small ? 20: 26,
 		fontWeight: 'bold'
 	},
-	majorityMeter: {
-		display: 'flex',
-		alignItems: 'flex-end',
-		textAlign: 'right'
-	},
 	barchart: {
+		fontSize: props=> props.small ? 11 : 14,
+
 		display: 'flex',
 		padding: '30px 0',
 		flexDirection: 'column-reverse',
 		flexWrap: 'wrap',
 	},
 	partyMap: {
+		fontSize: props=>props.small ? 14 : 18,
 		display: 'flex',
 		justifyContent: 'space-evenly'
 	},
 	update: {
-		padding: '15px 5px'
+		padding: '15px 5px',
+		fontSize: props=>props.small ? 12 : 14
 	}
 })
 
-const App = () => {
+const App = (props) => {
 
-	const classes = styles();
-
-	const [counter, setCounter] = useState(60)
+	const classes = styles(props);
 	const [data, setData] = useState(null)
 
 	useEffect(()=>{
 		startTimer();
 		getData();
 	},[])
-
+	
 	const startTimer = () => {
-		console.log("updating")
-		let remaining = counter
+		let remaining = 30
 		setInterval(()=>{
 			remaining --;
 			if (remaining <= 0) {
+				console.log("updating")
 				getData();
-				remaining = counter.counter
+				remaining = 30
 			}
 		}, 1000);
 	}
+	
 
 	const getData = () => {
-		var prefix = process.env.NODE_ENV === 'development' ? './': "";
-
+		console.log('fetching')
 		fetch(`/overallresults`)
 			.then(res=>{
 				if (res.ok) {
@@ -81,6 +78,10 @@ const App = () => {
 			.then(json=>
 				setData(json)
 			)
+			.catch(err=>{
+				console.log("Error fetching results")
+			})
+
 	}
 
 	const seats = [];
@@ -90,11 +91,11 @@ const App = () => {
 	var date = ''
 
 	if (data) {
-		data.partyResults.map(party=>{
+		data.partyResults.map((party, i)=>{
 			for (let j=0; j < party.seats; j ++) {
 				seats.push(<Seat key={`${party.nameShort}-${j}`} color={party.color} />)
 			}
-			parties.push(<Party name={party.nameShort} seats={party.elected} votes={party.votesPercent} color={party.color} />)
+			parties.push(<Party key={`${party}-${i}`} name={party.nameShort} seats={party.elected} votes={party.votesPercent} color={party.color} />)
 		})
 		if (seats.length < 62) {
 			let seatsRemaining = 61-seats.length

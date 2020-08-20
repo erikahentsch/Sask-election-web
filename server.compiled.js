@@ -50,10 +50,6 @@ app.get('*/results_2016', function (req, res) {
   var results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/SASK_2016.json');
   res.send(JSON.parse(results));
 });
-app.get('*/partylist', function (req, res) {
-  var results = fs.readFileSync(process.env.PARTYLIST || 'public/data/partylist.json');
-  res.send(JSON.parse(results));
-});
 app.get('*/geoJSON', function (req, res) {
   var geo = fs.readFileSync(process.env.GEOJSON || 'public/SASK_Constituency_boundary.json');
   res.send(JSON.parse(geo));

@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2b6c9065a477e6f3ba53346b2a145feb",
+    "revision": "0adef417a5efaffff58f2eb82ed4f126",
     "url": "/barchart-widget/index.html"
   },
   {
-    "revision": "32dc415b1bf0756ab035",
+    "revision": "5c42419b75fe55b9ed1d",
     "url": "/barchart-widget/static/css/main.55feb387.chunk.css"
   },
   {
-    "revision": "8f24871863cf6c0fda1b",
-    "url": "/barchart-widget/static/js/2.675d75f4.chunk.js"
+    "revision": "3a7f3a75b7c25f0aa836",
+    "url": "/barchart-widget/static/js/2.bdc15e26.chunk.js"
   },
   {
     "revision": "58aabe32aae325c8d2caf2ff6956fc48",
-    "url": "/barchart-widget/static/js/2.675d75f4.chunk.js.LICENSE.txt"
+    "url": "/barchart-widget/static/js/2.bdc15e26.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "32dc415b1bf0756ab035",
-    "url": "/barchart-widget/static/js/main.25c778c7.chunk.js"
+    "revision": "5c42419b75fe55b9ed1d",
+    "url": "/barchart-widget/static/js/main.52f74fe7.chunk.js"
   },
   {
     "revision": "752e5627f524a0a6cebc",

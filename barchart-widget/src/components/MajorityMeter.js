@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 import {makeStyles} from '@material-ui/core/styles'
 
@@ -8,7 +8,9 @@ const useStyles = makeStyles({
     meter: {
         width: '100%',
         marginLeft: 10,
-        position: 'relative'
+        position: 'relative',
+        minHeight: '20px',
+
     },
     bar: {
       background: (props) =>
@@ -23,16 +25,16 @@ const useStyles = makeStyles({
     majorityLine: {
         position: 'absolute',
         height: '120%',
+        minHeight: '20px',
         bottom: -2,
         left: (props)=>props.majority,
         borderLeft: '2px solid black',
     },
     majorityLabel: {
         position: 'absolute',
-        textAlign: 'center',
-        marginTop: -22,
+        textAlign: 'left',
+        marginTop: -25,
         marginLeft: -7,
-        fontSize: 14,
         fontWeight: 'bolder'
     }
 

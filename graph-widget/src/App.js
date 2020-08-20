@@ -8,7 +8,6 @@ import {VictoryPie, Slice} from 'victory'
 
 import PartyCard from './components/partyCard'
 import GainsDiv from './components/GainsDiv'
-import GainsBar from './components/GainsBar'
 
 const styles = makeStyles({
 	main: {
@@ -70,20 +69,35 @@ function App(props) {
 
   const classes = styles(props);
 
-  useEffect(()=>[
-    getData()
-  ],[])
+  useEffect(()=>{
+	getData();
+	startTimer();
+  },[])
+
+  const startTimer = () => {
+	let remaining = 30
+	setInterval(()=>{
+		remaining --;
+		if (remaining <= 0) {
+			console.log("updating")
+			getData();
+			remaining = 30
+		}
+	}, 1000);
+  }
 
   const getData = () => {
+	console.log("fetching")
     fetch('/overallresults')
       .then(res=>{
-        console.log(res)
         return res.json()})
       .then(json=>{
-        console.log(json)
         setData(json);
         toggleLoading(false)
-      })
+	  })
+	  .catch(err=>{
+		  console.log("Error fetching election results")
+	  })
   }
 
   return (
@@ -96,7 +110,7 @@ function App(props) {
 				<div className={classes.chartHolder}>
 					<div className={classes.partyBars}>
 						{data && data.partyResults.map((party,i)=>{
-              console.log(party)
+              
 							return <PartyCard key={i} party={party} result={`${party.votesPercent}%`} />
 						})}
 					</div>
@@ -129,6 +143,7 @@ function App(props) {
 							return <PartyCard key={i} party={party} result={`${party.seatChange}`} />
 						})}
 					</div>
+					{/* <GainsChart data={data} /> */}
 					<GainsDiv data={data}/>
 				</div>
 			</div>

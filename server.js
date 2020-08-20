@@ -53,10 +53,6 @@ app.get('*/results_2016', (req,res)=>{
     let results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/SASK_2016.json')
     res.send(JSON.parse(results))
 })
-app.get('*/partylist', (req,res)=>{
-    let results = fs.readFileSync(process.env.PARTYLIST || 'public/data/partylist.json')
-    res.send(JSON.parse(results))
-})
 
 app.get('*/geoJSON', (req,res)=> {
     let geo = fs.readFileSync(process.env.GEOJSON || 'public/SASK_Constituency_boundary.json')

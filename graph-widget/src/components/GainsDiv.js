@@ -15,7 +15,7 @@ const styles = makeStyles({
 
 const Gains = (props) => {
     
-    const [max, setMax] = useState(0)
+    const [max, setMax] = useState(0);
 
     const classes = styles(props)
 
@@ -38,7 +38,11 @@ const Gains = (props) => {
     return (
         <div className={classes.gainsDiv}>
             {props.data && props.data.partyResults.map((party,i)=>{
-                return <Gainsbar key={i} color={party.color} width={Math.abs(party.seatChange)/(max + 1)* 100}/>
+                let partyWidth = 0
+                if (max !== 0) {
+                    partyWidth = (party.seatChange)/(max + 1) * 100;
+                }
+                return <Gainsbar key={i} color={party.color} width={`${partyWidth/2}`}/>
             })}
         </div>
     )
