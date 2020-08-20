@@ -122,7 +122,7 @@ const App = (props) => {
 		<div className={classes.main}>
 			<div className={classes.titleRow}>
 				<div className={classes.title}>Saskatchewan Election 2020</div>
-				<div className={classes.majorityMeter}>31 seats needed for majority <MajorityMeter small={props.small} data={data}/></div>
+				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>31 seats needed for majority <MajorityMeter small={props.small} data={data}/></div>}
 			</div>
 			<div className={classes.seatMap}>
 				{seats}

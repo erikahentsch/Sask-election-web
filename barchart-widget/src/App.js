@@ -18,7 +18,7 @@ const styles = makeStyles({
 	},
 	titleRow: {
 		display: 'flex', 
-		padding: '0px 5px',
+		padding: '0px 5px 5px 5px',
 		justifyContent: 'space-between'
 	},
 	title: {
@@ -117,9 +117,9 @@ const App = (props) => {
 			<div className={classes.titleRow}>
 				<div className={classes.title}>Saskatchewan Election 2020</div>
 			</div>
-			<div className={classes.barchart}>
+			{(data && data.partyResults[0].votes > 0 ) && <div className={classes.barchart}>
 				<MajorityMeter data={data}/>
-			</div>
+			</div>}
 			<div className={classes.partyMap}>
 				{parties}
 			</div>
