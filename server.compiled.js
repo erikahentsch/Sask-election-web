@@ -43,11 +43,11 @@ app.get('/barchart-widget/*', function (req, res) {
 }); // Server get data files: 
 
 app.get('*/overallresults', function (req, res) {
-  var results = fs.readFileSync(process.env.OVERALLELECTIONRESULTS || 'public/data/overallResults.json');
+  var results = fs.readFileSync(process.env.OVERALLELECTIONRESULTS || 'public/data/nb_overall.json');
   res.send(JSON.parse(results));
 });
 app.get('*/results_2016', function (req, res) {
-  var results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/SASK_2016.json');
+  var results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/nb_results_full.json');
   res.send(JSON.parse(results));
 });
 app.get('*/geoJSON', function (req, res) {

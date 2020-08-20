@@ -46,11 +46,11 @@ app.get('/barchart-widget/*', (req,res)=> {
 
 // Server get data files: 
 app.get('*/overallresults', (req,res)=> {
-    let results = fs.readFileSync(process.env.OVERALLELECTIONRESULTS || 'public/data/overallResults.json')
+    let results = fs.readFileSync(process.env.OVERALLELECTIONRESULTS || 'public/data/nb_overall.json')
     res.send(JSON.parse(results))
 })
 app.get('*/results_2016', (req,res)=>{
-    let results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/SASK_2016.json')
+    let results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/nb_results_full.json')
     res.send(JSON.parse(results))
 })
 
