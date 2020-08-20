@@ -47,7 +47,7 @@ const styles= makeStyles({
         else {
             console.log(process.env)
 
-            fetch('/geoJSON')
+            fetch('/geojson')
                 .then(res=>res.json())
                 .then(json=>{
                     console.log(json)

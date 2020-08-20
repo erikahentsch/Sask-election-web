@@ -54,8 +54,9 @@ app.get('*/results_2016', (req,res)=>{
     res.send(JSON.parse(results))
 })
 
-app.get('*/geoJSON', (req,res)=> {
-    let geo = fs.readFileSync(process.env.GEOJSON || 'public/SASK_Constituency_boundary.json')
+app.get('*/geojson', (req,res)=> {
+    let geo = fs.readFileSync(process.env.GEOJSON || 'public/data/nb_electoral_proj.json')
+    console.log(process.env.GEOJSON)
     res.send(JSON.parse(geo))
 })
 

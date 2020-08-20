@@ -50,8 +50,9 @@ app.get('*/results_2016', function (req, res) {
   var results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/nb_results_full.json');
   res.send(JSON.parse(results));
 });
-app.get('*/geoJSON', function (req, res) {
-  var geo = fs.readFileSync(process.env.GEOJSON || 'public/SASK_Constituency_boundary.json');
+app.get('*/geojson', function (req, res) {
+  var geo = fs.readFileSync(process.env.GEOJSON || 'public/data/nb_electoral_proj.json');
+  console.log(process.env.GEOJSON);
   res.send(JSON.parse(geo));
 });
 app.get('/testEnv', function (req, res) {
