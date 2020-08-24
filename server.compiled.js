@@ -55,6 +55,9 @@ app.get('*/geojson', function (req, res) {
   console.log(process.env.GEOJSON);
   res.send(JSON.parse(geo));
 });
+app.get('*/title', function (req, res) {
+  res.send(process.env.TITLE || 'New Brunswick Election 2020');
+});
 app.get('/testEnv', function (req, res) {
   res.send(process.env.TEST_TEXT || "Test text not found");
 });

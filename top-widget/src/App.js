@@ -54,10 +54,14 @@ const App = (props) => {
 	const classes = styles(props);
 
 	const [data, setData] = useState(null)
-
+	const [title, setTitle] = useState('')
 	// const small = window.screen.width < 500
 
 	useEffect(()=>{
+		fetch('/title')
+			.then(res=>res.text())
+			.then(json=>setTitle(json))
+			.catch(err=>console.log("error setting title"))
 		startTimer();
 		getData();
 	},[])
@@ -121,7 +125,7 @@ const App = (props) => {
 	return (
 		<div className={classes.main}>
 			<div className={classes.titleRow}>
-				<div className={classes.title}>Saskatchewan Election 2020</div>
+				<div className={classes.title}>{title}</div>
 				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>31 seats needed for majority <MajorityMeter small={props.small} data={data}/></div>}
 			</div>
 			<div className={classes.seatMap}>

@@ -60,6 +60,11 @@ app.get('*/geojson', (req,res)=> {
     res.send(JSON.parse(geo))
 })
 
+app.get('*/title', (req,res)=>{
+    res.send(process.env.TITLE || 'New Brunswick Election 2020')
+})
+
+
 app.get('/testEnv', (req,res)=> {
     res.send(process.env.TEST_TEXT || "Test text not found")
 });
