@@ -27,6 +27,7 @@ function App() {
   const [loading, toggleLoading] = useState(true)
   const [parties, setParties] = useState(null)
   const [selectedResults, setSelectedResults] = useState(null)
+  const [test, setTest] = useState('')
 
   const classes = styles();
 
@@ -63,7 +64,7 @@ function App() {
         setParties(json.partyResults)
       })
       .catch(err=>console.log("Error fetching OVERALLRESULTS, check your env variables and try again"))
-
+    
   }
 
   const handleSelectRiding = (results) => {

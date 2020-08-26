@@ -69,15 +69,21 @@ app.get('/testEnv', (req,res)=> {
     res.send(process.env.TEST_TEXT || "Test text not found")
 });
 
+app.get('/testData', (req,res)=>{
+    let file = fs.readFileSync('public/data/test.json')
+
+    res.send(JSON.parse(file))
+})
+
 function startTimer(req,res,next) {
     let counter = 0;
     console.log(`Server test listening at port ${PORT}.`);
-    nextFunction();
+    getPartyData();
     setInterval(()=>{
         console.log(counter);
-        nextFunction();
+        getPartyData();
         counter++;
-    }, 5000)
+    }, 100000)
 }
 const nextFunction = (req,res,next) => {
     var date = new Date();
@@ -120,8 +126,8 @@ function getPartyData() {
 
 // app.listen(PORT, getPartyData)
 
-// app.listen(PORT, startTimer)
+app.listen(PORT, startTimer)
 
-app.listen(PORT, ()=> {
-    console.log(`Server test listening at port ${PORT}.`);
-})
+// app.listen(PORT, ()=> {
+//     console.log(`Server test listening at port ${PORT}.`);
+// })

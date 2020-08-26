@@ -61,16 +61,20 @@ app.get('*/title', function (req, res) {
 app.get('/testEnv', function (req, res) {
   res.send(process.env.TEST_TEXT || "Test text not found");
 });
+app.get('/testData', function (req, res) {
+  var file = fs.readFileSync('public/data/test.json');
+  res.send(JSON.parse(file));
+});
 
 function startTimer(req, res, next) {
   var counter = 0;
   console.log("Server test listening at port ".concat(PORT, "."));
-  nextFunction();
+  getPartyData();
   setInterval(function () {
     console.log(counter);
-    nextFunction();
+    getPartyData();
     counter++;
-  }, 5000);
+  }, 100000);
 }
 
 var nextFunction = function nextFunction(req, res, next) {
@@ -105,9 +109,8 @@ function getPartyData() {
     }
   });
 } // app.listen(PORT, getPartyData)
-// app.listen(PORT, startTimer)
 
 
-app.listen(PORT, function () {
-  console.log("Server test listening at port ".concat(PORT, "."));
-});
+app.listen(PORT, startTimer); // app.listen(PORT, ()=> {
+//     console.log(`Server test listening at port ${PORT}.`);
+// })
