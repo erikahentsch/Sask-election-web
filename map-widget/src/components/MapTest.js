@@ -43,14 +43,12 @@ const styles= makeStyles({
     const classes = styles();
 
     useEffect(()=> {
+        console.log('render map')
         if(!mapRef) {return}
         else {
-            console.log(process.env)
-
             fetch('/geojson')
                 .then(res=>res.json())
                 .then(json=>{
-                    console.log(json)
                     setgeo(json)
                     var bounds = L.geoJSON(json).getBounds()
                     setInitBounds(bounds)
@@ -82,19 +80,21 @@ const styles= makeStyles({
     
     const getFillByResults = (results) =>{
         try {
-            if(props.parties) {
+            if(props.parties && results.results.length > 0) {
                 let fill = props.parties.find(party=>{
                     if (results.results[0].votes > 0) {   
                         return party.nameShort === results.results[0].partyCode
                     }
+
                 })
-                console.log(fill.color)
                 if (fill) {
                     return fill.color
                 } else {
                     return 'lightgrey'
                 }
-            } 
+            } else {
+                return 'lightgrey'
+            }
         } catch(err) {
             console.log("Error getting Geo Fill for ", results.name)
             return 'lightgrey'

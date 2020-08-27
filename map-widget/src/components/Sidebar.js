@@ -98,7 +98,12 @@ const Sidebar = (props) =>  {
                     </div>
                     <div className={classes.content}>
                     {
-                        props.data && props.data.data.map((result)=> {
+                        props.data && props.data.data.sort((a,b)=>{
+                            if (a.name > b.name) {
+                                return 1
+                            } else return -1
+                        })
+                        .map((result)=> {
                             return (
                                 <LocationButton key={result.id} resultId={result.id} resultData={result} >{result.name}{arrow === result.id && <ChevronRightIcon/>}</LocationButton>
                             )

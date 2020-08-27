@@ -46,7 +46,7 @@ app.get('*/overallresults', function (req, res) {
   var results = fs.readFileSync(process.env.OVERALLELECTIONRESULTS || 'public/data/nb_overall.json');
   res.send(JSON.parse(results));
 });
-app.get('*/results_2016', function (req, res) {
+app.get('*/fullresults', function (req, res) {
   var results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/nb_results_full.json');
   res.send(JSON.parse(results));
 });
@@ -67,50 +67,57 @@ app.get('/testData', function (req, res) {
 });
 
 function startTimer(req, res, next) {
-  var counter = 0;
   console.log("Server test listening at port ".concat(PORT, "."));
   getPartyData();
   setInterval(function () {
-    console.log(counter);
+    console.log("getting party data");
     getPartyData();
-    counter++;
-  }, 100000);
-}
-
-var nextFunction = function nextFunction(req, res, next) {
-  var date = new Date();
-  var test = {
-    "test": 'this is also a test',
-    "date": date
-  };
-  var data = JSON.stringify(test);
-  fs.writeFile('public/data/test.json', data, finished);
-
-  function finished(err) {
-    console.log('all done');
-  }
-
-  console.log(date);
-}; //get party data
+  }, process.env.TIMER || 100000);
+} //get party data
 
 
 function getPartyData() {
-  var url = 'https://elector.blcloud.net/api/party/?json=true';
-  fetch(url).then(function (res) {
+  var overallurl = 'https://elector02.blcloud.net/api/party/result/overall/(mains)/json';
+  var resultsurl = 'https://elector02.blcloud.net/api/CandidateByRiding/?json=true&all=false';
+  fetch(overallurl).then(function (res) {
     if (res.ok) {
       return res.json();
     }
   }).then(function (json) {
     var data = JSON.stringify(json);
-    fs.writeFile('public/data/test.json', data, finished);
+    fs.writeFile('public/data/nb_overall.json', data, finished);
 
     function finished(err) {
       console.log('all done');
     }
   });
-} // app.listen(PORT, getPartyData)
+  fetch(resultsurl).then(function (res) {
+    if (res.ok) {
+      return res.json();
+    }
+  }).then(function (json) {
+    var data = JSON.stringify(json);
+    fs.writeFile('public/data/nb_results_full.json', data, finished);
 
+    function finished(err) {
+      console.log('all done');
+    }
+  });
+}
 
 app.listen(PORT, startTimer); // app.listen(PORT, ()=> {
 //     console.log(`Server test listening at port ${PORT}.`);
 // })
+// const nextFunction = (req,res,next) => {
+//     var date = new Date();
+//     var test = {
+//         "test": 'this is also a test',
+//         "date": date
+//     }
+//     var data = JSON.stringify(test);
+//     fs.writeFile('public/data/test.json', data, finished)
+//     function finished(err) {
+//         console.log('all done')
+//     }
+//     console.log(date)
+// }

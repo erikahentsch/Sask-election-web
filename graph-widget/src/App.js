@@ -75,15 +75,10 @@ function App(props) {
   },[])
 
   const startTimer = () => {
-	let remaining = 30
 	setInterval(()=>{
-		remaining --;
-		if (remaining <= 0) {
-			console.log("updating")
-			getData();
-			remaining = 30
-		}
-	}, 1000);
+		console.log("updating")
+		getData();
+	}, 100000);
   }
 
   const getData = () => {

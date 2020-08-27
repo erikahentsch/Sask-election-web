@@ -37,20 +37,14 @@ function App() {
   },[])
 
   const startTimer = () => {
-    let remaining = 30
-    setInterval(()=>{
-      remaining --;
-      if (remaining <= 0) {
-        console.log("updating")
-        getData();
-        remaining = 30
-      }
-    }, 1000);
+      setInterval(()=>{
+          getData();
+      }, 100000);
     }
 
   const getData = () => {
     console.log("fetching")
-    fetch('/results_2016')
+    fetch('/fullresults')
       .then(res=>res.json())
       .then(json=>{
         setData(json);
