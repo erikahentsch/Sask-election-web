@@ -23,11 +23,12 @@ const styles = makeStyles({
 	},
 	title: props=> ({
 		fontSize: props.small ? 14: 18,
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		paddingRight: 20
 	}),
 	majorityMeter: props => ({
 		display: 'flex',
-		alignItems: 'flex-end',
+		alignItems: 'center',
 		textAlign: 'right',
 		fontSize: props.small ? 8 : 10,
 	}),
@@ -55,8 +56,9 @@ const App = (props) => {
 
 	const [data, setData] = useState(null)
 	const [title, setTitle] = useState('')
-	const [timer, setTimer] = useState(100000)
+	const [timer, setTimer] = useState(300000)
 	const [seatTotal, setSeatTotal] = useState(49)
+	const [majority, setMajority] = useState(25)
 
  	// const small = windo w.screen.width < 500
 
@@ -102,7 +104,9 @@ const App = (props) => {
 			for (let j=0; j < party.seats; j ++) {
 				seats.push(<Seat key={`${party.nameShort}-${j}`} color={party.color} small={props.small} />)
 			}
-			parties.push(<Party key={party.id} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} small={props.small} />)
+			if (party.seats> 0) {
+				parties.push(<Party key={party.id} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} small={props.small} />)
+			}
 		})
 		if (seats.length < seatTotal+1) {
 			console.log(seats.length)
@@ -124,7 +128,7 @@ const App = (props) => {
 		<div className={classes.main}>
 			<div className={classes.titleRow}>
 				<div className={classes.title}>{title}</div>
-				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>31 seats needed for majority <MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} small={props.small} data={data}/></div>}
+				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>{majority} seats needed for majority <MajorityMeter seatTotal={seatTotal} majority={majority} majorityPercent={(majority/seatTotal)*100} small={props.small} data={data}/></div>}
 			</div>
 			<div className={classes.seatMap}>
 				{seats}

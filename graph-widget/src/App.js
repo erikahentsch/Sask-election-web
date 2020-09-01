@@ -66,7 +66,7 @@ function App(props) {
 
   const [data, setData] = useState(null)
   const [loading, toggleLoading] = useState(true)
-  const [timer, setTimer] = useState(100000)
+  const [timer, setTimer] = useState(300000)
 
   const classes = styles(props);
 
@@ -133,7 +133,7 @@ function App(props) {
 			</div>
 			<div className={classes.border}/>
 			<div className={classes.right}>
-				<div className={classes.title}>Gains/Loses</div>
+				<div className={classes.title}>Gains/Losses</div>
 				<div className={classes.chartHolder}>
 					<div className={classes.partyBars}>
 						{data && data.partyResults.map((party,i)=>{

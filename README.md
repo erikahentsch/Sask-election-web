@@ -46,14 +46,5 @@ PORT - 4001
 DATABASE - https://elector.blcloud.net 
     -> this variable tells the widget which flow database to look for each results endpoint. 
     
-PARTYLIST - public/data/partylist.json 
-    -> instructs what to call the party list file
-
-FULLELECTIONRESULTS - public/data/SASK_2016.json 
-    -> instructs what to call the full election results file
-
-OVERALLELECTIONRESULTS - public/data/overallResults.json
-    -> instructs what to call the overall election results file
-
 TIMER - 100000
     -> in ms. change this variable to adjust how frequently the app checks the database for data

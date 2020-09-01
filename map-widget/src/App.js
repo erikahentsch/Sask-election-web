@@ -28,7 +28,7 @@ function App() {
   const [parties, setParties] = useState(null)
   const [selectedResults, setSelectedResults] = useState(null)
   const [test, setTest] = useState('')
-  const [timer, setTimer] = useState(100000)
+  const [timer, setTimer] = useState(300000)
 
   const classes = styles();
 

@@ -23,7 +23,7 @@ const PartyCard = (props) => {
     return (
         <div className={classes.partyContainer}>
             <div>{props.party.nameShort}</div>
-            <div>{props.result}</div>
+            <div>{props.result > 0 && '+'}{props.result}</div>
         </div>
     )
 }

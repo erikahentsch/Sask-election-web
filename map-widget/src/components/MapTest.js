@@ -57,7 +57,7 @@ const styles= makeStyles({
                     // map.setMaxBounds(bounds)
                 })
         }   
-    }, [props.data])
+    }, [])
 
     useEffect(()=> {
         if (props.selectedRiding) {
