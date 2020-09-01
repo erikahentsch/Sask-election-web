@@ -55,9 +55,13 @@ const App = (props) => {
 
 	const [data, setData] = useState(null)
 	const [title, setTitle] = useState('')
-	// const small = window.screen.width < 500
+	const [timer, setTimer] = useState(100000)
+	const [seatTotal, setSeatTotal] = useState(49)
+
+ 	// const small = windo w.screen.width < 500
 
 	useEffect(()=>{
+		console.log(`Updating every ${timer/1000} seconds`)
 		fetch('/title')
 			.then(res=>res.text())
 			.then(json=>setTitle(json))
@@ -69,7 +73,7 @@ const App = (props) => {
 	const startTimer = () => {
 		setInterval(()=>{
 			getData();
-		}, 100000);
+		}, timer);
 	  }
 	
 
@@ -98,11 +102,11 @@ const App = (props) => {
 			for (let j=0; j < party.seats; j ++) {
 				seats.push(<Seat key={`${party.nameShort}-${j}`} color={party.color} small={props.small} />)
 			}
-			parties.push(<Party key={party.id} name={party.nameShort} seats={party.elected} votes={party.votesPercent} color={party.color} small={props.small} />)
+			parties.push(<Party key={party.id} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} small={props.small} />)
 		})
-		if (seats.length < 62) {
+		if (seats.length < seatTotal+1) {
 			console.log(seats.length)
-			let seatsRemaining = 61-seats.length
+			let seatsRemaining = seatTotal-seats.length
 			for (let k=0; k < seatsRemaining; k++) {
 				seats.push(<Seat small={props.small} key={`none-${k}`} color={'#cccccc'}/>)
 			}
@@ -110,7 +114,7 @@ const App = (props) => {
 		date = new Date(data.generated)
 
 	} else {
-		for (let i = 0; i < 61; i++) {
+		for (let i = 0; i < seatTotal; i++) {
 			seats.push(<Seat key={`none-${i}`} small={props.small} color={'#cccccc'} />)
 		}
 	}
@@ -120,7 +124,7 @@ const App = (props) => {
 		<div className={classes.main}>
 			<div className={classes.titleRow}>
 				<div className={classes.title}>{title}</div>
-				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>31 seats needed for majority <MajorityMeter small={props.small} data={data}/></div>}
+				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>31 seats needed for majority <MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} small={props.small} data={data}/></div>}
 			</div>
 			<div className={classes.seatMap}>
 				{seats}

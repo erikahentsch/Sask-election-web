@@ -28,10 +28,12 @@ function App() {
   const [parties, setParties] = useState(null)
   const [selectedResults, setSelectedResults] = useState(null)
   const [test, setTest] = useState('')
+  const [timer, setTimer] = useState(100000)
 
   const classes = styles();
 
   useEffect(()=>{
+    console.log(`Updating every ${timer/1000} seconds`)
     getData()
     startTimer()
   },[])
@@ -39,7 +41,7 @@ function App() {
   const startTimer = () => {
       setInterval(()=>{
           getData();
-      }, 100000);
+      }, timer);
     }
 
   const getData = () => {

@@ -66,10 +66,12 @@ function App(props) {
 
   const [data, setData] = useState(null)
   const [loading, toggleLoading] = useState(true)
+  const [timer, setTimer] = useState(100000)
 
   const classes = styles(props);
 
   useEffect(()=>{
+	console.log(`Updating every ${timer/1000} seconds`)
 	getData();
 	startTimer();
   },[])
@@ -78,7 +80,7 @@ function App(props) {
 	setInterval(()=>{
 		console.log("updating")
 		getData();
-	}, 100000);
+	}, timer);
   }
 
   const getData = () => {

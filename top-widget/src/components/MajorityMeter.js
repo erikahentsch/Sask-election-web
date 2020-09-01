@@ -18,9 +18,8 @@ const useStyles = makeStyles({
     },
     majorityLine: {
         position: 'absolute',
-        height: 20,
+        height: '120%',
         bottom: -2,
-        right: (props)=>props.majority,
         borderLeft: (props)=> props.small ? '1px solid black' : '2px solid black',
     },
     majorityLabel: props=>({
@@ -28,7 +27,7 @@ const useStyles = makeStyles({
         // right: '50%',
         textAlign: 'center',
         marginTop: props.small ? -14 : -18,
-        marginRight: props.small ?  -3 : -4,
+        marginLeft: props.small ?  -3 : -4,
         fontSize: props.small ? 8: 10,
         fontWeight: 'bolder'
     })
@@ -52,46 +51,30 @@ function Line(props) {
 const MajorityMeter = (props) => {
     
     // const { color, ...other } = props;
-    // const [offset, setOffset] = useState(0)
-    const [majority, setMajority] = useState(31/61 * 100)
+
     const classes = useStyles(props)
     
-    // useEffect(()=>{
-    //     console.log(props)
-    //     if (props.data) {
-    //         let maxSeats = props.data.partyResults[0].seats
-    //         if (maxSeats > 0) {
-    //             let seatOffset = 0
-    //             if (maxSeats > 31) {
-    //                 seatOffset = 100 - (maxSeats/61 * 100)
-    //             }
-                
-    //             console.log(seatOffset.toFixed(2))
-    //             setOffset(seatOffset)
-    //             setMajority((31/61 * 100))
-    //         }
-    //     }
-    // }, [props.data])
+    var lead = 61
 
-
-    // var majority = 31/61*100
+    var majority = (props.majority/props.seatTotal)*100
 
     return (
         <div className={classes.meter}>
-            <div className={classes.majorityLabel} style={{right: `${majority}%`}}>31</div>
-            {(props.data) && props.data.partyResults.map((party, i)=>{
+            <div className={classes.majorityLabel} style={{left: `${props.majorityPercent}%`}}>{props.majority}</div>
+            {props.data && props.data.partyResults.map((party, i)=>{
                 if (i === 0) {
-                    return <Bar key={i} color={party.color} votes={`${(party.seats/61)*100}%`} />
+                    lead = party.seats
+                    majority = `${party.seats/props.seatTotal*100}%`
                 }
                 if (i < 3 && party.seats > 0) {
-                    return <Bar key={i} color={party.color} votes={`${(party.seats/61)*100}%`} />
+                    return <Bar color={party.color} votes={`${(party.seats/props.seatTotal)*100}%`} />
                 }
             })    
             }
-            <Line small={props.small} color={"red"} majority={`${majority}%`}/>
+            {console.log('majority',majority)}
+            <div className={classes.majorityLine} style={{left: `${props.majorityPercent}%`}}/>
 
         </div>
     );
 }
-
 export default MajorityMeter;

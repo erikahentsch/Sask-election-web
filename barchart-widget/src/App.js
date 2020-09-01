@@ -49,8 +49,11 @@ const App = (props) => {
 	const classes = styles(props);
 	const [data, setData] = useState(null)
 	const [title, setTitle] = useState('')
+	const [timer, setTimer] = useState(100000)
+	const [seatTotal, setSeatTotal] = useState(49)
 
 	useEffect(()=>{
+		console.log(`Updating every ${timer/1000} seconds`)
 		fetch('/title')
 			.then(res=>res.text())
 			.then(json=>setTitle(json))
@@ -62,7 +65,7 @@ const App = (props) => {
 	const startTimer = () => {
 		setInterval(()=>{
 			getData();
-		}, 100000);
+		}, timer);
 	}
 	
 
@@ -96,8 +99,8 @@ const App = (props) => {
 			}
 			parties.push(<Party key={`${party}-${i}`} name={party.nameShort} seats={party.elected} votes={party.votesPercent} color={party.color} />)
 		})
-		if (seats.length < 62) {
-			let seatsRemaining = 61-seats.length
+		if (seats.length < (seatTotal+1)) {
+			let seatsRemaining = seatTotal-seats.length
 			for (let k=0; k < seatsRemaining; k++) {
 				seats.push(<Seat key={`none-${k}`} color={'#cccccc'}/>)
 			}
@@ -105,7 +108,7 @@ const App = (props) => {
 		date = new Date(data.generated)
 
 	} else {
-		for (let i = 0; i < 61; i++) {
+		for (let i = 0; i < seatTotal; i++) {
 			seats.push(<Seat key={`none-${i}`} color={'#cccccc'} />)
 		}
 	}
@@ -116,8 +119,8 @@ const App = (props) => {
 			<div className={classes.titleRow}>
 				<div className={classes.title}>{title}</div>
 			</div>
-			{(data && data.partyResults[0].votes > 0 ) && <div className={classes.barchart}>
-				<MajorityMeter data={data}/>
+			{(data && data.partyResults[0].seats > 0 ) && <div className={classes.barchart}>
+				<MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} data={data}/>
 			</div>}
 			<div className={classes.partyMap}>
 				{parties}

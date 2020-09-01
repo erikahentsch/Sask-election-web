@@ -27,7 +27,6 @@ const useStyles = makeStyles({
         height: '120%',
         minHeight: '20px',
         bottom: -2,
-        left: (props)=>props.majority,
         borderLeft: '2px solid black',
     },
     majorityLabel: {
@@ -37,8 +36,6 @@ const useStyles = makeStyles({
         marginLeft: -7,
         fontWeight: 'bolder'
     }
-
-
   });
   
 
@@ -63,22 +60,23 @@ const Seat = (props) => {
     
     var lead = 61
 
-    var majority = 31/61*100
+    var majority = (props.majority/props.seatTotal)*100
 
     return (
         <div className={classes.meter}>
-            <div className={classes.majorityLabel} style={{left: `${majority}%`}}>31 seats needed for majority</div>
+            <div className={classes.majorityLabel} style={{left: `${props.majorityPercent}%`}}>{props.majority} seats needed for majority</div>
             {props.data && props.data.partyResults.map((party, i)=>{
                 if (i === 0) {
                     lead = party.seats
-                    majority = `${party.seats/61*100}%`
+                    majority = `${party.seats/props.seatTotal*100}%`
                 }
                 if (i < 3 && party.seats > 0) {
-                    return <Bar color={party.color} votes={`${(party.seats/61)*100}%`} />
+                    return <Bar color={party.color} votes={`${(party.seats/props.seatTotal)*100}%`} />
                 }
             })    
             }
-            <Line color={"red"} majority={`50.8%`}/>
+            {console.log('majority',majority)}
+            <div className={classes.majorityLine} style={{left: `${props.majorityPercent}%`}}/>
 
         </div>
     );

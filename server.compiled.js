@@ -72,13 +72,13 @@ function startTimer(req, res, next) {
   setInterval(function () {
     console.log("getting party data");
     getPartyData();
-  }, process.env.TIMER || 100000);
+  }, process.env.TIMER || 600000);
 } //get party data
 
 
 function getPartyData() {
   var overallurl = 'https://elector02.blcloud.net/api/party/result/overall/(mains)/json';
-  var resultsurl = 'https://elector02.blcloud.net/api/CandidateByRiding/?json=true&all=false';
+  var resultsurl = 'https://elector02.blcloud.net/api/CandidateByRiding/?json=true';
   fetch(overallurl).then(function (res) {
     if (res.ok) {
       return res.json();
