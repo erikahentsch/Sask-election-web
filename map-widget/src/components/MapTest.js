@@ -31,13 +31,24 @@ const styles= makeStyles({
     }
 })
 
+const defaultStyle={
+    weight: 0.9,
+    color: 'black',
+    fillOpacity: 0.9
+}
+
+const selectedStyle={
+    weight: 3,
+    fillOpacity: 1
+}
+
 
  const MapTest = (props) => {
     // const [position, setPosition] = useState({lat: 54, lng: -105, zoom: 5});
     const [initBounds, setInitBounds] = useState();
     const [currentBounds, setCurrentBounds] = useState();
     const [geo, setgeo] = useState(null);
-    const [selectedRiding, setSelectedRiding] = useState(null)
+    // const [selectedRiding, setSelectedRiding] = useState(null)
     const mapRef = useRef(null);
     const geoRef = useRef(null)
 
@@ -59,23 +70,19 @@ const styles= makeStyles({
                     // map.setMaxBounds(bounds)
                 })
         }   
-    }, [])
+    }, [props.data])
 
     useEffect(()=> {
+        console.log(props.selectedRiding)
         if (props.selectedRiding) {
 
             zoomToED(props.selectedRiding.name)
             const geo = geoRef.current.leafletElement;
             geo.eachLayer(layer=>{
-                // console.log(layer.feature.properties.Name)
                 if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
                     layer.setStyle({
                         weight: 3,
                         fillOpacity: 1
-                    })
-                    layer.on({
-                        mouseover: highlightFeature,
-                        mouseout: resetFeature,
                     })
                 }
             })
@@ -104,7 +111,6 @@ const styles= makeStyles({
                     if (results.results[0].votes > 0) {   
                         return party.nameShort === results.results[0].partyCode
                     }
-
                 })
                 if (fill) {
                     return fill.color
@@ -150,12 +156,8 @@ const styles= makeStyles({
             const clickedRiding = e.layer.feature.properties.Name
             const partyResults = getPartyResults(clickedRiding)
             props.handleSelectRiding(partyResults)
-            setSelectedRiding(e.layer.feature.properties.Name)
-            e.layer.setStyle({
-                weight: 2,
-                color: 'black',
-                fillOpacity: 1
-            })
+            // setSelectedRiding(e.layer.feature.properties.Name)
+            e.layer.setStyle(selectedStyle)
         }
     }
 
@@ -165,7 +167,6 @@ const styles= makeStyles({
             const geo = geoRef.current.leafletElement;
             var findLayer = null;
             geo.eachLayer(layer=>{
-                // console.log(layer.feature.properties.Name)
                 if (layer.feature.properties.Name.toUpperCase() === ridingName.toUpperCase()) {
                     findLayer = layer
                 }
@@ -186,55 +187,28 @@ const styles= makeStyles({
     }
 
     function highlightFeature(e) {
-        var layer = e.target;
-        
-        layer.setStyle({
-            weight: 2,
-            color: 'black',
-            fillOpacity: 1
-            // dashArray: '',
-            // filter: 'brightness(50%)'
-        });
-    
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-            layer.bringToFront();
-        }
+        e.layer.setStyle(selectedStyle)
     }
 
     function resetFeature(e) {
-            let layer = e.target;
-            if (props.selectedRiding) {
-
-                if (layer.feature.properties.PED_Name_E.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
-                    layer.setStyle({
-                        weight: 3,
-                        color: 'black',
-                        fillOpacity: 1
-                    })
-                } 
-            }
-            else 
-            layer.setStyle({
-                weight: 0.9,
-                color: 'black',
-                fillOpacity: 0.9
-            })
-            // console.log(e.target)
-            // let geojson = geoRef.current.leafletElement
-            // geojson.resetStyle(e.target);
-
+        if (props.selectedRiding) {
+            let layerName = e.layer.feature.properties.PED_Name_E
+            if (layerName.toUpperCase() !== props.selectedRiding.name.toUpperCase()) {
+                e.layer.setStyle(defaultStyle)
+            } 
+        } else {
+            e.layer.setStyle(defaultStyle)
+        }
     }
 
     const getTooltipData = (feature, layer) => {
         if (feature.properties ) {
-
             try {
                 const featureData = getPartyResults(feature.properties.Name)
                 const featureColor = getFillByResults(featureData)
                 if (featureData && featureColor) {
                     layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: false, direction: 'top'})
                 }
-
             } catch(e) {
 
             }
@@ -262,6 +236,8 @@ const styles= makeStyles({
                     data={geo} 
                     onClick={handleClick} 
                     onEachFeature={getTooltipData}
+                    onMouseOver={highlightFeature}
+                    onMouseOut={resetFeature}
                 />  
                 }   
                 <Control position="topleft">
