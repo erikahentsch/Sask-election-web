@@ -27,7 +27,6 @@ function App() {
   const [loading, toggleLoading] = useState(true)
   const [parties, setParties] = useState(null)
   const [selectedResults, setSelectedResults] = useState(null)
-  const [test, setTest] = useState('')
   const [timer, setTimer] = useState(300000)
 
   const classes = styles();

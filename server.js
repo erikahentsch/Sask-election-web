@@ -75,6 +75,24 @@ app.get('/testData', (req,res)=>{
     res.send(JSON.parse(file))
 })
 
+app.get('*/image/:filename', (req,res)=>{
+    let filename = req.params.filename
+    let testFilename = 'AUSTIN_Kris_PA_38';
+    let errorImage = '/img/images.jpg'
+    console.log(filename)
+    console.log("test")
+    let image =  `/img/${filename}.png`
+
+    fs.access(`public/${image}`, (err)=>{
+        if (err) {
+            console.log(err)
+            res.redirect('/img/images.jpg')
+        } else     
+        res.redirect(image)
+    })
+
+})
+
 function startTimer(req,res,next) {
     console.log(`Server test listening at port ${PORT}.`);
     getPartyData();

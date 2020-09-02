@@ -31,19 +31,18 @@ const styles = makeStyles({
     imageDiv: {
         height: '100%',
         position: 'relative',
-        paddingBottom: 25,
+        marginBottom: 25,
         width: 70,
+        borderRadius: '8px',
+        overflow: 'hidden',
         '& #partyCode': {
             position: 'absolute', 
-            bottom: 32,
+            bottom: 8,
             color: 'white',
             width: '100%',
             textAlign: 'center'
         },
         '& img': {
-            borderRadius: '8px',
-            backgroundColor: 'red',
-            paddingBottom: 30,
             width: '100%',
             height: 'auto'
         }
@@ -102,8 +101,8 @@ const Candidate = (props) => {
     const classes = styles();
     return (
         <div className={classes.candidateRoot}>
-            <div className={classes.imageDiv}>
-                <img style={{backgroundColor: color}} alt="Candidate Headshot" src="/images.jpg"/>
+            <div style={{backgroundColor: color}} className={classes.imageDiv}>
+                <img  alt="Candidate Headshot" onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/img/${candidate.cachedHeadFilename}`}/>
                 <div id="partyCode">{candidate.partyCode}</div>
             </div>
             <div className={classes.candidateLeftDiv}>
@@ -118,7 +117,7 @@ const Candidate = (props) => {
                     <div id='votesPercent'>{candidate.percent}%</div>
                     <div id='votesTotal'>{candidate.votes.toLocaleString('en')} total votes</div>
                 </div>
-                {candidate.elected ? <div id="candidateElected">
+                {candidate.isElected ? <div id="candidateElected">
                     <CheckCircleIcon style={{paddingRight: 5, fontSize: 14, color: 'green'}} /> Elected
                 </div>
                 :

@@ -82,6 +82,11 @@ const Sidebar = (props) =>  {
         )
     }
 
+    const handleBack = () => {
+        setMenu('location')
+        props.handleSelectRiding(null)
+    }
+
 
     return (
         <div id="widgetSidebar" className={classes.sidebar}>
@@ -120,7 +125,7 @@ const Sidebar = (props) =>  {
             >
                 <div className="menu">
                     <div className={classes.title}>
-                        <ChevronLeftIcon onClick={()=>setMenu('location')} style={{cursor: 'pointer'}}/>{results && results.name.toUpperCase()}
+                        <ChevronLeftIcon onClick={handleBack} style={{cursor: 'pointer'}}/>{results && results.name.toUpperCase()}
                     </div>
                     <div className={classes.content}>
                         {props.data && menu === 'results' && 

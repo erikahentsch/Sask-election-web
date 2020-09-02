@@ -65,6 +65,20 @@ app.get('/testData', function (req, res) {
   var file = fs.readFileSync('public/data/test.json');
   res.send(JSON.parse(file));
 });
+app.get('*/image/:filename', function (req, res) {
+  var filename = req.params.filename;
+  var testFilename = 'AUSTIN_Kris_PA_38';
+  var errorImage = '/img/images.jpg';
+  console.log(filename);
+  console.log("test");
+  var image = "/img/".concat(filename, ".png");
+  fs.access("public/".concat(image), function (err) {
+    if (err) {
+      console.log(err);
+      res.redirect('/img/images.jpg');
+    } else res.redirect(image);
+  });
+});
 
 function startTimer(req, res, next) {
   console.log("Server test listening at port ".concat(PORT, "."));

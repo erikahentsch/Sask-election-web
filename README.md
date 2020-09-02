@@ -40,6 +40,7 @@ This widget contains the web widgets used in provincial elections each served at
 Can be edited either in the source repository (GitHub) or using the Elastic Beanstalk environment variables themselves (highest priority) found in the environemnt configuration tab.
 
 Required variables (with default): 
+
 PORT - 4001 
     -> will need to be set-up in environment config
 

@@ -37,6 +37,7 @@ const styles= makeStyles({
     const [initBounds, setInitBounds] = useState();
     const [currentBounds, setCurrentBounds] = useState();
     const [geo, setgeo] = useState(null);
+    const [selectedRiding, setSelectedRiding] = useState(null)
     const mapRef = useRef(null);
     const geoRef = useRef(null)
 
@@ -54,6 +55,7 @@ const styles= makeStyles({
                     setInitBounds(bounds)
                     var map = mapRef.current.leafletElement
                     map.fitBounds(bounds)
+                    // map.setZoom(7.75)
                     // map.setMaxBounds(bounds)
                 })
         }   
@@ -61,7 +63,24 @@ const styles= makeStyles({
 
     useEffect(()=> {
         if (props.selectedRiding) {
+
             zoomToED(props.selectedRiding.name)
+            const geo = geoRef.current.leafletElement;
+            geo.eachLayer(layer=>{
+                // console.log(layer.feature.properties.Name)
+                if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
+                    layer.setStyle({
+                        weight: 3,
+                        fillOpacity: 1
+                    })
+                    layer.on({
+                        mouseover: highlightFeature,
+                        mouseout: resetFeature,
+                    })
+                }
+            })
+        } else {
+            resetBounds()
         }
     }, [props.selectedRiding])
 
@@ -131,6 +150,7 @@ const styles= makeStyles({
             const clickedRiding = e.layer.feature.properties.Name
             const partyResults = getPartyResults(clickedRiding)
             props.handleSelectRiding(partyResults)
+            setSelectedRiding(e.layer.feature.properties.Name)
             e.layer.setStyle({
                 weight: 2,
                 color: 'black',
@@ -157,8 +177,12 @@ const styles= makeStyles({
     }
 
     const resetBounds = () => {
-        const map = mapRef.current.leafletElement
-        map.fitBounds(initBounds)
+        try {
+            const map = mapRef.current.leafletElement
+            map.fitBounds(initBounds)    
+        } catch (err) {
+
+        }
     }
 
     function highlightFeature(e) {
@@ -178,28 +202,31 @@ const styles= makeStyles({
     }
 
     function resetFeature(e) {
-        // console.log(props)
-        // if (props.selectedRiding && e.target.feature) {
-        //     console.log(e.target.feature.properties.Constituen !== props.selectedRiding.name.toUpperCase())
+            let layer = e.target;
+            if (props.selectedRiding) {
 
-        //     if (e.target.feature.properties.Constituen !== props.selectedRiding.name.toUpperCase()) {
+                if (layer.feature.properties.PED_Name_E.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
+                    layer.setStyle({
+                        weight: 3,
+                        color: 'black',
+                        fillOpacity: 1
+                    })
+                } 
+            }
+            else 
+            layer.setStyle({
+                weight: 0.9,
+                color: 'black',
+                fillOpacity: 0.9
+            })
+            // console.log(e.target)
+            // let geojson = geoRef.current.leafletElement
+            // geojson.resetStyle(e.target);
 
-        //         let geojson = geoRef.current.leafletElement
-        //         geojson.resetStyle(e.target);
-        //     }
-    
-        // } else {
-            let geojson = geoRef.current.leafletElement
-            geojson.resetStyle(e.target);
-        // }
     }
 
     const getTooltipData = (feature, layer) => {
         if (feature.properties ) {
-            layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetFeature,
-            })
 
             try {
                 const featureData = getPartyResults(feature.properties.Name)
@@ -218,6 +245,8 @@ const styles= makeStyles({
         <div className={classes.mapContainer}>
             <Map 
                 ref={mapRef} 
+                zoomSnap={0.25}
+                zoomDelta={0.5}
                 // maxBounds={[[29.305561325527698, -130.53515625000003], [74.16408546675687, -90.54296875000001]]}
                 minZoom={3}    
             >
