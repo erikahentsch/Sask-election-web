@@ -9,8 +9,19 @@ const styles = makeStyles({
         flex: 5,
         display: 'flex',
         flexDirection: 'column',
-		alignItems: 'center',
-	},
+        alignItems: 'center',
+        position: 'relative',
+        justifyContent: 'center',
+        // boxSizing: 'border-box'
+    },
+    centerBar: {
+        position: 'absolute',
+        borderLeft: '1px solid black',
+        left: '50%',
+        height: '97%',
+        zIndex: 20
+        
+    }
 })
 
 const Gains = (props) => {
@@ -37,6 +48,7 @@ const Gains = (props) => {
 
     return (
         <div className={classes.gainsDiv}>
+            <div className={classes.centerBar}></div>
             {props.data && props.data.partyResults.map((party,i)=>{
                 let partyWidth = 0
                 if (max !== 0) {

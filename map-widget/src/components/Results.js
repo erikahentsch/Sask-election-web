@@ -99,6 +99,9 @@ const styles = makeStyles({
 const Candidate = (props) => {
     const {candidate, color} = props
     const classes = styles();
+    var candidateName = candidate.name.split(' ')
+    var lastName = candidateName.pop();
+    console.log(candidateName.join(" "))
     return (
         <div className={classes.candidateRoot}>
             <div style={{backgroundColor: color}} className={classes.imageDiv}>
@@ -107,8 +110,8 @@ const Candidate = (props) => {
             </div>
             <div className={classes.candidateLeftDiv}>
                 <div className={classes.candidateName}>
-                    <div id="candidateFirst">{candidate.name.split(' ')[0]}</div>
-                    <div id="candidateLast" >{candidate.name.split(' ')[candidate.name.split(' ').length - 1]}</div>
+                    <div id="candidateFirst">{candidateName.join(" ")}</div>
+                    <div id="candidateLast" >{lastName}</div>
                 </div>
                 <div id="candidateIncumbent">{candidate.isIncumbent && 'Incumbent'}</div>
             </div>

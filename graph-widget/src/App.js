@@ -54,7 +54,7 @@ const styles = makeStyles({
 	},
 	partyBars: {
 		flex: 3,
-		alignSelf: 'center'
+		alignSelf: 'center',
 	},
 	chartDiv: {
 		flex: (props) => props.small ? 3 : 2,
