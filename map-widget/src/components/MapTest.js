@@ -55,10 +55,6 @@ const selectedStyle={
     const classes = styles();
 
     useEffect(()=> {
-        console.log('test',geoRef.current)
-    }, [geoRef.current])
-
-    useEffect(()=> {
         console.log('render map')
         if(!mapRef) {return}
         else {
@@ -81,7 +77,6 @@ const selectedStyle={
                 const geo = geoRef.current.leafletElement;
 
                 geo.eachLayer(layer=>{
-                    console.log('geoLayer', props.selectedRiding)
                     if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
                         layer.setStyle({
                             weight: 3,
@@ -167,20 +162,20 @@ const selectedStyle={
     }
 
     const zoomToED = (ridingName) => {
-        console.log('call zoom', props.selectedRiding)
-        if (geoRef.current) {
-            console.log("zoom", ridingName, geoRef)
-
-            const map = mapRef.current.leafletElement;
-            const geo = geoRef.current.leafletElement;
-            var findLayer = null;
-            geo.eachLayer(layer=>{
-                if (layer.feature.properties.Name.toUpperCase() === ridingName.toUpperCase()) {
-                    findLayer = layer
-                }
-            })
-            console.log(findLayer)
-            map.fitBounds(findLayer.getBounds())
+        try {
+            if (geoRef.current) {
+                const map = mapRef.current.leafletElement;
+                const geo = geoRef.current.leafletElement;
+                var findLayer = null;
+                geo.eachLayer(layer=>{
+                    if (layer.feature.properties.Name.toUpperCase() === ridingName.toUpperCase()) {
+                        findLayer = layer
+                    }
+                })
+                map.fitBounds(findLayer.getBounds())
+            }    
+        } catch (err) {
+            console.log('error zooming on riding')
         }
     }
 

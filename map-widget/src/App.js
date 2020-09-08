@@ -70,8 +70,8 @@ function App() {
     try {
       let hash = window.location.hash
       if (hash) {
-        let name = hash.replace('%20', ' ').substring(1)
-        console.log(name)
+        hash = decodeURI(hash.replace('#', ''))
+        let name = hash
         if (data) {
           const result = data.data.find(riding=>{
             return riding.name.toLowerCase() === name.toLowerCase() 
@@ -82,12 +82,6 @@ function App() {
         }
       }
   
-      // if (loading) {
-      //   console.log("get results from name",name.substring(1), data)
-  
-      //   
-      //   console.log(result)
-      // }
     } catch (err) {
       console.log('could not find riding by hash')
     }
