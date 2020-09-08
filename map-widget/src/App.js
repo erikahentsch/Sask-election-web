@@ -37,6 +37,10 @@ function App() {
     startTimer()
   },[])
 
+  useEffect(()=> {
+    getResultsFromURL()
+  }, [loading])
+
   const startTimer = () => {
       setInterval(()=>{
           getData();
@@ -60,6 +64,35 @@ function App() {
       })
       .catch(err=>console.log("Error fetching OVERALLRESULTS, check your env variables and try again"))
     
+  }
+
+  const getResultsFromURL = () => {
+    try {
+      let hash = window.location.hash
+      if (hash) {
+        let name = hash.replace('%20', ' ').substring(1)
+        console.log(name)
+        if (data) {
+          const result = data.data.find(riding=>{
+            return riding.name.toLowerCase() === name.toLowerCase() 
+          })
+          if (result) {
+            setSelectedResults(result)
+          }
+        }
+      }
+  
+      // if (loading) {
+      //   console.log("get results from name",name.substring(1), data)
+  
+      //   
+      //   console.log(result)
+      // }
+    } catch (err) {
+      console.log('could not find riding by hash')
+    }
+    
+
   }
 
   const handleSelectRiding = (results) => {

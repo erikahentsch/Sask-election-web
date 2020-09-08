@@ -105,8 +105,10 @@ function startTimer(req,res,next) {
 
 //get party data
 function getPartyData() {
-    var overallurl = 'https://elector02.blcloud.net/api/party/result/overall/(mains)/json'
-    var resultsurl = 'https://elector02.blcloud.net/api/CandidateByRiding/?json=true'
+    var database = process.env.DATABASE || 'https://elector02.blcloud.net'
+
+    var overallurl = `${database}/api/party/result/overall/(mains)/json`
+    var resultsurl = `${database}/api/CandidateByRiding/?json=true`
     fetch(overallurl)
         .then(res=> {
             if (res.ok) {

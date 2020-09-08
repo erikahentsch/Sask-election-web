@@ -101,7 +101,7 @@ const Candidate = (props) => {
     const classes = styles();
     var candidateName = candidate.name.split(' ')
     var lastName = candidateName.pop();
-    console.log(candidateName.join(" "))
+    // console.log(candidateName.join(" "))
     return (
         <div className={classes.candidateRoot}>
             <div style={{backgroundColor: color}} className={classes.imageDiv}>

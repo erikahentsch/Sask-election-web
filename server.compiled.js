@@ -91,8 +91,9 @@ function startTimer(req, res, next) {
 
 
 function getPartyData() {
-  var overallurl = 'https://elector02.blcloud.net/api/party/result/overall/(mains)/json';
-  var resultsurl = 'https://elector02.blcloud.net/api/CandidateByRiding/?json=true';
+  var database = process.env.DATABASE || 'https://elector02.blcloud.net';
+  var overallurl = "".concat(database, "/api/party/result/overall/(mains)/json");
+  var resultsurl = "".concat(database, "/api/CandidateByRiding/?json=true");
   fetch(overallurl).then(function (res) {
     if (res.ok) {
       return res.json();
