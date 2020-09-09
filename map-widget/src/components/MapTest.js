@@ -9,6 +9,8 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import {makeStyles} from '@material-ui/core'
 
 import Tooltip from './Tooltip'
+import axios from 'axios'
+import 'babel-polyfill'
 
 const styles= makeStyles({
     mapContainer: {
@@ -58,14 +60,15 @@ const selectedStyle={
         console.log('render map')
         if(!mapRef) {return}
         else {
-            fetch('/geojson')
-                .then(res=>res.json())
-                .then(json=>{
-                    setgeo(json)
-                    var bounds = L.geoJSON(json).getBounds()
-                    setInitBounds(bounds)
-                    var map = mapRef.current.leafletElement
-                    map.fitBounds(bounds)
+            axios.get('/geojson')
+                .then(res=>{
+                    if (res.status === 200) {
+                        setgeo(res.data)
+                        var bounds = L.geoJSON(res.data).getBounds()
+                        setInitBounds(bounds)
+                        var map = mapRef.current.leafletElement
+                        map.fitBounds(bounds)
+                    }
                 })
         }   
     }, [props.data])
