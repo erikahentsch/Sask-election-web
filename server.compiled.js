@@ -10,8 +10,6 @@ var path = require('path');
 
 var fetch = require('node-fetch');
 
-var sharp = require('sharp');
-
 require('dotenv').config();
 
 var PORT = process.env.HTTP_PORT || 4001;

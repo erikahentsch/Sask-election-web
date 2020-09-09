@@ -1,7 +1,6 @@
 const express = require('express')
 const path = require('path')
 const fetch = require('node-fetch')
-const sharp = require('sharp')
 require('dotenv').config();
 
 const PORT = process.env.HTTP_PORT || 4001;
