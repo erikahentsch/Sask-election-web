@@ -17,6 +17,9 @@
     "dev:top": "concurrently \"nodemon server.js\" \"cd top-widget/ && npm start\" ",
     "dev:barchart": "concurrently \"nodemon server.js\" \"cd barchart-widget/ && npm start\" "
   },
+  "engines": {
+    "node" : ">0.11.9"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
