@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
+import 'babel-polyfill'
+
 
 import {makeStyles} from '@material-ui/core/styles'
 import {VictoryPie, Slice} from 'victory'
@@ -8,6 +11,8 @@ import {VictoryPie, Slice} from 'victory'
 
 import PartyCard from './components/partyCard'
 import GainsDiv from './components/GainsDiv'
+
+require('es6-promise/auto');
 
 const styles = makeStyles({
 	main: {
@@ -85,13 +90,13 @@ function App(props) {
 
   const getData = () => {
 	console.log("fetching")
-    fetch('/overallresults')
+    axios.get('/overallresults')
       .then(res=>{
-        return res.json()})
-      .then(json=>{
-        setData(json);
-        toggleLoading(false)
-	  })
+		  if (res.status === 200) {
+			setData(res.data);
+			toggleLoading(false)
+		  }
+		})
 	  .catch(err=>{
 		  console.log("Error fetching election results")
 	  })

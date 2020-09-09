@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import {makeStyles} from '@material-ui/core/styles';
+import axios from 'axios'
+import 'babel-polyfill'
 
 //Components
 import Seat from './components/Seat'
 import Party from './components/Party'
 import MajorityMeter from './components/MajorityMeter'
+
+require('es6-promise/auto');
 
 const styles = makeStyles({
 	main: {
@@ -64,9 +68,12 @@ const App = (props) => {
 
 	useEffect(()=>{
 		console.log(`Updating every ${timer/1000} seconds`)
-		fetch('/title')
-			.then(res=>res.text())
-			.then(json=>setTitle(json))
+		axios.get('/title')
+			.then(res=>{
+				if (res.status === 200) {
+					setTitle(res.data)
+				}
+			})
 			.catch(err=>console.log("error setting title"))
 		startTimer();
 		getData();
@@ -81,15 +88,12 @@ const App = (props) => {
 
 	const getData = () => {
 
-		fetch(`/overallresults`)
+		axios.get(`/overallresults`)
 			.then(res=>{
-				if (res.ok) {
-					return res.json();
+				if (res.status === 200) {
+					setData(res.data)
 				} 
 			})
-			.then(json=>
-				setData(json)
-			)
 			.catch(err=>console.log("Error fetching overall results"))
 	}
 
