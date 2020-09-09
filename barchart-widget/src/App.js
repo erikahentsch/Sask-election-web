@@ -28,7 +28,7 @@ const styles = makeStyles({
 	barchart: {
 		fontSize: props=> props.small ? 8 : 14,
 		display: 'flex',
-		padding: '30px 0',
+		padding: '20px 0',
 		flexDirection: 'column-reverse',
 		flexWrap: 'wrap',
 	},
@@ -65,7 +65,7 @@ const App = (props) => {
 	const startTimer = () => {
 		setInterval(()=>{
 			getData();
-		}, 10000);
+		}, timer);
 	}
 	
 

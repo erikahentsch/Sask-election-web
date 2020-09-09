@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a26673b79fd1100787647a11b8db159b",
+    "revision": "c5757c78661eaf6a7c912f8ba1b47ef5",
     "url": "/barchart-widget/index.html"
   },
   {
-    "revision": "d770cff0b3c04dca5df5",
+    "revision": "d0ea1d19eedb30beda2f",
     "url": "/barchart-widget/static/css/main.55feb387.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/barchart-widget/static/js/2.abbbd82a.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d770cff0b3c04dca5df5",
-    "url": "/barchart-widget/static/js/main.649d8d6a.chunk.js"
+    "revision": "d0ea1d19eedb30beda2f",
+    "url": "/barchart-widget/static/js/main.2ad08270.chunk.js"
   },
   {
     "revision": "752e5627f524a0a6cebc",
