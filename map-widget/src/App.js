@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 
 import {makeStyles} from '@material-ui/core'
+import axios from 'axios'
+import 'babel-polyfill'
 
 // import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -11,6 +13,7 @@ import Sidebar from './components/Sidebar.js'
 import LoadingAnimation from './components/LoadingAnimation'
 import Pictureloader from './components/Pictureloader'
 
+require('es6-promise/auto');
 
 const styles = makeStyles({
   app: {
@@ -50,18 +53,21 @@ function App() {
 
   const getData = () => {
     console.log("fetching")
-    fetch('/fullresults')
-      .then(res=>res.json())
-      .then(json=>{
-        setData(json);
-        toggleLoading(false)
+    axios.get('/fullresults')
+      .then(res=>{
+        if (res.status === 200) {
+          setData(res.data);
+          toggleLoading(false)
+        }
       })
       .catch(err=>console.log("Error fetching FULLELECTIONDATA, check your env variables and try again"))
     
-    fetch('/overallresults')
-      .then(res=>res.json())
-      .then(json=>{
-        setParties(json.partyResults)
+    axios.get('/overallresults')
+      .then(res=>{
+        if (res.status === 200) {
+          setParties(res.data.partyResults)
+
+        }
       })
       .catch(err=>console.log("Error fetching OVERALLRESULTS, check your env variables and try again"))
     
