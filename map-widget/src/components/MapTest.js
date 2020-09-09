@@ -66,6 +66,7 @@ const selectedStyle={
                         setgeo(res.data)
                         var bounds = L.geoJSON(res.data).getBounds()
                         setInitBounds(bounds)
+                        console.log(mapRef)
                         var map = mapRef.current.leafletElement
                         map.fitBounds(bounds)
                     }
@@ -78,6 +79,7 @@ const selectedStyle={
     }, [props.data])
 
     useEffect(()=> {
+        console.log(geoRef)
         if (props.selectedRiding) {
             zoomToED(props.selectedRiding.name)
             if (geoRef.current) {
