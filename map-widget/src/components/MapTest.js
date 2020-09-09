@@ -58,7 +58,9 @@ const selectedStyle={
 
     useEffect(()=> {
         console.log('render map')
-        if(!mapRef) {return}
+        if(!mapRef) {
+            console.log('no mapRef')
+            return}
         else {
             axios.get('/geojson')
                 .then(res=>{
@@ -78,27 +80,27 @@ const selectedStyle={
         }   
     }, [props.data])
 
-    useEffect(()=> {
-        console.log(geoRef)
-        if (props.selectedRiding) {
-            zoomToED(props.selectedRiding.name)
-            if (geoRef.current) {
-                const geo = geoRef.current.leafletElement;
+    // useEffect(()=> {
+    //     console.log(geoRef)
+    //     if (props.selectedRiding) {
+    //         zoomToED(props.selectedRiding.name)
+    //         if (geoRef.current) {
+    //             const geo = geoRef.current.leafletElement;
 
-                geo.eachLayer(layer=>{
-                    if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
-                        layer.setStyle({
-                            weight: 3,
-                            fillOpacity: 1
-                        })
-                    }
-                })
-            }
+    //             geo.eachLayer(layer=>{
+    //                 if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
+    //                     layer.setStyle({
+    //                         weight: 3,
+    //                         fillOpacity: 1
+    //                     })
+    //                 }
+    //             })
+    //         }
             
-        } else {
-            resetBounds()
-        }
-    }, [geoRef.current, props.selectedRiding])
+    //     } else {
+    //         resetBounds()
+    //     }
+    // }, [geoRef.current, props.selectedRiding])
 
     const getPartyResults = (EDName) => {
         try {

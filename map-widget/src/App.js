@@ -3,6 +3,8 @@ import './App.css';
 import {makeStyles} from '@material-ui/core'
 import axios from 'axios'
 import 'babel-polyfill'
+import 'react-app-polyfill/ie11';
+
 
 // import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
