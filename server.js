@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const fetch = require('node-fetch')
+const sharp = require('sharp')
 require('dotenv').config();
 
 const PORT = process.env.HTTP_PORT || 4001;
@@ -75,22 +76,24 @@ app.get('/testData', (req,res)=>{
     res.send(JSON.parse(file))
 })
 
-app.get('*/image/:filename', (req,res)=>{
+app.get('*/image/:filename', async (req,res)=>{
     let filename = req.params.filename
     let testFilename = 'AUSTIN_Kris_PA_38';
     let errorImage = '/img/images.jpg'
     console.log(filename)
     console.log("test")
-    let image =  `/img/${filename}.png`
+    let image =  `/headshots/election_nb/${filename}`
+
 
     fs.access(`public/${image}`, (err)=>{
         if (err) {
             console.log(err)
-            res.redirect('/img/images.jpg')
-        } else     
-        res.redirect(image)
-    })
+            res.redirect('/img/no_headshot.png')
+        } else  {
+            res.redirect(image)
 
+        }   
+    })
 })
 
 function startTimer(req,res,next) {
@@ -143,11 +146,11 @@ function getPartyData() {
 }
 
 
-app.listen(PORT, startTimer)
+// app.listen(PORT, startTimer)
 
-// app.listen(PORT, ()=> {
-//     console.log(`Server test listening at port ${PORT}.`);
-// })
+app.listen(PORT, ()=> {
+    console.log(`Server test listening at port ${PORT}.`);
+})
 
 // const nextFunction = (req,res,next) => {
 //     var date = new Date();

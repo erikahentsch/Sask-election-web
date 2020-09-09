@@ -1,10 +1,16 @@
 "use strict";
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var express = require('express');
 
 var path = require('path');
 
 var fetch = require('node-fetch');
+
+var sharp = require('sharp');
 
 require('dotenv').config();
 
@@ -65,20 +71,40 @@ app.get('/testData', function (req, res) {
   var file = fs.readFileSync('public/data/test.json');
   res.send(JSON.parse(file));
 });
-app.get('*/image/:filename', function (req, res) {
-  var filename = req.params.filename;
-  var testFilename = 'AUSTIN_Kris_PA_38';
-  var errorImage = '/img/images.jpg';
-  console.log(filename);
-  console.log("test");
-  var image = "/img/".concat(filename, ".png");
-  fs.access("public/".concat(image), function (err) {
-    if (err) {
-      console.log(err);
-      res.redirect('/img/images.jpg');
-    } else res.redirect(image);
-  });
-});
+app.get('*/image/:filename', /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
+    var filename, testFilename, errorImage, image;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            filename = req.params.filename;
+            testFilename = 'AUSTIN_Kris_PA_38';
+            errorImage = '/img/images.jpg';
+            console.log(filename);
+            console.log("test");
+            image = "/headshots/election_nb/".concat(filename);
+            fs.access("public/".concat(image), function (err) {
+              if (err) {
+                console.log(err);
+                res.redirect('/img/no_headshot.png');
+              } else {
+                res.redirect(image);
+              }
+            });
+
+          case 7:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
 
 function startTimer(req, res, next) {
   console.log("Server test listening at port ".concat(PORT, "."));
@@ -118,12 +144,12 @@ function getPartyData() {
       console.log('all done');
     }
   });
-}
+} // app.listen(PORT, startTimer)
 
-app.listen(PORT, startTimer); // app.listen(PORT, ()=> {
-//     console.log(`Server test listening at port ${PORT}.`);
-// })
-// const nextFunction = (req,res,next) => {
+
+app.listen(PORT, function () {
+  console.log("Server test listening at port ".concat(PORT, "."));
+}); // const nextFunction = (req,res,next) => {
 //     var date = new Date();
 //     var test = {
 //         "test": 'this is also a test',

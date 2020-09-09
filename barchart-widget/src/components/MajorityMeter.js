@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 import {makeStyles} from '@material-ui/core/styles'
 
@@ -6,8 +6,7 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
     meter: {
-        width: '100%',
-        marginLeft: 10,
+        maxWidth: '90%',
         position: 'relative',
         minHeight: '20px',
 
@@ -32,7 +31,7 @@ const useStyles = makeStyles({
     majorityLabel: {
         position: 'absolute',
         textAlign: 'left',
-        marginTop: -25,
+        bottom: 50,
         marginLeft: -7,
         fontWeight: 'bolder'
     }
@@ -52,34 +51,67 @@ function Line(props) {
     return <div className={classes.majorityLine} {...other} />;
 }
 
-const Seat = (props) => {
+const Barchart = (props) => {
     
     // const { color, ...other } = props;
-
+    const [difference, setDifference] = useState(0);
+    const [majorityPosition, setMajorityPosition] = useState(50);
+    const [leading, setLeading] = useState(0)
     const classes = useStyles(props)
     
+    useEffect(()=> {
+        if (props.data) {
+            let leadingParty = props.data.partyResults[0];
+            let majority = (props.majority/props.seatTotal*100)
+            if (leadingParty.seats > props.majority) {
+                let leadDifference = 100 - (leadingParty.seats/props.seatTotal*100)
+                console.log(leadDifference)
+                setDifference(leadDifference);
+                setLeading(leadingParty.seats)
+                setMajorityPosition( majority + leadDifference);
+            } else {
+                // let leadDifference = ((leadingParty.seats/props.majority)*100)
+                setDifference(-1)
+                setMajorityPosition(100)
+
+            }
+        }
+    }, [props.data])
+
     var lead = 61
 
     var majority = (props.majority/props.seatTotal)*100
 
     return (
         <div className={classes.meter}>
-            <div className={classes.majorityLabel} style={{left: `${props.majorityPercent}%`}}>{props.majority} seats needed for majority</div>
+            <div className={classes.majorityLabel} style={{left: `${majorityPosition}%`}}>{props.majority} seats needed for majority</div>
             {props.data && props.data.partyResults.map((party, i)=>{
                 if (i === 0) {
+                    let test = 100 - (party.seats/props.seatTotal)*100;
+                    console.log(test)
                     lead = party.seats
                     majority = `${party.seats/props.seatTotal*100}%`
-                }
-                if (i < 3 && party.seats > 0) {
-                    return <Bar color={party.color} votes={`${(party.seats/props.seatTotal)*100}%`} />
+                    if (difference > 0) {
+                        return <Bar color={party.color} votes={`${(party.seats/props.seatTotal)*100 + difference}%`} />
+                    } else if (difference < 0) {
+                        return <Bar color={party.color} votes={`${(party.seats/props.majority)*100}%`} />
+                    }
+                } else if (i < 3 && party.seats > 0) {
+                    if (difference > 0) {
+                        return <Bar color={party.color} votes={`${(party.seats/leading)*100}%`} />
+
+                    } else if (difference < 0) {
+                        return <Bar color={party.color} votes={`${(party.seats/props.majority)*100}%`} />
+
+                    }
                 }
             })    
             }
             {console.log('majority',majority)}
-            <div className={classes.majorityLine} style={{left: `${props.majorityPercent}%`}}/>
+            <div className={classes.majorityLine} style={{left: `${majorityPosition}%`}}/>
 
         </div>
     );
 }
 
-export default Seat;
+export default Barchart;

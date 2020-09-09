@@ -14,7 +14,7 @@ const styles = makeStyles({
 		position: 'relative',
 		flexDirection: 'column',
 		padding: '20px 10px',
-		backgroundColor: '#f2f2f2'
+		backgroundColor: '#ededf0'
 	},
 	titleRow: {
 		display: 'flex', 

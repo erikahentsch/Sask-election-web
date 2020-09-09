@@ -105,13 +105,13 @@ const Candidate = (props) => {
     return (
         <div className={classes.candidateRoot}>
             <div style={{backgroundColor: color}} className={classes.imageDiv}>
-                <img  alt="Candidate Headshot" onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/img/${candidate.cachedHeadFilename}`}/>
+                <img  alt="Candidate Headshot" onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/image/${candidate.cachedHeadFilename}`}/>
                 <div id="partyCode">{candidate.partyCode}</div>
             </div>
             <div className={classes.candidateLeftDiv}>
                 <div className={classes.candidateName}>
-                    <div id="candidateFirst">{candidateName.join(" ")}</div>
-                    <div id="candidateLast" >{lastName}</div>
+                    <div id="candidateFirst">{candidate.firstName}</div>
+                    <div id="candidateLast" >{candidate.lastName}</div>
                 </div>
                 <div id="candidateIncumbent">{candidate.isIncumbent && 'Incumbent'}</div>
             </div>

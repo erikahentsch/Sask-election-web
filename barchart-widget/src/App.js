@@ -14,7 +14,7 @@ const styles = makeStyles({
 		position: 'relative',
 		flexDirection: 'column',
 		padding: '20px 30px',
-		backgroundColor: '#f2f2f2'
+		backgroundColor: '#ededf0'
 	},
 	titleRow: {
 		display: 'flex', 
@@ -65,7 +65,7 @@ const App = (props) => {
 	const startTimer = () => {
 		setInterval(()=>{
 			getData();
-		}, timer);
+		}, 10000);
 	}
 	
 
@@ -97,7 +97,7 @@ const App = (props) => {
 			for (let j=0; j < party.seats; j ++) {
 				seats.push(<Seat key={`${party.nameShort}-${j}`} color={party.color} />)
 			}
-			parties.push(<Party key={`${party}-${i}`} name={party.nameShort} seats={party.elected} votes={party.votesPercent} color={party.color} />)
+			parties.push(<Party key={`${party}-${i}`} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} />)
 		})
 		if (seats.length < (seatTotal+1)) {
 			let seatsRemaining = seatTotal-seats.length

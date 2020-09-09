@@ -17,7 +17,7 @@ const styles = makeStyles({
 		position: 'relative',
 		flexDirection: 'column',
 		padding: '10px 20px',
-		backgroundColor: '#f2f2f2',
+		backgroundColor: '#ededf0',
 		alignContent: 'center'
 	}, 
 	content: {
