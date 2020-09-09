@@ -59,7 +59,7 @@ const selectedStyle={
     useEffect(()=> {
         console.log('render map')
         if(!mapRef) {
-            console.log('no mapRef')
+            console.log('no mapReff')
             return}
         else {
             axios.get('/geojson')
@@ -69,8 +69,8 @@ const selectedStyle={
                         var bounds = L.geoJSON(res.data).getBounds()
                         setInitBounds(bounds)
                         console.log('mapref', mapRef)
-                        // var map = mapRef.current.leafletElement
-                        // map.fitBounds(bounds)
+                        var map = mapRef.current.leafletElement
+                        map.fitBounds(bounds)
                     }
                 })
                 .catch(err=>{
@@ -80,27 +80,27 @@ const selectedStyle={
         }   
     }, [props.data])
 
-    // useEffect(()=> {
-    //     console.log(geoRef)
-    //     if (props.selectedRiding) {
-    //         zoomToED(props.selectedRiding.name)
-    //         if (geoRef.current) {
-    //             const geo = geoRef.current.leafletElement;
+    useEffect(()=> {
+        console.log(geoRef)
+        if (props.selectedRiding) {
+            zoomToED(props.selectedRiding.name)
+            if (geoRef.current) {
+                const geo = geoRef.current.leafletElement;
 
-    //             geo.eachLayer(layer=>{
-    //                 if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
-    //                     layer.setStyle({
-    //                         weight: 3,
-    //                         fillOpacity: 1
-    //                     })
-    //                 }
-    //             })
-    //         }
+                geo.eachLayer(layer=>{
+                    if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
+                        layer.setStyle({
+                            weight: 3,
+                            fillOpacity: 1
+                        })
+                    }
+                })
+            }
             
-    //     } else {
-    //         resetBounds()
-    //     }
-    // }, [geoRef.current, props.selectedRiding])
+        } else {
+            resetBounds()
+        }
+    }, [geoRef.current, props.selectedRiding])
 
     const getPartyResults = (EDName) => {
         try {
@@ -242,7 +242,7 @@ const selectedStyle={
                 url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
                 />
 
-                {/* {geo && 
+                {geo && 
                 <GeoJSON 
                     ref={geoRef} 
                     style={handleFill} 
@@ -252,7 +252,7 @@ const selectedStyle={
                     onMouseOver={highlightFeature}
                     onMouseOut={resetFeature}
                 />  
-                }    */}
+                }   
                 <Control position="topleft">
                     <a id="zoomOut" style={{color: 'black !important'}} className={`leaflet-control-zoom leaflet-bar ${classes.resetButton}`} onClick={resetBounds}>
                         <ZoomOutMapIcon />
