@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-
 import {makeStyles} from '@material-ui/core'
 import axios from 'axios'
 import 'babel-polyfill'
@@ -56,6 +55,7 @@ function App() {
     axios.get('/fullresults')
       .then(res=>{
         if (res.status === 200) {
+          console.log('axios fix')
           setData(res.data);
           toggleLoading(false)
         }
@@ -66,7 +66,6 @@ function App() {
       .then(res=>{
         if (res.status === 200) {
           setParties(res.data.partyResults)
-
         }
       })
       .catch(err=>console.log("Error fetching OVERALLRESULTS, check your env variables and try again"))
