@@ -66,9 +66,9 @@ const selectedStyle={
                         setgeo(res.data)
                         var bounds = L.geoJSON(res.data).getBounds()
                         setInitBounds(bounds)
-                        console.log(mapRef)
-                        var map = mapRef.current.leafletElement
-                        map.fitBounds(bounds)
+                        console.log('mapref', mapRef)
+                        // var map = mapRef.current.leafletElement
+                        // map.fitBounds(bounds)
                     }
                 })
                 .catch(err=>{
