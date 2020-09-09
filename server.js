@@ -75,10 +75,8 @@ app.get('/testData', (req,res)=>{
     res.send(JSON.parse(file))
 })
 
-app.get('*/image/:filename', async (req,res)=>{
+app.get('*/image/:filename', (req,res)=>{
     let filename = req.params.filename
-    let testFilename = 'AUSTIN_Kris_PA_38';
-    let errorImage = '/img/images.jpg'
     console.log(filename)
     console.log("test")
     let image =  `/headshots/election_nb/${filename}`
