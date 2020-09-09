@@ -112,7 +112,7 @@ function App() {
           handleSelectRiding={handleSelectRiding}
           small={screensize}
           />
-        {!loading && <Pictureloader data={data}/>}
+        {/* {!loading && <Pictureloader data={data}/>} */}
     </div>
   );
 }
