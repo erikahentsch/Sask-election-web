@@ -70,6 +70,10 @@ const selectedStyle={
                         map.fitBounds(bounds)
                     }
                 })
+                .catch(err=>{
+                    console.log(err);
+                    console.log('error getting geojson data')
+                })
         }   
     }, [props.data])
 
@@ -234,7 +238,7 @@ const selectedStyle={
                 url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
                 />
 
-                {geo && 
+                {/* {geo && 
                 <GeoJSON 
                     ref={geoRef} 
                     style={handleFill} 
@@ -244,7 +248,7 @@ const selectedStyle={
                     onMouseOver={highlightFeature}
                     onMouseOut={resetFeature}
                 />  
-                }   
+                }    */}
                 <Control position="topleft">
                     <a id="zoomOut" style={{color: 'black !important'}} className={`leaflet-control-zoom leaflet-bar ${classes.resetButton}`} onClick={resetBounds}>
                         <ZoomOutMapIcon />

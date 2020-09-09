@@ -55,12 +55,11 @@ function App() {
     axios.get('/fullresults')
       .then(res=>{
         if (res.status === 200) {
-          console.log('axios fix')
           setData(res.data);
-          toggleLoading(false)
+          toggleLoading(false);
         }
       })
-      .catch(err=>console.log("Error fetching FULLELECTIONDATA, check your env variables and try again"))
+      .catch(err=>console.log("Error fetching FULLELECTIONDATA, check your env variables and try again", err))
     
     axios.get('/overallresults')
       .then(res=>{
