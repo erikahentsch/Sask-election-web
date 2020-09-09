@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import {makeStyles} from '@material-ui/core/styles';
+import axios from 'axios';
 
 //Components
 import Seat from './components/Seat'
@@ -54,9 +55,14 @@ const App = (props) => {
 
 	useEffect(()=>{
 		console.log(`Updating every ${timer/1000} seconds`)
-		fetch('/title')
-			.then(res=>res.text())
-			.then(json=>setTitle(json))
+		axios.get('/title')
+			.then(res=>{
+				console.log(res)
+				if (res.status === 200) {
+					console.log(res)
+					setTitle(res.data)
+				}
+			})
 			.catch(err=>console.log("error setting title"))
 		startTimer();
 		getData();
@@ -71,15 +77,13 @@ const App = (props) => {
 
 	const getData = () => {
 		console.log('fetching')
-		fetch(`/overallresults`)
-			.then(res=>{
-				if (res.ok) {
-					return res.json();
+		axios.get(`/overallresults`)
+			.then(function (res) {
+				console.log(res.data)
+				if (res.status === 200) {
+					setData(res.data)
 				} 
 			})
-			.then(json=>
-				setData(json)
-			)
 			.catch(err=>{
 				console.log("Error fetching results")
 			})
