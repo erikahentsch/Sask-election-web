@@ -9,7 +9,7 @@ import {makeStyles} from '@material-ui/core'
 import MapDiv from './components/MapTest'
 import Sidebar from './components/Sidebar.js'
 import LoadingAnimation from './components/LoadingAnimation'
-
+import Pictureloader from './components/Pictureloader'
 
 
 const styles = makeStyles({
@@ -28,6 +28,7 @@ function App() {
   const [parties, setParties] = useState(null)
   const [selectedResults, setSelectedResults] = useState(null)
   const [timer, setTimer] = useState(300000)
+  const [screensize, setScreenSize] = useState(window.innerWidth)
 
   const classes = styles();
 
@@ -108,8 +109,10 @@ function App() {
           data={data} 
           parties={parties}
           results={selectedResults} 
-          handleSelectRiding={handleSelectRiding}/>
-        
+          handleSelectRiding={handleSelectRiding}
+          small={screensize}
+          />
+        {!loading && <Pictureloader data={data}/>}
     </div>
   );
 }

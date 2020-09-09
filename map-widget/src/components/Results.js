@@ -3,7 +3,7 @@ import {makeStyles} from '@material-ui/core'
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
-const styles = makeStyles({
+const styles = makeStyles(props=>({
     resultsRoot: {
         padding: 10,
       
@@ -20,19 +20,20 @@ const styles = makeStyles({
         alignItems: 'center',
         justifyContent: 'space-between',
         '& #pollsReported': {
-            fontSize: 14,
+            fontSize: 12,
             fontWeight: 'bolder'
         },
         '& #totalVotes': {
-            fontSize: 12,
+            fontSize: 10,
             color: 'darkslategrey'
         }
     },
     imageDiv: {
-        height: '100%',
+        height: props=>props.screensize < 700 ? 100 : 120,
         position: 'relative',
         marginBottom: 25,
-        width: 70,
+        minWidth: 50,
+        width: props=>props.screensize < 700 ? 50 : 70,
         borderRadius: '8px',
         overflow: 'hidden',
         '& #partyCode': {
@@ -62,11 +63,12 @@ const styles = makeStyles({
     candidateName: {
         '& #candidateFirst': {
             fontWeight: 'bolder',
-            fontSize: 14
+            fontSize: props=>props.screensize < 700 ? 12 : 14,
+
         },
         '& #candidateLast': {
             fontWeight: 'bolder',
-            fontSize: 22
+            fontSize: props=>props.screensize < 700 ? 16 : 22,
         }
     }, 
     candidateRightDiv: {
@@ -80,28 +82,27 @@ const styles = makeStyles({
             display: 'flex', 
             alignItems: 'center',
             justifyContent: 'flex-end',
-            fontSize: 14
+            fontSize: props=>props.screensize < 700 ? 12 : 14,
         }
     },
     votesDiv: {
         textAlign: 'right',
         '& #votesPercent': {
-            fontSize: 22,
+            fontSize: props=>props.screensize < 700 ? 16 : 22,
             fontWeight: 'bolder'
         },
         '& #votesTotal': {
-            fontSize: 14,
+            fontSize: props=>props.screensize < 700 ? 12 : 14,
             fontWeight: 'lighter'
         }
     }
-})
+}))
 
 const Candidate = (props) => {
     const {candidate, color} = props
-    const classes = styles();
+    const classes = styles(props);
     var candidateName = candidate.name.split(' ')
     var lastName = candidateName.pop();
-    // console.log(candidateName.join(" "))
     return (
         <div className={classes.candidateRoot}>
             <div style={{backgroundColor: color}} className={classes.imageDiv}>
@@ -160,7 +161,7 @@ const Results = (props) => {
                 <div>
                     {props.data.results.map((candidate, i)=> {
                         let partyColor = getPartyColor(candidate);
-                        return <Candidate key={i} color={partyColor} candidate={candidate}/>
+                        return <Candidate screensize={props.screensize} key={i} color={partyColor} candidate={candidate}/>
                     })}
                 </div>    
             </>

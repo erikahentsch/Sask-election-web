@@ -22,11 +22,9 @@ const styles = makeStyles({
         color: 'white',
         display: 'flex',
         alignItems: 'center',
-        height: 50,
+        minHeight: 50,
         paddingLeft: 10,
         fontWeight: 'bolder',
-        // textAlign: 'center',
-        // verticalAlign: 'middle'
     },
     content: {
         marginBottom: 10,
@@ -38,7 +36,7 @@ const styles = makeStyles({
     LocationButton: {
         display: 'flex',
         alignItems: 'center',
-        height: 50,
+        minHeight: 50,
         paddingLeft: 10,
         justifyContent: 'space-between',
         '&:hover': {
@@ -130,6 +128,7 @@ const Sidebar = (props) =>  {
                     <div className={classes.content}>
                         {props.data && menu === 'results' && 
                             <Results 
+                                screensize={props.small}
                                 data={results}
                                 parties={props.parties}
                             />

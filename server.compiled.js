@@ -118,12 +118,12 @@ function getPartyData() {
       console.log('all done');
     }
   });
-} // app.listen(PORT, startTimer)
+}
 
-
-app.listen(PORT, function () {
-  console.log("Server test listening at port ".concat(PORT, "."));
-}); // const nextFunction = (req,res,next) => {
+app.listen(PORT, startTimer); // app.listen(PORT, ()=> {
+//     console.log(`Server test listening at port ${PORT}.`);
+// })
+// const nextFunction = (req,res,next) => {
 //     var date = new Date();
 //     var test = {
 //         "test": 'this is also a test',
