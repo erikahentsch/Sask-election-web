@@ -80,7 +80,7 @@ function App(props) {
 	setInterval(()=>{
 		console.log("updating")
 		getData();
-	}, timer);
+	}, 5000);
   }
 
   const getData = () => {

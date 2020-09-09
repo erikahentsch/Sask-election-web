@@ -13,7 +13,7 @@ const useStyles = makeStyles({
         props.color, 
       width: (props) => props.votes,
       borderRadius: '0px 5px 5px 0px',
-      height: 6,
+      height: 5,
       margin: 1,
     },
     majorityLine: {

@@ -22,7 +22,9 @@ const styles = makeStyles({
     }),
     popVote: {
         padding: 5,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        // textAlign: 'right',
+
     }
 })
 
@@ -37,6 +39,7 @@ const Party = (props) => {
                 <div>{props.seats}</div>
             </div>
             <div className={classes.popVote}>
+                {/* {props.small? `${props.votes}%` : `Pop vote: ${props.votes}%`} */}
                 Pop vote: {props.votes}%
             </div>
         </div>

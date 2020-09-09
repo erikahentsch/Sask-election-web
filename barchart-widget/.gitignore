@@ -7,8 +7,11 @@
 
 # testing
 /coverage
+/public/headshots
 
 # production
+
+
 
 # misc
 .DS_Store

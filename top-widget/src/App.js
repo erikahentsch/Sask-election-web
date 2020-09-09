@@ -22,7 +22,7 @@ const styles = makeStyles({
 		justifyContent: 'space-between'
 	},
 	title: props=> ({
-		fontSize: props.small ? 14: 18,
+		fontSize: props.small ? 12: 18,
 		fontWeight: 'bold',
 		paddingRight: 20
 	}),

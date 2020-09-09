@@ -8,7 +8,8 @@ const styles = makeStyles({
         minWidth: '4%',
         margin: '0.2%',
         backgroundColor:  props.color,
-        flexShrink: 1
+        flexShrink: 1, 
+        fontSize: props=>props.small === "true" ? 8 : 10
     })
 })
 

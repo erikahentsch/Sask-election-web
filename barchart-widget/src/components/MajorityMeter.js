@@ -6,7 +6,7 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
     meter: {
-        maxWidth: '90%',
+        maxWidth: '95%',
         position: 'relative',
         minHeight: '20px',
 
@@ -19,7 +19,11 @@ const useStyles = makeStyles({
       height: 10,
       margin: 2,
       animationName: 'animate-bar',
-      animationDuration: '0.5s'
+      animationDuration: '0.5s',
+      transition: `width 300ms ease-in-out`,
+      transitionDelay: '100ms',
+      zIndex: 20
+
     },
     majorityLine: {
         position: 'absolute',
@@ -27,13 +31,15 @@ const useStyles = makeStyles({
         minHeight: '20px',
         bottom: -2,
         borderLeft: '2px solid black',
+        transition: `left 300ms ease-in-out`,
     },
     majorityLabel: {
         position: 'absolute',
         textAlign: 'left',
         bottom: 50,
         marginLeft: -7,
-        fontWeight: 'bolder'
+        fontWeight: 'bolder',
+        transition: `right 300ms ease-in-out`,
     }
   });
   
@@ -54,6 +60,7 @@ function Line(props) {
 const Barchart = (props) => {
     
     // const { color, ...other } = props;
+    const [maxSeats, setMaxSeats] = useState(25)
     const [difference, setDifference] = useState(0);
     const [majorityPosition, setMajorityPosition] = useState(50);
     const [leading, setLeading] = useState(0)
@@ -62,18 +69,13 @@ const Barchart = (props) => {
     useEffect(()=> {
         if (props.data) {
             let leadingParty = props.data.partyResults[0];
-            let majority = (props.majority/props.seatTotal*100)
-            if (leadingParty.seats > props.majority) {
-                let leadDifference = 100 - (leadingParty.seats/props.seatTotal*100)
-                console.log(leadDifference)
-                setDifference(leadDifference);
-                setLeading(leadingParty.seats)
-                setMajorityPosition( majority + leadDifference);
+            console.log('leading', props.majority, leadingParty.seats)
+            if (leadingParty.seats >= props.majority) {
+                setMaxSeats(leadingParty.seats);
+                setMajorityPosition(props.majority/leadingParty.seats*100)
             } else {
-                // let leadDifference = ((leadingParty.seats/props.majority)*100)
-                setDifference(-1)
-                setMajorityPosition(100)
-
+                setMaxSeats(props.majority)
+                setMajorityPosition(props.majority/props.majority*100)
             }
         }
     }, [props.data])
@@ -84,27 +86,12 @@ const Barchart = (props) => {
 
     return (
         <div className={classes.meter}>
-            <div className={classes.majorityLabel} style={{left: `${majorityPosition}%`}}>{props.majority} seats needed for majority</div>
+            <div className={classes.majorityLabel} style={{right: `${100-majorityPosition}%`}}>{props.majority} seats needed for majority</div>
             {props.data && props.data.partyResults.map((party, i)=>{
-                if (i === 0) {
-                    let test = 100 - (party.seats/props.seatTotal)*100;
-                    console.log(test)
-                    lead = party.seats
-                    majority = `${party.seats/props.seatTotal*100}%`
-                    if (difference > 0) {
-                        return <Bar color={party.color} votes={`${(party.seats/props.seatTotal)*100 + difference}%`} />
-                    } else if (difference < 0) {
-                        return <Bar color={party.color} votes={`${(party.seats/props.majority)*100}%`} />
-                    }
-                } else if (i < 3 && party.seats > 0) {
-                    if (difference > 0) {
-                        return <Bar color={party.color} votes={`${(party.seats/leading)*100}%`} />
-
-                    } else if (difference < 0) {
-                        return <Bar color={party.color} votes={`${(party.seats/props.majority)*100}%`} />
-
-                    }
-                }
+                console.log('max seats', maxSeats)
+                if (i < 3) {
+                    return <Bar color={party.color} votes={`${(party.seats/maxSeats)*100}%`} />
+                } 
             })    
             }
             {console.log('majority',majority)}

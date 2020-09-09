@@ -13,7 +13,7 @@ const styles = makeStyles({
 		display: 'flex',
 		position: 'relative',
 		flexDirection: 'column',
-		padding: '20px 30px',
+		padding: '10px 10px',
 		backgroundColor: '#ededf0'
 	},
 	titleRow: {
@@ -22,25 +22,25 @@ const styles = makeStyles({
 		justifyContent: 'space-between'
 	},
 	title: {
-		fontSize: props => props.small ? 20: 26,
+		fontSize: props => props.small ? 18: 26,
 		fontWeight: 'bold'
 	},
 	barchart: {
-		fontSize: props=> props.small ? 11 : 14,
-
+		fontSize: props=> props.small ? 8 : 14,
 		display: 'flex',
 		padding: '30px 0',
 		flexDirection: 'column-reverse',
 		flexWrap: 'wrap',
 	},
 	partyMap: {
-		fontSize: props=>props.small ? 14 : 18,
+		fontSize: props=>props.small ? 9 : 18,
 		display: 'flex',
-		justifyContent: 'space-evenly'
+		flexWrap: 'wrap',
+		alignContent: 'left',
 	},
 	update: {
 		padding: '15px 5px',
-		fontSize: props=>props.small ? 12 : 14
+		fontSize: props=>props.small ? 8 : 12
 	}
 })
 
@@ -94,23 +94,12 @@ const App = (props) => {
 
 	if (data) {
 		data.partyResults.map((party, i)=>{
-			for (let j=0; j < party.seats; j ++) {
-				seats.push(<Seat key={`${party.nameShort}-${j}`} color={party.color} />)
+			if (party.seats > 0 ) {
+				parties.push(<Party small={props.small} key={`${party}-${i}`} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} />)
 			}
-			parties.push(<Party key={`${party}-${i}`} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} />)
 		})
-		if (seats.length < (seatTotal+1)) {
-			let seatsRemaining = seatTotal-seats.length
-			for (let k=0; k < seatsRemaining; k++) {
-				seats.push(<Seat key={`none-${k}`} color={'#cccccc'}/>)
-			}
-		}
 		date = new Date(data.generated)
 
-	} else {
-		for (let i = 0; i < seatTotal; i++) {
-			seats.push(<Seat key={`none-${i}`} color={'#cccccc'} />)
-		}
 	}
 
 
