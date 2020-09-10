@@ -80,7 +80,7 @@ app.get('*/image/:filename', (req,res)=>{
     console.log(filename)
     console.log("test")
     let image =  `/headshots/${filename}`
-    fs.access(`public/${image}`, (err)=>{
+    fs.access(`public${image}`, (err)=>{
         if (err) {
             console.log(err)
             res.redirect('/img/no_headshot.png')
@@ -102,8 +102,6 @@ function startTimer(req,res,next) {
 
 //get party data
 function getPartyData() {
-    var database = process.env.DATABASE || 'https://elector02.blcloud.net'
-
     var resultsurl = `https://election-touchscreen.globalnews.ca/data/nb_full_2020.json`
     var overallurl = `https://election-touchscreen.globalnews.ca/data/nb_overall.json`
     fetch(overallurl)

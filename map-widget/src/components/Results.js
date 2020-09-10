@@ -103,11 +103,12 @@ const Candidate = (props) => {
     const classes = styles(props);
     var candidateName = candidate.name.split(' ')
     var lastName = candidateName.pop();
+    
     return (
         <div className={classes.candidateRoot}>
-            <div style={{backgroundColor: color}} className={classes.imageDiv}>
-                <img  alt="Candidate Headshot"  onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/image/${candidate.cachedHeadFilename}`}/>
-                <div id="partyCode">{candidate.partyCode}</div>
+            <div style={{backgroundColor: props.color}} className={classes.imageDiv}>
+                <img  alt="Candidate Headshot" style={{}} onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/image/${candidate.cachedHeadFilename}`}/>
+                <div id="partyCode" style={{fontWeight: 'bolder',color: props.color === '#C0C0C0' ? 'black' : 'white' }}>{candidate.partyCode}</div>
             </div>
             <div className={classes.candidateLeftDiv}>
                 <div className={classes.candidateName}>
@@ -139,7 +140,7 @@ const Results = (props) => {
     const {data} = props;
 
     const getPartyColor = (candidate) => {
-        let color = "rgb(89, 91, 91)" 
+        let color = '#C0C0C0' 
         if (props.parties) {
             let findParty = props.parties.find(party=>party.nameShort === candidate.partyCode)
             if (findParty) {

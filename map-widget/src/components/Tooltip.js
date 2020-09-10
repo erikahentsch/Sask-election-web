@@ -21,7 +21,7 @@ const styles = makeStyles({
     },
     tooltipWinner:{
         backgroundColor: props=>props.color,
-        color: 'white',
+        color: props=>props.color === '#C0C0C0'? 'black' : 'white',
         padding: 5, 
         '& #tooltipPartyCode': {
             fontSize: 18
@@ -40,6 +40,7 @@ const Tooltip = (props) => {
 
     return (
         <div className={classes.geoTooltip}>
+            {console.log(props.color)}
             <div className={classes.tooltipName}>{props.results.name}</div>
             <div className={classes.tooltipPolls}>{props.results.pollsReported}/{props.results.pollsTotal} polls reported</div>
             {props.results.pollsReported > 0 && 

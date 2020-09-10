@@ -70,7 +70,7 @@ app.get('*/image/:filename', function (req, res) {
   console.log(filename);
   console.log("test");
   var image = "/headshots/".concat(filename);
-  fs.access("public/".concat(image), function (err) {
+  fs.access("public".concat(image), function (err) {
     if (err) {
       console.log(err);
       res.redirect('/img/no_headshot.png');
@@ -91,7 +91,6 @@ function startTimer(req, res, next) {
 
 
 function getPartyData() {
-  var database = process.env.DATABASE || 'https://elector02.blcloud.net';
   var resultsurl = "https://election-touchscreen.globalnews.ca/data/nb_full_2020.json";
   var overallurl = "https://election-touchscreen.globalnews.ca/data/nb_overall.json";
   fetch(overallurl).then(function (res) {

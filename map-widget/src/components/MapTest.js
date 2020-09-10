@@ -126,7 +126,7 @@ const selectedStyle={
                 if (fill) {
                     return fill.color
                 } else {
-                    return 'rgb(89, 91, 91)'
+                    return props.parties[4].color
                 }
             } else {
                 return 'rgb(89, 91, 91)'
