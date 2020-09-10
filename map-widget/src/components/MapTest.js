@@ -68,7 +68,8 @@ const selectedStyle={
                         // var bounds = L.geoJSON(res.data).getBounds()
                         // setInitBounds(bounds)
                         // console.log('mapref', mapRef)
-                        // var map = mapRef.current.leafletElement
+                        var map = mapRef.current.leafletElement
+                        console.log('map', map)
                         // map.fitBounds(bounds)
                     }
                 })
@@ -229,12 +230,10 @@ const selectedStyle={
 
     return (
         <div className={classes.mapContainer}>
-            {console.log(props)}
             <Map 
                 ref={mapRef} 
                 zoomSnap={0.25}
                 zoomDelta={0.5}
-                // maxBounds={[[29.305561325527698, -130.53515625000003], [74.16408546675687, -90.54296875000001]]}
                 minZoom={3}    
             >
                 <TileLayer
