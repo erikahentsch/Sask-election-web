@@ -118,19 +118,19 @@ const selectedStyle={
     const getFillByResults = (results) =>{
         try {
             if(props.parties && results.results.length > 0) {
+                if (results.results[0].votes > 0) {   
                 let fill = props.parties.find(party=>{
-                    if (results.results[0].votes > 0) {   
                         return party.nameShort === results.results[0].partyCode
-                    }
                 })
                 if (fill) {
                     return fill.color
                 } else {
-                    return props.parties[4].color
+                    return 'rgb(192, 192, 192)'
                 }
             } else {
                 return 'rgb(89, 91, 91)'
             }
+        }
         } catch(err) {
             console.log("Error getting Geo Fill for ", results.name)
             return 'rgb(89, 91, 91)'

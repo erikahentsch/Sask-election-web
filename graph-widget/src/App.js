@@ -71,7 +71,7 @@ function App(props) {
 
   const [data, setData] = useState(null)
   const [loading, toggleLoading] = useState(true)
-  const [timer, setTimer] = useState(300000)
+  const [timer, setTimer] = useState(30000)
 
   const classes = styles(props);
 
@@ -85,7 +85,7 @@ function App(props) {
 	setInterval(()=>{
 		console.log("updating")
 		getData();
-	}, 5000);
+	}, timer);
   }
 
   const getData = () => {

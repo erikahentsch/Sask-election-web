@@ -28,7 +28,7 @@ function App() {
   const [loading, toggleLoading] = useState(true)
   const [parties, setParties] = useState(null)
   const [selectedResults, setSelectedResults] = useState(null)
-  const [timer, setTimer] = useState(300000)
+  const [timer, setTimer] = useState(30000)
   const [screensize, setScreenSize] = useState(window.innerWidth)
 
   const classes = styles();
@@ -46,7 +46,7 @@ function App() {
   const startTimer = () => {
       setInterval(()=>{
           getData();
-      }, 10000);
+      }, timer);
     }
 
   const getData = () => {

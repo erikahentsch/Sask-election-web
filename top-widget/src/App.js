@@ -60,7 +60,7 @@ const App = (props) => {
 
 	const [data, setData] = useState(null)
 	const [title, setTitle] = useState('')
-	const [timer, setTimer] = useState(300000)
+	const [timer, setTimer] = useState(30000)
 	const [seatTotal, setSeatTotal] = useState(49)
 	const [majority, setMajority] = useState(25)
 

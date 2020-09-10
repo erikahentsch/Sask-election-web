@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/barchart-widget/static/css/main.55feb387.chunk.css",
-    "main.js": "/barchart-widget/static/js/main.6813fcbd.chunk.js",
-    "main.js.map": "/barchart-widget/static/js/main.6813fcbd.chunk.js.map",
+    "main.js": "/barchart-widget/static/js/main.32230638.chunk.js",
+    "main.js.map": "/barchart-widget/static/js/main.32230638.chunk.js.map",
     "runtime-main.js": "/barchart-widget/static/js/runtime-main.331f27cd.js",
     "runtime-main.js.map": "/barchart-widget/static/js/runtime-main.331f27cd.js.map",
     "static/js/2.a835d5e2.chunk.js": "/barchart-widget/static/js/2.a835d5e2.chunk.js",
     "static/js/2.a835d5e2.chunk.js.map": "/barchart-widget/static/js/2.a835d5e2.chunk.js.map",
     "index.html": "/barchart-widget/index.html",
-    "precache-manifest.35d3772dae92ab7d6c73a869c171fbdb.js": "/barchart-widget/precache-manifest.35d3772dae92ab7d6c73a869c171fbdb.js",
+    "precache-manifest.af8cb504a823bc486765ce1d18975367.js": "/barchart-widget/precache-manifest.af8cb504a823bc486765ce1d18975367.js",
     "service-worker.js": "/barchart-widget/service-worker.js",
     "static/css/main.55feb387.chunk.css.map": "/barchart-widget/static/css/main.55feb387.chunk.css.map",
     "static/js/2.a835d5e2.chunk.js.LICENSE.txt": "/barchart-widget/static/js/2.a835d5e2.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.331f27cd.js",
     "static/js/2.a835d5e2.chunk.js",
     "static/css/main.55feb387.chunk.css",
-    "static/js/main.6813fcbd.chunk.js"
+    "static/js/main.32230638.chunk.js"
   ]
 }
