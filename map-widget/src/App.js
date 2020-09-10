@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import {makeStyles} from '@material-ui/core'
 import axios from 'axios'
-import 'babel-polyfill'
-import 'react-app-polyfill/ie11';
 
 
 // import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
@@ -14,7 +12,6 @@ import Sidebar from './components/Sidebar.js'
 import LoadingAnimation from './components/LoadingAnimation'
 import Pictureloader from './components/Pictureloader'
 
-require('es6-promise/auto');
 
 const styles = makeStyles({
   app: {
