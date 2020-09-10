@@ -66,10 +66,9 @@ app.get('/testData', function (req, res) {
   res.send(JSON.parse(file));
 });
 app.get('*/image/:filename', function (req, res) {
-  var filename = req.params.filename;
-  console.log(filename);
-  console.log("test");
-  var image = "/headshots/".concat(filename);
+  var filename = req.params.filename.slice(0, -4);
+  var image = "/headshots/".concat(filename, ".PNG");
+  console.log(image);
   res.redirect(image); // fs.access(`${image}`, (err)=>{
   //     if (err) {
   //         console.log(err)

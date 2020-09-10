@@ -76,11 +76,12 @@ app.get('/testData', (req,res)=>{
 })
 
 app.get('*/image/:filename', (req,res)=>{
-    let filename = req.params.filename
-    console.log(filename)
-    console.log("test")
-    let image =  `/headshots/${filename}`
+    let filename = req.params.filename.slice(0,-4)
+    let image =  `/headshots/${filename}.PNG`
+    console.log(image)
+
     res.redirect(image)
+
     // fs.access(`${image}`, (err)=>{
     //     if (err) {
     //         console.log(err)
