@@ -46,7 +46,7 @@ function App() {
   const startTimer = () => {
       setInterval(()=>{
           getData();
-      }, timer);
+      }, 10000);
     }
 
   const getData = () => {

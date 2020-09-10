@@ -79,7 +79,7 @@ app.get('*/image/:filename', (req,res)=>{
     let filename = req.params.filename
     console.log(filename)
     console.log("test")
-    let image =  `/headshots/election_nb/${filename}`
+    let image =  `/headshots/nb_headshots/${filename}`
 
 
     fs.access(`public/${image}`, (err)=>{
@@ -107,8 +107,8 @@ function startTimer(req,res,next) {
 function getPartyData() {
     var database = process.env.DATABASE || 'https://elector02.blcloud.net'
 
-    var overallurl = `${database}/api/party/result/overall/(mains)/json`
-    var resultsurl = `${database}/api/CandidateByRiding/?json=true`
+    var resultsurl = `https://election-touchscreen.globalnews.ca/data/nb_full_2020.json`
+    var overallurl = `https://election-touchscreen.globalnews.ca/data/nb_overall.json`
     fetch(overallurl)
         .then(res=> {
             if (res.ok) {
@@ -143,11 +143,11 @@ function getPartyData() {
 }
 
 
-// app.listen(PORT, startTimer)
+app.listen(PORT, startTimer)
 
-app.listen(PORT, ()=> {
-    console.log(`Server test listening at port ${PORT}.`);
-})
+// app.listen(PORT, ()=> {
+//     console.log(`Server test listening at port ${PORT}.`);
+// })
 
 // const nextFunction = (req,res,next) => {
 //     var date = new Date();

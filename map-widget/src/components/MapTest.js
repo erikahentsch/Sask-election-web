@@ -65,12 +65,12 @@ const selectedStyle={
                 .then(res=>{
                     if (res.status === 200) {
                         setgeo(res.data)
-                        // var bounds = L.geoJSON(res.data).getBounds()
-                        // setInitBounds(bounds)
-                        // console.log('mapref', mapRef)
+                        var bounds = L.geoJSON(res.data).getBounds()
+                        setInitBounds(bounds)
+                        console.log('mapref', mapRef)
                         var map = mapRef.current.leafletElement
                         console.log('map', map)
-                        // map.fitBounds(bounds)
+                        map.fitBounds(bounds)
                     }
                 })
                 .catch(err=>{
@@ -78,29 +78,29 @@ const selectedStyle={
                     console.log('error getting geojson data')
                 })
         }   
-    }, [props.data])
+    }, [])
 
-    // useEffect(()=> {
-    //     console.log(geoRef)
-    //     if (props.selectedRiding) {
-    //         zoomToED(props.selectedRiding.name)
-    //         if (geoRef.current) {
-    //             const geo = geoRef.current.leafletElement;
+    useEffect(()=> {
+        console.log(geoRef)
+        if (props.selectedRiding) {
+            zoomToED(props.selectedRiding.name)
+            if (geoRef.current) {
+                const geo = geoRef.current.leafletElement;
 
-    //             geo.eachLayer(layer=>{
-    //                 if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
-    //                     layer.setStyle({
-    //                         weight: 3,
-    //                         fillOpacity: 1
-    //                     })
-    //                 }
-    //             })
-    //         }
+                geo.eachLayer(layer=>{
+                    if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
+                        layer.setStyle({
+                            weight: 3,
+                            fillOpacity: 1
+                        })
+                    }
+                })
+            }
             
-    //     } else {
-    //         resetBounds()
-    //     }
-    // }, [geoRef.current, props.selectedRiding])
+        } else {
+            resetBounds()
+        }
+    }, [geoRef.current, props.selectedRiding])
 
     const getPartyResults = (EDName) => {
         try {
@@ -126,14 +126,14 @@ const selectedStyle={
                 if (fill) {
                     return fill.color
                 } else {
-                    return 'lightgrey'
+                    return 'rgb(89, 91, 91)'
                 }
             } else {
-                return 'lightgrey'
+                return 'rgb(89, 91, 91)'
             }
         } catch(err) {
             console.log("Error getting Geo Fill for ", results.name)
-            return 'lightgrey'
+            return 'rgb(89, 91, 91)'
         } 
     }
 
@@ -141,7 +141,7 @@ const selectedStyle={
     const handleFill = (feature) => {
         if (feature) {
             let partyResults = getPartyResults(feature.properties.Name);
-            let fill = 'lightgrey'
+            let fill = 'rgb(89, 91, 91)'
             if (partyResults) {
                 fill = getFillByResults(partyResults)
             }
@@ -194,6 +194,7 @@ const selectedStyle={
         try {
             const map = mapRef.current.leafletElement
             map.fitBounds(initBounds)    
+            props.handleSelectRiding(null)
         } catch (err) {
 
         }
@@ -241,7 +242,7 @@ const selectedStyle={
                 url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
                 />
 
-                {/* {geo && 
+                {geo && 
                 <GeoJSON 
                     ref={geoRef} 
                     style={handleFill} 
@@ -251,7 +252,7 @@ const selectedStyle={
                     onMouseOver={highlightFeature}
                     onMouseOut={resetFeature}
                 />  
-                }    */}
+                }   
                 <Control position="topleft">
                     <a id="zoomOut" style={{color: 'black !important'}} className={`leaflet-control-zoom leaflet-bar ${classes.resetButton}`} onClick={resetBounds}>
                         <ZoomOutMapIcon />

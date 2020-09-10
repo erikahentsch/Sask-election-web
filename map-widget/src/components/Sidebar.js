@@ -57,7 +57,10 @@ const Sidebar = (props) =>  {
         if (props.results) {
             setResults(props.results)
             setMenu('results')
-
+        } else {
+            console.log('no results')
+            setResults(null)
+            setMenu('location')
         }
     },[props.results])
 

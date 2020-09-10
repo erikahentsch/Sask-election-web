@@ -106,7 +106,7 @@ const Candidate = (props) => {
     return (
         <div className={classes.candidateRoot}>
             <div style={{backgroundColor: color}} className={classes.imageDiv}>
-                <img  alt="Candidate Headshot" onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/image/${candidate.cachedHeadFilename}`}/>
+                <img  alt="Candidate Headshot"  onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/image/${candidate.cachedHeadFilename}`}/>
                 <div id="partyCode">{candidate.partyCode}</div>
             </div>
             <div className={classes.candidateLeftDiv}>
@@ -139,7 +139,7 @@ const Results = (props) => {
     const {data} = props;
 
     const getPartyColor = (candidate) => {
-        let color = "#595b5b" 
+        let color = "rgb(89, 91, 91)" 
         if (props.parties) {
             let findParty = props.parties.find(party=>party.nameShort === candidate.partyCode)
             if (findParty) {
