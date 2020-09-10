@@ -58,10 +58,10 @@ const selectedStyle={
 
     useEffect(()=> {
         console.log('render map')
-        if(!mapRef) {
+        if(!mapRef.current) {
             console.log('no mapReff')
-            return}
-        else {
+            return
+        } else {
             axios.get('/geojson')
                 .then(res=>{
                     if (res.status === 200) {
@@ -80,27 +80,27 @@ const selectedStyle={
         }   
     }, [props.data])
 
-    useEffect(()=> {
-        console.log(geoRef)
-        if (props.selectedRiding) {
-            zoomToED(props.selectedRiding.name)
-            if (geoRef.current) {
-                const geo = geoRef.current.leafletElement;
+    // useEffect(()=> {
+    //     console.log(geoRef)
+    //     if (props.selectedRiding) {
+    //         zoomToED(props.selectedRiding.name)
+    //         if (geoRef.current) {
+    //             const geo = geoRef.current.leafletElement;
 
-                geo.eachLayer(layer=>{
-                    if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
-                        layer.setStyle({
-                            weight: 3,
-                            fillOpacity: 1
-                        })
-                    }
-                })
-            }
+    //             geo.eachLayer(layer=>{
+    //                 if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
+    //                     layer.setStyle({
+    //                         weight: 3,
+    //                         fillOpacity: 1
+    //                     })
+    //                 }
+    //             })
+    //         }
             
-        } else {
-            resetBounds()
-        }
-    }, [geoRef.current, props.selectedRiding])
+    //     } else {
+    //         resetBounds()
+    //     }
+    // }, [geoRef.current, props.selectedRiding])
 
     const getPartyResults = (EDName) => {
         try {
@@ -230,6 +230,7 @@ const selectedStyle={
 
     return (
         <div className={classes.mapContainer}>
+            {console.log(props)}
             <Map 
                 ref={mapRef} 
                 zoomSnap={0.25}
@@ -242,7 +243,7 @@ const selectedStyle={
                 url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
                 />
 
-                {geo && 
+                {/* {geo && 
                 <GeoJSON 
                     ref={geoRef} 
                     style={handleFill} 
@@ -252,7 +253,7 @@ const selectedStyle={
                     onMouseOver={highlightFeature}
                     onMouseOut={resetFeature}
                 />  
-                }   
+                }    */}
                 <Control position="topleft">
                     <a id="zoomOut" style={{color: 'black !important'}} className={`leaflet-control-zoom leaflet-bar ${classes.resetButton}`} onClick={resetBounds}>
                         <ZoomOutMapIcon />
