@@ -58,26 +58,31 @@ const selectedStyle={
 
     useEffect(()=> {
         console.log('render map')
-        if(!mapRef.current) {
-            console.log('no mapReff')
-            return
-        } else {
-            axios.get('/geojson')
-                .then(res=>{
-                    if (res.status === 200) {
-                        setgeo(res.data)
-                        var bounds = L.geoJSON(res.data).getBounds()
-                        setInitBounds(bounds)
-                        console.log('mapref', mapRef)
-                        var map = mapRef.current.leafletElement
-                        map.fitBounds(bounds)
-                    }
-                })
-                .catch(err=>{
-                    console.log(err);
-                    console.log('error getting geojson data')
-                })
-        }   
+        try {
+            if(!mapRef.current) {
+                console.log('no mapReff')
+                return
+            } else {
+                axios.get('/geojson')
+                    .then(res=>{
+                        if (res.status === 200) {
+                            setgeo(res.data)
+                            var bounds = L.geoJSON(res.data).getBounds()
+                            setInitBounds(bounds)
+                            console.log('mapref', mapRef)
+                            var map = mapRef.current.leafletElement
+                            map.fitBounds(bounds)
+                        }
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        console.log('error getting geojson data')
+                    })
+            }   
+        } catch (err) {
+            console.log('error getting geo data', mapRef, geoRef)
+        }
+        
     }, [props.data])
 
     // useEffect(()=> {

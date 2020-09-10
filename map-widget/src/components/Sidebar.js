@@ -11,6 +11,7 @@ import Results from './Results'
 const styles = makeStyles({
     sidebar: {
         flex: 2, 
+        minWidth: 250,
         position: 'relative',
         display: 'flex',
         overflow: 'hidden'
