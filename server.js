@@ -80,14 +80,15 @@ app.get('*/image/:filename', (req,res)=>{
     console.log(filename)
     console.log("test")
     let image =  `/headshots/${filename}`
-    fs.access(`${image}`, (err)=>{
-        if (err) {
-            console.log(err)
-            res.redirect('/img/no_headshot.png')
-        } else  {
-            res.redirect(image)
-        }   
-    })
+    res.redirect(image)
+    // fs.access(`${image}`, (err)=>{
+    //     if (err) {
+    //         console.log(err)
+    //         res.redirect('/img/no_headshot.png')
+    //     } else  {
+    //         res.redirect(image)
+    //     }   
+    // })
 })
 
 function startTimer(req,res,next) {
