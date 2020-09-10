@@ -70,7 +70,7 @@ app.get('*/image/:filename', function (req, res) {
   console.log(filename);
   console.log("test");
   var image = "/headshots/".concat(filename);
-  fs.access("public".concat(image), function (err) {
+  fs.access("".concat(image), function (err) {
     if (err) {
       console.log(err);
       res.redirect('/img/no_headshot.png');

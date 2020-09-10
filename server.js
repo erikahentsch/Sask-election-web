@@ -80,7 +80,7 @@ app.get('*/image/:filename', (req,res)=>{
     console.log(filename)
     console.log("test")
     let image =  `/headshots/${filename}`
-    fs.access(`public${image}`, (err)=>{
+    fs.access(`${image}`, (err)=>{
         if (err) {
             console.log(err)
             res.redirect('/img/no_headshot.png')
