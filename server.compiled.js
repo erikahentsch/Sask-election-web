@@ -69,7 +69,7 @@ app.get('*/image/:filename', function (req, res) {
   var filename = req.params.filename;
   console.log(filename);
   console.log("test");
-  var image = "/headshots/nb_headshots/".concat(filename);
+  var image = "/headshots/".concat(filename);
   fs.access("public/".concat(image), function (err) {
     if (err) {
       console.log(err);
