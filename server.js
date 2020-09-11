@@ -81,7 +81,7 @@ app.get('/testData', (req,res)=>{
 
 app.get('*/image/:filename', (req,res)=>{
     let filename = req.params.filename.slice(0,-4)
-    let image =  `/headshots/${filename}.PNG`
+    let image =  `/headshots_test/${filename}.JPG`
     console.log(image)
 
     res.redirect(image)
@@ -161,11 +161,11 @@ function getPartyData() {
 }
 
 
-// app.listen(PORT, startTimer)
+app.listen(PORT, startTimer)
 
-app.listen(PORT, ()=> {
-    console.log(`Server test listening at port ${PORT}.`);
-})
+// app.listen(PORT, ()=> {
+//     console.log(`Server test listening at port ${PORT}.`);
+// })
 
 // const nextFunction = (req,res,next) => {
 //     var date = new Date();
