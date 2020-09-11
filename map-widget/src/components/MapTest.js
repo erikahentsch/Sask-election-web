@@ -151,12 +151,11 @@ const selectedStyle={
     }
 
     const handleClick = (e) => {
-        // var mapbounds = e.target.getBounds();
-        var layerBounds = e.layer.getBounds();
-
-        if (currentBounds === layerBounds) {
-            e.layer.closeTooltip()
-        } else {
+        try {
+            var layerBounds = e.layer.getBounds();
+            if (currentBounds === layerBounds) {
+                e.layer.closeTooltip()
+            } 
             const map = mapRef.current.leafletElement;
             setCurrentBounds(layerBounds)
             map.fitBounds(layerBounds)
@@ -165,7 +164,10 @@ const selectedStyle={
             props.handleSelectRiding(partyResults)
             // setSelectedRiding(e.layer.feature.properties.Name)
             e.layer.setStyle(selectedStyle)
+        } catch(e) {
+
         }
+        
     }
 
     const zoomToED = (ridingName) => {

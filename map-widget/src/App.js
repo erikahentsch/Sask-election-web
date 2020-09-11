@@ -63,7 +63,6 @@ function App() {
   }, [data])
 
   useEffect(()=>{
-		// console.log('check declaration', data, declaration)
 		try {
 			if (data && declaration) {
 				if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
@@ -81,7 +80,7 @@ function App() {
 			
 		}
 
-    },[, declaration])
+    },[data, parties, declaration])
 
   const getData = () => {
     console.log("fetching")
