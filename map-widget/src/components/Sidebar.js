@@ -127,7 +127,7 @@ const Sidebar = (props) =>  {
             >
                 <div className="menu">
                     <div className={classes.title}>
-                        <ChevronLeftIcon onClick={handleBack} style={{cursor: 'pointer'}}/>{results && results.name.toUpperCase()}
+                        <ChevronLeftIcon onClick={handleBack} style={{cursor: 'pointer'}}/><div style={{padding: '0 5px'}}>{results && results.name.toUpperCase()}</div>
                     </div>
                     <div className={classes.content}>
                         {props.data && menu === 'results' && 

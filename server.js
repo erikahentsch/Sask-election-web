@@ -161,11 +161,11 @@ function getPartyData() {
 }
 
 
-app.listen(PORT, startTimer)
+// app.listen(PORT, startTimer)
 
-// app.listen(PORT, ()=> {
-//     console.log(`Server test listening at port ${PORT}.`);
-// })
+app.listen(PORT, ()=> {
+    console.log(`Server test listening at port ${PORT}.`);
+})
 
 // const nextFunction = (req,res,next) => {
 //     var date = new Date();
