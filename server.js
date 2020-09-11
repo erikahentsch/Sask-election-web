@@ -81,7 +81,7 @@ app.get('/testData', (req,res)=>{
 
 app.get('*/image/:filename', (req,res)=>{
     let filename = req.params.filename.slice(0,-4)
-    let image =  `/headshots/${filename}.PNG`
+    let image =  `/headshots_test/${filename}.jpg`
     console.log(image)
 
     res.redirect(image)
