@@ -46,7 +46,7 @@ const styles = makeStyles({
 	},
 	partyMap: {
 		display: 'flex',
-		justifyContent: 'space-evenly'
+		justifyContent: 'flex-start'
 	},
 	update: props=>({
 		padding: '15px 5px',
