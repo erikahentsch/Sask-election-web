@@ -91,7 +91,7 @@ const App = (props) => {
 			
 		}
 
-    },[declaration])
+    },[data,declaration])
 	
 	const startTimer = () => {
 		setInterval(()=>{
