@@ -11,7 +11,7 @@ import Results from './Results'
 const styles = makeStyles({
     sidebar: {
         flex: 2, 
-        minWidth: 250,
+        minWidth: 260,
         position: 'relative',
         display: 'flex',
         overflow: 'hidden'
@@ -127,7 +127,7 @@ const Sidebar = (props) =>  {
             >
                 <div className="menu">
                     <div className={classes.title}>
-                        <ChevronLeftIcon onClick={handleBack} style={{cursor: 'pointer'}}/><div style={{padding: '0 5px'}}>{results && results.name.toUpperCase()}</div>
+                        <ChevronLeftIcon onClick={handleBack} style={{cursor: 'pointer'}}/><div style={{paddingRight: '15px'}}>{results && results.name.toUpperCase()}</div>
                     </div>
                     <div className={classes.content}>
                         {props.data && menu === 'results' && 

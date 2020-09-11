@@ -72,7 +72,12 @@ app.get('/testData', function (req, res) {
 app.get('*/image/:filename', function (req, res) {
   var filename = req.params.filename.slice(0, -4);
   var image = "/headshots_test/".concat(filename, ".jpg");
-  console.log(image);
+
+  if (filename === "D'AMOURS_JC_LIB_48") {
+    console.log('true');
+    image = "/headshots_test/DAMOURS_Jc_LIB_48.jpg";
+  }
+
   res.redirect(image); // fs.access(`${image}`, (err)=>{
   //     if (err) {
   //         console.log(err)
