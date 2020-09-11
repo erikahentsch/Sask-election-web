@@ -10,8 +10,8 @@ import axios from 'axios'
 import MapDiv from './components/MapTest'
 import Sidebar from './components/Sidebar.js'
 import LoadingAnimation from './components/LoadingAnimation'
-import Pictureloader from './components/Pictureloader'
-
+// import Pictureloader from './components/Pictureloader'
+import Declaration from './components/Declaration'
 
 const styles = makeStyles({
   app: {
@@ -19,6 +19,12 @@ const styles = makeStyles({
     display: 'flex',
     flexDirection: 'row',
     
+  }, 
+  left: {
+    flex: 4,
+    position: 'relative',
+    display: 'flex',
+    flexDirection: "column"
   }
 })
 
@@ -30,6 +36,9 @@ function App() {
   const [selectedResults, setSelectedResults] = useState(null)
   const [timer, setTimer] = useState(30000)
   const [screensize, setScreenSize] = useState(window.innerWidth)
+  const [declarationText, setDeclarationText] = useState('')
+	const [declaration, setDeclaration] = useState(null)
+  const [declaredColor, setDeclaredColor] = useState('')
 
   const classes = styles();
 
@@ -51,7 +60,28 @@ function App() {
 
   useEffect(()=> {
     updateResults()
-  }, data)
+  }, [data])
+
+  useEffect(()=>{
+		// console.log('check declaration', data, declaration)
+		try {
+			if (data && declaration) {
+				if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
+					let text = declaration.overallResult.partyName + ' ' + declaration.overallResult.resultText;
+					console.log(text)
+
+          setDeclarationText(text)
+          let partyWinner = parties.find(party=>party.name === declaration.overallResult.partyName)
+          console.log(partyWinner)
+          setDeclaredColor(partyWinner.color)     
+				} else 
+        setDeclarationText('')
+			}
+		} catch (e) {
+			
+		}
+
+    },[, declaration])
 
   const getData = () => {
     console.log("fetching")
@@ -71,7 +101,16 @@ function App() {
         }
       })
       .catch(err=>console.log("Error fetching OVERALLRESULTS, check your env variables and try again"))
-    
+    axios.get(`/declaration`)
+      .then(function (res) {
+        console.log(res.data)
+        if (res.status === 200) {
+          setDeclaration(res.data)
+        } 
+      })
+      .catch(err=>{
+        console.log("Error fetching results")
+      })
   }
 
   const getResultsFromURL = () => {
@@ -97,11 +136,15 @@ function App() {
   }
 
   const updateResults = () => {
-    console.log('updating selected')
     if (selectedResults) {
+      console.log('updating selected')
+
       let initResults = selectedResults.name;
       let newResults = data.data.find(riding=> riding.name === initResults)
-      console.log(newResults)
+      console.log(initResults, newResults)
+      if (initResults === newResults.name) {
+        setSelectedResults(newResults)
+      }
     }
   }
 
@@ -109,8 +152,16 @@ function App() {
     setSelectedResults(results)
   }
 
+  const getColorByName = () => {
+    let partyWinner = parties.find(party=>party.name === declaration.overallResult.partyName)
+    console.log('winner', partyWinner)
+    return 'red'
+  }
+
   return (
     <div id={'map-widget-app'} className={classes.app}>
+      <div className={classes.left}>
+        {declarationText && <Declaration color={declaredColor} declarationText={declarationText}/>}
       {!loading  ? <MapDiv 
         data={data}
         parties={parties}
@@ -120,6 +171,7 @@ function App() {
         :
         <LoadingAnimation/>
       }
+      </div>
         <Sidebar 
           data={data} 
           parties={parties}

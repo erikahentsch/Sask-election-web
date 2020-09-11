@@ -39,8 +39,8 @@ const Party = (props) => {
                 <div>{props.seats}</div>
             </div>
             <div className={classes.popVote}>
-                {/* {props.small? `${props.votes}%` : `Pop vote: ${props.votes}%`} */}
-                Pop vote: {props.votes}%
+                {props.small? `${props.votes}%` : `Pop vote: ${props.votes}%`}
+                {/* Pop vote: {props.votes}% */}
             </div>
         </div>
     );

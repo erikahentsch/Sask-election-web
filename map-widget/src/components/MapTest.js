@@ -13,8 +13,7 @@ import axios from 'axios'
 
 const styles= makeStyles({
     mapContainer: {
-        flex: 4,
-        position: 'relative'
+        flex:1
     },
     resetButton: {
         display: 'flex',
@@ -67,9 +66,7 @@ const selectedStyle={
                         setgeo(res.data)
                         var bounds = L.geoJSON(res.data).getBounds()
                         setInitBounds(bounds)
-                        console.log('mapref', mapRef)
                         var map = mapRef.current.leafletElement
-                        console.log('map', map)
                         map.fitBounds(bounds)
                     }
                 })
@@ -81,7 +78,6 @@ const selectedStyle={
     }, [])
 
     useEffect(()=> {
-        console.log(geoRef)
         if (props.selectedRiding) {
             zoomToED(props.selectedRiding.name)
             if (geoRef.current) {

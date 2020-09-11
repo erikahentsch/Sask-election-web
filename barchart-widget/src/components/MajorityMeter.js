@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     majorityLabel: {
         position: 'absolute',
         textAlign: 'left',
-        bottom: 50,
+        bottom: 45,
         marginLeft: -7,
         fontWeight: 'bolder',
         transition: `right 300ms ease-in-out`,
@@ -94,7 +94,7 @@ const Barchart = (props) => {
                 } 
             })    
             }
-            {console.log('majority',majority)}
+            {/* {console.log('majority',majority)} */}
             <div className={classes.majorityLine} style={{left: `${majorityPosition}%`}}/>
 
         </div>

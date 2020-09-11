@@ -8,7 +8,7 @@ import 'babel-polyfill'
 import Seat from './components/Seat'
 import Party from './components/Party'
 import MajorityMeter from './components/MajorityMeter'
-
+import Declaration from './components/Declaration'
 require('es6-promise/auto');
 
 const styles = makeStyles({
@@ -17,7 +17,7 @@ const styles = makeStyles({
 		display: 'flex',
 		position: 'relative',
 		flexDirection: 'column',
-		padding: '20px 10px',
+		padding: '10px 10px',
 		backgroundColor: '#ededf0'
 	},
 	titleRow: {
@@ -26,7 +26,7 @@ const styles = makeStyles({
 		justifyContent: 'space-between'
 	},
 	title: props=> ({
-		fontSize: props.small ? 12: 18,
+		fontSize: props.small ? 18  : 24,
 		fontWeight: 'bold',
 		paddingRight: 20
 	}),
@@ -34,13 +34,12 @@ const styles = makeStyles({
 		display: 'flex',
 		alignItems: 'center',
 		textAlign: 'right',
-		fontSize: props.small ? 8 : 10,
+		fontSize: 12,
 	}),
 	seatMap: {
 		display: 'flex',
 		height: 90,
 		maxHeight: props=>props.small ? 50 : 100,
-		padding: '10px 0',
 		flexDirection: 'column-reverse',
 		flexWrap: 'wrap',
 	},
@@ -49,8 +48,7 @@ const styles = makeStyles({
 		justifyContent: 'flex-start'
 	},
 	update: props=>({
-		padding: '15px 5px',
-		fontSize: props.small ? 8 : 12
+		fontSize: 11
 	})
 })
 
@@ -63,6 +61,9 @@ const App = (props) => {
 	const [timer, setTimer] = useState(30000)
 	const [seatTotal, setSeatTotal] = useState(49)
 	const [majority, setMajority] = useState(25)
+	const [declarationText, setDeclarationText] = useState('')
+	const [declaration, setDeclaration] = useState(null)
+	
 
  	// const small = windo w.screen.width < 500
 
@@ -77,7 +78,26 @@ const App = (props) => {
 			.catch(err=>console.log("error setting title"))
 		startTimer();
 		getData();
+		
 	},[])
+
+	useEffect(()=>{
+		console.log('check declaration', data, declaration)
+		try {
+			if (data && declaration) {
+				if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
+					let text = declaration.overallResult.partyName + ' ' + declaration.overallResult.resultText;
+					console.log(text)
+
+					setDeclarationText(text)
+				} else 
+				setDeclarationText('')
+			}
+		} catch (e) {
+			
+		}
+
+    },[declaration])
 
 	const startTimer = () => {
 		setInterval(()=>{
@@ -95,6 +115,17 @@ const App = (props) => {
 				} 
 			})
 			.catch(err=>console.log("Error fetching overall results"))
+		axios.get(`/declaration`)
+		.then(function (res) {
+			console.log(res.data)
+			if (res.status === 200) {
+				setDeclaration(res.data)
+			} 
+		})
+		.catch(err=>{
+			console.log("Error fetching results")
+		})
+		
 	}
 
 	const seats = [];
@@ -132,8 +163,13 @@ const App = (props) => {
 		<div className={classes.main}>
 			<div className={classes.titleRow}>
 				<div className={classes.title}>{title}</div>
-				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>{majority} seats needed for majority <MajorityMeter seatTotal={seatTotal} majority={majority} majorityPercent={(majority/seatTotal)*100} small={props.small} data={data}/></div>}
+				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>{majority} seats needed for majority 
+					<MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} data={data}/>
+				</div>}
 			</div>
+			{declarationText && 
+				<Declaration declarationText={declarationText} />
+			}
 			<div className={classes.seatMap}>
 				{seats}
 			</div>

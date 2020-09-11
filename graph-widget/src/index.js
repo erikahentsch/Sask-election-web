@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-let screenSize= window.screen.width < 500;
+let screenSize= window.innerWidth < 500;
 
 ReactDOM.render(
     <App small={screenSize ? 'true' : undefined}/>

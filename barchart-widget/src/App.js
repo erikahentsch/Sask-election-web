@@ -7,7 +7,8 @@ import 'babel-polyfill'
 //Components
 import Seat from './components/Seat'
 import Party from './components/Party'
-import MajorityMeter from './components/MajorityMeter'
+import MajorityMeter from './components/MajorityMeter';
+import Declaration from './components/Declaration';
 
 require('es6-promise/auto');
 
@@ -27,25 +28,26 @@ const styles = makeStyles({
 		justifyContent: 'space-between'
 	},
 	title: {
-		fontSize: props => props.small ? 18: 26,
+		fontSize: 24,
+		// paddingBottom: 10, 
 		fontWeight: 'bold'
 	},
 	barchart: {
-		fontSize: props=> props.small ? 8 : 14,
+		fontSize: 14,
 		display: 'flex',
 		padding: '20px 0',
 		flexDirection: 'column-reverse',
 		flexWrap: 'wrap',
 	},
 	partyMap: {
-		fontSize: props=>props.small ? 9 : 18,
+		fontSize: 16,
 		display: 'flex',
 		flexWrap: 'wrap',
 		alignContent: 'left',
 	},
 	update: {
 		padding: '15px 5px',
-		fontSize: props=>props.small ? 8 : 12
+		fontSize: 10
 	}
 })
 
@@ -53,17 +55,18 @@ const App = (props) => {
 
 	const classes = styles(props);
 	const [data, setData] = useState(null)
+	const [declaration, setDeclaration] = useState(null)
 	const [title, setTitle] = useState('')
 	const [timer, setTimer] = useState(30000)
 	const [seatTotal, setSeatTotal] = useState(49)
+    const [declarationText, setDeclarationText] = useState('')
+
 
 	useEffect(()=>{
 		console.log(`Updating every ${timer/1000} seconds`)
 		axios.get('/title')
 			.then(res=>{
-				console.log(res)
 				if (res.status === 200) {
-					console.log(res)
 					setTitle(res.data)
 				}
 			})
@@ -71,6 +74,24 @@ const App = (props) => {
 		startTimer();
 		getData();
 	},[])
+	
+	useEffect(()=>{
+		console.log('check declaration', data, declaration)
+		try {
+			if (data && declaration) {
+				if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
+					let text = declaration.overallResult.partyName + ' ' + declaration.overallResult.resultText;
+					console.log(text)
+
+					setDeclarationText(text)
+				} else 
+				setDeclarationText('')
+			}
+		} catch (e) {
+			
+		}
+
+    },[declaration])
 	
 	const startTimer = () => {
 		setInterval(()=>{
@@ -91,6 +112,16 @@ const App = (props) => {
 			.catch(err=>{
 				console.log("Error fetching results")
 			})
+		axios.get(`/declaration`)
+		.then(function (res) {
+			console.log(res.data)
+			if (res.status === 200) {
+				setDeclaration(res.data)
+			} 
+		})
+		.catch(err=>{
+			console.log("Error fetching results")
+		})
 
 	}
 
@@ -116,9 +147,13 @@ const App = (props) => {
 			<div className={classes.titleRow}>
 				<div className={classes.title}>{title}</div>
 			</div>
+			{declarationText && 
+				<Declaration declarationText={declarationText} />
+			}	
 			{(data && data.partyResults[0].seats > 0 ) && <div className={classes.barchart}>
 				<MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} data={data}/>
 			</div>}
+			
 			<div className={classes.partyMap}>
 				{parties}
 			</div>

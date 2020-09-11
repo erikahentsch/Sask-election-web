@@ -11,6 +11,7 @@ import {VictoryPie, Slice} from 'victory'
 
 import PartyCard from './components/partyCard'
 import GainsDiv from './components/GainsDiv'
+import Declaration from './components/Declaration'
 
 require('es6-promise/auto');
 
@@ -72,6 +73,9 @@ function App(props) {
   const [data, setData] = useState(null)
   const [loading, toggleLoading] = useState(true)
   const [timer, setTimer] = useState(30000)
+  const [declarationText, setDeclarationText] = useState('')
+  const [declaration, setDeclaration] = useState(null)
+
 
   const classes = styles(props);
 
@@ -80,6 +84,26 @@ function App(props) {
 	getData();
 	startTimer();
   },[])
+
+  useEffect(()=>{
+	console.log('check declaration', data, declaration)
+	try {
+		if (data && declaration) {
+			if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
+				let text = declaration.overallResult.partyName + ' ' + declaration.overallResult.resultText;
+				console.log(text)
+
+				setDeclarationText(text)
+			} else 
+			setDeclarationText('')
+		}
+	} catch (e) {
+		
+	}
+
+  },[declaration])
+
+
 
   const startTimer = () => {
 	setInterval(()=>{
@@ -100,12 +124,25 @@ function App(props) {
 	  .catch(err=>{
 		  console.log("Error fetching election results")
 	  })
+	axios.get(`/declaration`)
+	.then(function (res) {
+		console.log(res.data)
+		if (res.status === 200) {
+			setDeclaration(res.data)
+		} 
+	})
+	.catch(err=>{
+		console.log("Error fetching results")
+	})
   }
 
   return (
     <div id="graphWidget-main" className={classes.main}>
 	  { !loading && 
 	  <>
+		{declarationText && 
+				<Declaration declarationText={declarationText} />
+			}
 		<div className={classes.content}>
 			<div className={classes.left}>
 				<div className={classes.title}>Popular vote</div>

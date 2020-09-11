@@ -50,6 +50,10 @@ app.get('*/fullresults', function (req, res) {
   var results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/nb_results_full.json');
   res.send(JSON.parse(results));
 });
+app.get('*/declaration', function (req, res) {
+  var results = fs.readFileSync(process.env.DECLARATION || 'public/data/nb_declaration.json');
+  res.send(JSON.parse(results));
+});
 app.get('*/geojson', function (req, res) {
   var geo = fs.readFileSync(process.env.GEOJSON || 'public/data/nb_electoral_proj.json');
   console.log(process.env.GEOJSON);
@@ -92,6 +96,7 @@ function startTimer(req, res, next) {
 function getPartyData() {
   var resultsurl = "https://election-touchscreen.globalnews.ca/data/nb_full_2020.json";
   var overallurl = "https://election-touchscreen.globalnews.ca/data/nb_overall.json";
+  var declarationurl = "https://election-touchscreen.globalnews.ca/data/nb_declaration.json";
   fetch(overallurl).then(function (res) {
     if (res.ok) {
       return res.json();
@@ -111,6 +116,18 @@ function getPartyData() {
   }).then(function (json) {
     var data = JSON.stringify(json);
     fs.writeFile('public/data/nb_results_full.json', data, finished);
+
+    function finished(err) {
+      console.log('all done');
+    }
+  });
+  fetch(declarationurl).then(function (res) {
+    if (res.ok) {
+      return res.json();
+    }
+  }).then(function (json) {
+    var data = JSON.stringify(json);
+    fs.writeFile('public/data/nb_declaration.json', data, finished);
 
     function finished(err) {
       console.log('all done');

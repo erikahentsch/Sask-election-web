@@ -53,6 +53,10 @@ app.get('*/fullresults', (req,res)=>{
     let results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/nb_results_full.json')
     res.send(JSON.parse(results))
 })
+app.get('*/declaration', (req,res)=>{
+    let results = fs.readFileSync(process.env.DECLARATION|| 'public/data/nb_declaration.json')
+    res.send(JSON.parse(results))
+})
 
 app.get('*/geojson', (req,res)=> {
     let geo = fs.readFileSync(process.env.GEOJSON || 'public/data/nb_electoral_proj.json')
@@ -106,6 +110,7 @@ function startTimer(req,res,next) {
 function getPartyData() {
     var resultsurl = `https://election-touchscreen.globalnews.ca/data/nb_full_2020.json`
     var overallurl = `https://election-touchscreen.globalnews.ca/data/nb_overall.json`
+    var declarationurl = `https://election-touchscreen.globalnews.ca/data/nb_declaration.json`
     fetch(overallurl)
         .then(res=> {
             if (res.ok) {
@@ -132,6 +137,22 @@ function getPartyData() {
             var data = JSON.stringify(json)
 
             fs.writeFile('public/data/nb_results_full.json', data, finished)
+            function finished(err) {
+                console.log('all done')
+            }
+        })
+
+        fetch(declarationurl)
+        .then(res=> {
+            if (res.ok) {
+                return res.json()
+            } 
+        })
+        .then(json=>{
+
+            var data = JSON.stringify(json)
+
+            fs.writeFile('public/data/nb_declaration.json', data, finished)
             function finished(err) {
                 console.log('all done')
             }

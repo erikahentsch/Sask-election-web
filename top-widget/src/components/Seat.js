@@ -10,7 +10,7 @@ const styles = makeStyles({
         margin: '0.1%',
         backgroundColor:  (props)=>props.color,
         flexShrink: 1,
-        fontSize: (props)=>props.small ? 14 : 16
+        fontSize: 16
     }
 })
 

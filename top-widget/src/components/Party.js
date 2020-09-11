@@ -5,13 +5,13 @@ import {makeStyles} from '@material-ui/core/styles'
 const styles = makeStyles({
     partyContainer: {
         width: '20%',
-
+        paddingTop: 5
     },
     party: props=> ({
         display: 'flex',
         alignItems: 'center',
         fontWeight: 'bold',
-        fontSize: props.small ? 8: 14,
+        fontSize: 14,
         letterSpacing: 2,
         padding: '5px 5px',
         margin: 1,
@@ -24,7 +24,7 @@ const styles = makeStyles({
     popVote: props=>({
         padding: 5,
         fontWeight: 'bold',
-        fontSize: props.small ? 8: 14
+        fontSize: 14
     })
 })
 
@@ -39,7 +39,7 @@ const Party = (props) => {
                 <div>{props.seats}</div>
             </div>
             <div className={classes.popVote}>
-                Pop vote: {props.votes}%
+                {props.small === 'true' ?` ${props.votes}%` : `Pop vote: ${props.votes}%` }
             </div>
         </div>
     );
