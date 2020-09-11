@@ -49,6 +49,10 @@ function App() {
       }, timer);
     }
 
+  useEffect(()=> {
+    updateResults()
+  }, data)
+
   const getData = () => {
     console.log("fetching")
     axios.get('/fullresults')
@@ -89,8 +93,16 @@ function App() {
     } catch (err) {
       console.log('could not find riding by hash')
     }
-    
 
+  }
+
+  const updateResults = () => {
+    console.log('updating selected')
+    if (selectedResults) {
+      let initResults = selectedResults.name;
+      let newResults = data.data.find(riding=> riding.name === initResults)
+      console.log(newResults)
+    }
   }
 
   const handleSelectRiding = (results) => {

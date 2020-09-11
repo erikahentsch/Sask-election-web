@@ -62,7 +62,7 @@ const Sidebar = (props) =>  {
             setResults(null)
             setMenu('location')
         }
-    },[props.results])
+    },[props.results, props.data])
 
 
     const handleSelectRiding = (results) => {

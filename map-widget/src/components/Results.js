@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {makeStyles} from '@material-ui/core'
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -45,7 +45,7 @@ const styles = makeStyles(props=>({
         },
         '& img': {
             width: '100%',
-            height: 'auto'
+            transition: 'width 500ms'
         }
     },
     candidateLeftDiv: {
@@ -100,6 +100,23 @@ const styles = makeStyles(props=>({
 
 const Candidate = (props) => {
     const {candidate, color} = props
+    const [prevCandidate, setCandidate] = useState('')
+    const imgRef = useRef(null)
+
+    useEffect(()=> {
+        setCandidate(candidate.name)
+
+        console.log(imgRef.current.name, prevCandidate)
+        if (props.candidate) {
+
+            if (prevCandidate === imgRef.current.name) {
+                return;
+            } else {
+                imgRef.current.style.width = 0
+            }
+        }
+    }, [props.candidate])
+    
     const classes = styles(props);
     var candidateName = candidate.name.split(' ')
     var lastName = candidateName.pop();
@@ -107,7 +124,7 @@ const Candidate = (props) => {
     return (
         <div className={classes.candidateRoot}>
             <div style={{backgroundColor: props.color}} className={classes.imageDiv}>
-                <img  alt="Candidate Headshot" style={{}} onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/image/${candidate.cachedHeadFilename}`}/>
+                <img ref={imgRef} alt="Candidate Headshot" name={candidate.name} style={{}} onLoad={e=>e.target.style.width = "100%"} onError={(e) => { e.target.onError = null; e.target.src =`/img/images.jpg`}} src={`/image/${candidate.cachedHeadFilename}`}/>
                 <div id="partyCode" style={{fontWeight: 'bolder',color: props.color === '#C0C0C0' ? 'black' : 'white' }}>{candidate.partyCode}</div>
             </div>
             <div className={classes.candidateLeftDiv}>
@@ -138,6 +155,10 @@ const Results = (props) => {
     
     const classes = styles();
     const {data} = props;
+
+    useEffect(() => {
+        console.log('results render')
+    }, [props.data])
 
     const getPartyColor = (candidate) => {
         let color = '#C0C0C0' 
