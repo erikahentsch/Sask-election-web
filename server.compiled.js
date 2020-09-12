@@ -78,14 +78,7 @@ app.get('*/image/:filename', function (req, res) {
     image = "/headshots_test/DAMOURS_Jc_LIB_48.jpg";
   }
 
-  res.redirect(image); // fs.access(`${image}`, (err)=>{
-  //     if (err) {
-  //         console.log(err)
-  //         res.redirect('/img/no_headshot.png')
-  //     } else  {
-  //         res.redirect(image)
-  //     }   
-  // })
+  res.redirect(image);
 });
 
 function startTimer(req, res, next) {

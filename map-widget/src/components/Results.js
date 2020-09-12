@@ -161,7 +161,11 @@ const Results = (props) => {
     }, [props.data])
 
     const getPartyColor = (candidate) => {
+        // console.log(candidate)
         let color = '#C0C0C0' 
+        if (candidate.partyCode === "NDP") {
+            return 'rgb(221, 102, 0)'
+        }
         if (props.parties) {
             let findParty = props.parties.find(party=>party.nameShort === candidate.partyCode)
             if (findParty) {

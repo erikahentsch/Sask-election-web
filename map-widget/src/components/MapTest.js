@@ -114,9 +114,12 @@ const selectedStyle={
     const getFillByResults = (results) =>{
         try {
             if(props.parties && results.results.length > 0) {
-                if (results.results[0].votes > 0) {   
+                if (results.results[0].votes > 0) {
+                if (results.results[0].partyCode === 'NDP') {
+                    return 'rgb(221, 102, 0)'
+                }
                 let fill = props.parties.find(party=>{
-                        return party.nameShort === results.results[0].partyCode
+                    return party.nameShort === results.results[0].partyCode
                 })
                 if (fill) {
                     return fill.color
