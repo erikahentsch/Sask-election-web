@@ -22,25 +22,26 @@ const styles = makeStyles({
 		display: 'flex',
 		position: 'relative',
 		flexDirection: 'column',
-		padding: '10px 20px',
+		padding: (props) => props.small ? '5px' : '10px 20px',
 		backgroundColor: '#ededf0',
 		alignContent: 'center'
 	}, 
 	content: {
 		display: 'flex', 
-		flexDirection: props=>props.small ? 'column' : 'row',
+		flexDirection: 'row', 
+		// flexDirection: props=>props.small ? 'column' : 'row',
 		paddingBottom: '15px',
 
 	},
 	left: {
 		flex: 3,
-		maxHeight: 250,
+		maxHeight: 200,
 		alignItems: 'center',
 		
 	},
 	right: {
-		flex: 4,
-		maxHeight: 250
+		flex: props=>props.small ? 3: 4,
+		maxHeight: 200
 
 	},
 	title: {
@@ -65,6 +66,9 @@ const styles = makeStyles({
 	chartDiv: {
 		flex: (props) => props.small ? 3 : 2,
 	},
+	update: {
+		paddingTop: 5
+	}
 
 })
 
@@ -183,7 +187,7 @@ function App(props) {
 						})}
 					</div>
 					{/* <GainsChart data={data} /> */}
-					<GainsDiv data={data}/>
+					<GainsDiv small={props.small} data={data}/>
 				</div>
 			</div>
         </div>

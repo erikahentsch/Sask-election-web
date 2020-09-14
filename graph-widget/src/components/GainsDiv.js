@@ -6,7 +6,7 @@ import Gainsbar from './GainsBar'
 
 const styles = makeStyles({
 	gainsDiv: {
-        flex: 5,
+        flex: (props)=> props.small ? 4 : 5,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -54,7 +54,7 @@ const Gains = (props) => {
                 if (max !== 0) {
                     partyWidth = (party.seatChange)/(max + 1) * 100;
                 }
-                return <Gainsbar key={i} color={party.color} width={`${partyWidth/2}`}/>
+                return <Gainsbar key={i} color={party.color} small={props.small} width={`${partyWidth/2}`}/>
             })}
         </div>
     )

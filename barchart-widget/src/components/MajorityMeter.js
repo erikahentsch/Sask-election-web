@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     majorityLabel: {
         position: 'absolute',
         textAlign: 'left',
-        bottom: 45,
+        top: -25,
         marginLeft: -7,
         fontWeight: 'bolder',
         transition: `right 300ms ease-in-out`,
@@ -89,8 +89,8 @@ const Barchart = (props) => {
             <div className={classes.majorityLabel} style={{right: `${100-majorityPosition}%`}}>{props.majority} seats needed for majority</div>
             {props.data && props.data.partyResults.map((party, i)=>{
                 console.log('max seats', maxSeats)
-                if (i < 3) {
-                    return <Bar color={party.color} votes={`${(party.seats/maxSeats)*100}%`} />
+                if (i < 4) {
+                    return <Bar color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '1%'} />
                 } 
             })    
             }

@@ -133,9 +133,9 @@ const App = (props) => {
 
 	if (data) {
 		data.partyResults.map((party, i)=>{
-			if (party.seats > 0 ) {
+			// if (party.seats > 0 ) {
 				parties.push(<Party small={props.small} key={`${party}-${i}`} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} />)
-			}
+			// }
 		})
 		date = new Date(data.generated)
 
@@ -150,7 +150,7 @@ const App = (props) => {
 			{declarationText && 
 				<Declaration declarationText={declarationText} />
 			}	
-			{(data && data.partyResults[0].seats > 0 ) && <div className={classes.barchart}>
+			{(data) && <div className={classes.barchart}>
 				<MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} data={data}/>
 			</div>}
 			

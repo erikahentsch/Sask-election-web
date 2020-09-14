@@ -139,9 +139,9 @@ const App = (props) => {
 			for (let j=0; j < party.seats; j ++) {
 				seats.push(<Seat key={`${party.nameShort}-${j}`} color={party.color} small={props.small} />)
 			}
-			if (party.seats> 0) {
+			// if (party.seats> 0) {
 				parties.push(<Party key={party.id} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} small={props.small} />)
-			}
+			// }
 		})
 		if (seats.length < seatTotal+1) {
 			console.log(seats.length)

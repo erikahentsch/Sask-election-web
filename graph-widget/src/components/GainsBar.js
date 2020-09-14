@@ -3,7 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {CSSTransition, Transition} from 'react-transition-group'
 
 const styles = makeStyles({
-    partyContainer: props => ({
+    partyContainer: ({
         alignItems: 'center',
         height: 25,
         margin: 3,
@@ -18,11 +18,15 @@ const styles = makeStyles({
         borderBottom: '1px solid black',
         '& #minus': {
             position: 'absolute',
-            left: -15
+            left: props=>props.small ? -10:-15, 
+            fontWeight: 'bolder'
+
         },
         '& #plus': {
             position: 'absolute',
-            right: -15
+            right: props=>props.small? -10 :  -15,
+            fontWeight: 'bolder'
+
         }
     }),
     gainsBar: {
