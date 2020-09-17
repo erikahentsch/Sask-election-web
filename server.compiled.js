@@ -92,9 +92,9 @@ function startTimer(req, res, next) {
 
 
 function getPartyData() {
-  var resultsurl = "https://election-touchscreen.globalnews.ca/data/nb_full_2020.json";
-  var overallurl = "https://election-touchscreen.globalnews.ca/data/nb_overall.json";
-  var declarationurl = "https://election-touchscreen.globalnews.ca/data/nb_declaration.json";
+  var resultsurl = process.env.RESULTSURL || "https://election-touchscreen.globalnews.ca/data/nb_full_2020.json";
+  var overallurl = process.env.OVERALLURL || "https://election-touchscreen.globalnews.ca/data/nb_overall.json";
+  var declarationurl = process.env.DECLARATIONURL || "https://election-touchscreen.globalnews.ca/data/nb_declaration.json";
   fetch(overallurl).then(function (res) {
     if (res.ok) {
       return res.json();

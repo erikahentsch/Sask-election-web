@@ -33,7 +33,7 @@ const styles= makeStyles({
 
 const defaultStyle={
     weight: 0.9,
-    color: 'black',
+    // color: 'black',
     fillOpacity: 0.9
 }
 
@@ -78,6 +78,7 @@ const selectedStyle={
     }, [])
 
     useEffect(()=> {
+        console.log('here 1')
         if (props.selectedRiding) {
             zoomToED(props.selectedRiding.name)
             if (geoRef.current) {
@@ -85,10 +86,7 @@ const selectedStyle={
 
                 geo.eachLayer(layer=>{
                     if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
-                        layer.setStyle({
-                            weight: 3,
-                            fillOpacity: 1
-                        })
+                        layer.setStyle(selectedStyle)
                     }
                 })
             }
@@ -96,7 +94,15 @@ const selectedStyle={
         } else {
             resetBounds()
         }
-    }, [geoRef.current, props.selectedRiding])
+    }, [props.selectedRiding])
+
+    useEffect(()=> {
+        if (geoRef.current) {
+            geoRef.current.leafletElement.eachLayer(layer=>{
+                getTooltipData(layer.feature, layer)
+            });
+        }
+    }, [props.data])
 
     const getPartyResults = (EDName) => {
         try {
@@ -138,17 +144,28 @@ const selectedStyle={
 
 
     const handleFill = (feature) => {
+        console.log('handle here')
         if (feature) {
             let partyResults = getPartyResults(feature.properties.Name);
             let fill = 'rgb(89, 91, 91)'
             if (partyResults) {
                 fill = getFillByResults(partyResults)
-            }
-            return {
-                fillColor: fill,
-                weight: 0.9,
-                color: 'black',
-                fillOpacity: 0.9
+                if (props.selectedRiding) {
+                    if (props.selectedRiding.name === feature.properties.Name) {
+                        return {
+                            fillColor: fill,
+                            weight: 3,
+                            color: 'black',
+                            fillOpacity: 1
+                        }
+                    }
+                } 
+                return {
+                    fillColor: fill,
+                    weight: 0.9,
+                    color: 'black',
+                    fillOpacity: 0.9
+                }
             }
         }
     }
@@ -193,8 +210,10 @@ const selectedStyle={
 
     const resetBounds = () => {
         try {
-            const map = mapRef.current.leafletElement
+            const map = mapRef.current.leafletElement;
             map.fitBounds(initBounds)    
+            map.tooltipclose();
+
             props.handleSelectRiding(null)
         } catch (err) {
 
@@ -222,7 +241,12 @@ const selectedStyle={
                 const featureData = getPartyResults(feature.properties.Name)
                 const featureColor = getFillByResults(featureData)
                 if (featureData && featureColor) {
-                    layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: false, direction: 'top'})
+                    if (!layer._tooltip) {
+                        layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: false, direction: 'top'})
+                    } else if (!layer._tooltip._content.includes(featureColor)) {
+                        let newTooltip = ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />)
+                        layer.setTooltipContent(newTooltip, {sticky: false, direction: 'top'})
+                    }
                 }
             } catch(e) {
 
@@ -257,7 +281,6 @@ const selectedStyle={
                 <Control position="topleft">
                     <a id="zoomOut" style={{color: 'black !important'}} className={`leaflet-control-zoom leaflet-bar ${classes.resetButton}`} onClick={resetBounds}>
                         <ZoomOutMapIcon />
-
                     </a>
                 </Control>
             </Map>

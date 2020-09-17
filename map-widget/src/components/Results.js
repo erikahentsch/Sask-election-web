@@ -106,13 +106,16 @@ const Candidate = (props) => {
     useEffect(()=> {
         setCandidate(candidate.name)
 
-        console.log(imgRef.current.name, prevCandidate)
         if (props.candidate) {
 
             if (prevCandidate === imgRef.current.name) {
-                return;
+                imgRef.current.style.width = '100%'
             } else {
                 imgRef.current.style.width = 0
+                setTimeout(()=>{
+                    imgRef.current.style.width = '100%'
+                }, 1000)
+
             }
         }
     }, [props.candidate])
@@ -124,7 +127,7 @@ const Candidate = (props) => {
     return (
         <div className={classes.candidateRoot}>
             <div style={{backgroundColor: props.color}} className={classes.imageDiv}>
-                <img ref={imgRef} alt="Candidate Headshot" name={candidate.name} style={{}} onLoad={e=>e.target.style.width = "100%"} onError={(e) => { e.target.onError = null; e.target.src =`/img/no_headshot.png`}} src={`/image/${candidate.cachedHeadFilename}`}/>
+                <img ref={imgRef} alt="Candidate Headshot" name={candidate.name} onLoad={e=>e.target.style.width = "100%"} onError={(e) => { e.target.onError = null; e.target.src =`/img/no_headshot.png`}} src={`/image/${candidate.cachedHeadFilename}`}/>
                 <div id="partyCode" style={{fontWeight: 'bolder',color: props.color === '#C0C0C0' ? 'black' : 'white' }}>{candidate.partyCode}</div>
             </div>
             <div className={classes.candidateLeftDiv}>

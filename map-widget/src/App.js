@@ -34,7 +34,7 @@ function App() {
   const [loading, toggleLoading] = useState(true)
   const [parties, setParties] = useState(null)
   const [selectedResults, setSelectedResults] = useState(null)
-  const [timer, setTimer] = useState(30000)
+  const [timer, setTimer] = useState(10000)
   const [screensize, setScreenSize] = useState(window.innerWidth)
   const [declarationText, setDeclarationText] = useState('')
 	const [declaration, setDeclaration] = useState(null)
@@ -67,11 +67,8 @@ function App() {
 			if (data && declaration) {
 				if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
 					let text = declaration.overallResult.partyName + ' ' + declaration.overallResult.resultText;
-					console.log(text)
-
           setDeclarationText(text)
           let partyWinner = parties.find(party=>party.name === declaration.overallResult.partyName)
-          console.log(partyWinner)
           setDeclaredColor(partyWinner.color)     
 				} else 
         setDeclarationText('')
@@ -102,7 +99,6 @@ function App() {
       .catch(err=>console.log("Error fetching OVERALLRESULTS, check your env variables and try again"))
     axios.get(`/declaration`)
       .then(function (res) {
-        console.log(res.data)
         if (res.status === 200) {
           setDeclaration(res.data)
         } 
@@ -140,7 +136,7 @@ function App() {
 
       let initResults = selectedResults.name;
       let newResults = data.data.find(riding=> riding.name === initResults)
-      console.log(initResults, newResults)
+      // console.log(initResults, newResults)
       if (initResults === newResults.name) {
         setSelectedResults(newResults)
       }

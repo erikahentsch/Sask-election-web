@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import {makeStyles} from '@material-ui/core'
 
@@ -37,6 +37,8 @@ const styles = makeStyles({
 const Tooltip = (props) => {
 
     const classes = styles(props)
+
+
 
     return (
         <div className={classes.geoTooltip}>
