@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
 })
 
 //server map-app//
-app.use(express.static(path.join(__dirname, 'map-widget', 'build')))
+// app.use(express.static(path.join(__dirname, 'map-widget', 'build')))
 
 
 // Serve map widget
@@ -45,27 +45,47 @@ app.get('/barchart-widget/*', (req,res)=> {
 })
 
 // Server get data files: 
-app.get('*/overallresults', (req,res)=> {
-    let results = fs.readFileSync(process.env.OVERALLELECTIONRESULTS || 'public/data/nb_overall.json')
+app.get('/:prov/overallresults', (req,res)=> {
+    let prov = 'nb' 
+    if (req.params.prov) {
+        prov = req.params.prov
+    }
+    let results = fs.readFileSync(`public/${prov}/data/${prov}_overall.json`)
     res.send(JSON.parse(results))
 })
-app.get('*/fullresults', (req,res)=>{
-    let results = fs.readFileSync(process.env.FULLELECTIONRESULTS || 'public/data/nb_results_full.json')
+app.get('/:prov/fullresults', (req,res)=>{
+    let prov = 'nb';
+    if (req.params.prov) {
+        prov = req.params.prov
+    }
+    let results = fs.readFileSync(`public/${prov}/data/${prov}_results_full.json`)
     res.send(JSON.parse(results))
 })
-app.get('*/declaration', (req,res)=>{
-    let results = fs.readFileSync(process.env.DECLARATION|| 'public/data/nb_declaration.json')
+app.get('/:prov/declaration', (req,res)=>{
+    let prov = 'nb';
+    if (req.params.prov) {
+        prov = req.params.prov
+    }
+    let results = fs.readFileSync(`public/${prov}/data/${prov}_declaration.json`)
     res.send(JSON.parse(results))
 })
 
-app.get('*/geojson', (req,res)=> {
-    let geo = fs.readFileSync(process.env.GEOJSON || 'public/data/nb_electoral_proj.json')
-    console.log(process.env.GEOJSON)
+app.get('/:prov/geojson', (req,res)=> {
+    let prov = 'nb'; 
+    if (req.params.prov) {
+        prov = req.params.prov
+    }
+    let geo = fs.readFileSync(`public/${prov}/data/${prov}_geo.json`)
     res.send(JSON.parse(geo))
 })
 
-app.get('*/title', (req,res)=>{
-    res.send(process.env.TITLE || 'New Brunswick Election 2020')
+app.get('/:prov/config', (req,res)=>{
+    let prov = 'nb'; 
+    if (req.params.prov) {
+        prov = req.params.prov
+    }
+    let file = fs.readFileSync(`public/${prov}/data/${prov}_config.json`)
+    res.send(JSON.parse(file))
 })
 
 
@@ -73,19 +93,27 @@ app.get('/testEnv', (req,res)=> {
     res.send(process.env.TEST_TEXT || "Test text not found")
 });
 
-app.get('/testData', (req,res)=>{
+app.get('/:prov/testData', (req,res)=>{
+    console.log(req.params)
     let file = fs.readFileSync('public/data/test.json')
+
+    if (req.params.prov) {
+        console.log(req.params.prov)
+        let prov = req.params.prov
+        file = fs.readFileSync(`public/${prov}/data/${prov}_test.json`)
+    }
+    
 
     res.send(JSON.parse(file))
 })
 
 app.get('*/image/:filename', (req,res)=>{
     let filename = req.params.filename.slice(0,-4)
-    let image =  `/headshots_test/${filename}.jpg`
+    let image =  `/headshots/${filename}.jpg`
 
     if (filename === `D'AMOURS_JC_LIB_48`) {
         console.log('true')
-        image =  `/headshots_test/DAMOURS_Jc_LIB_48.jpg`
+        image =  `/headshots/DAMOURS_Jc_LIB_48.jpg`
     }
 
     res.redirect(image)
@@ -93,65 +121,78 @@ app.get('*/image/:filename', (req,res)=>{
 
 function startTimer(req,res,next) {
     console.log(`Server test listening at port ${PORT}.`);
-    getPartyData();
-    setInterval(()=>{
-        console.log("getting party data")
-        getPartyData();
-    }, process.env.TIMER || 600000)
+    let update_elections = process.env.UPDATE_ELECTIONS.split(',')
+    // getPartyData();
+
+    console.log(update_elections)
+
+    update_elections.map(election=>{
+        console.log(election.toLowerCase().trim())
+
+        getPartyData(election.toLowerCase().trim());
+        setInterval(()=>{
+            console.log("getting party data")
+            getPartyData(election.toLowerCase().trim());
+        }, process.env.TIMER || 600000)
+
+    })
 }
 
 
 //get party data
-function getPartyData() {
-    var resultsurl = process.env.RESULTSURL || `https://election-touchscreen.globalnews.ca/data/nb_full_2020.json`
-    var overallurl = process.env.OVERALLURL || `https://election-touchscreen.globalnews.ca/data/nb_overall.json`
-    var declarationurl = process.env.DECLARATIONURL || `https://election-touchscreen.globalnews.ca/data/nb_declaration.json`
-    fetch(overallurl)
-        .then(res=> {
-            if (res.ok) {
-                return res.json()
-            } 
-        })
-        .then(json=>{
+function getPartyData(prov) {
 
-            var data = JSON.stringify(json)
+    console.log('get party data', prov)
 
-            fs.writeFile('public/data/nb_overall.json', data, finished)
-            function finished(err) {
-                console.log('all done')
-            }
-        })
-    fetch(resultsurl)
-        .then(res=> {
-            if (res.ok) {
-                return res.json()
-            } 
-        })
-        .then(json=>{
+    // var resultsurl = process.env.RESULTSURL || `https://election-touchscreen.globalnews.ca/data/nb_full_2020.json`
+    // var overallurl = process.env.OVERALLURL || `https://election-touchscreen.globalnews.ca/data/nb_overall.json`
+    // var declarationurl = process.env.DECLARATIONURL || `https://election-touchscreen.globalnews.ca/data/nb_declaration.json`
+    // // fetch(overallurl)
+    // //     .then(res=> {
+    //         if (res.ok) {
+    //             return res.json()
+    //         } 
+    //     })
+    //     .then(json=>{
 
-            var data = JSON.stringify(json)
+    //         var data = JSON.stringify(json)
 
-            fs.writeFile('public/data/nb_results_full.json', data, finished)
-            function finished(err) {
-                console.log('all done')
-            }
-        })
+    //         fs.writeFile('public/data/nb_overall.json', data, finished)
+    //         function finished(err) {
+    //             console.log('all done')
+    //         }
+    //     })
+    // fetch(resultsurl)
+    //     .then(res=> {
+    //         if (res.ok) {
+    //             return res.json()
+    //         } 
+    //     })
+    //     .then(json=>{
 
-        fetch(declarationurl)
-        .then(res=> {
-            if (res.ok) {
-                return res.json()
-            } 
-        })
-        .then(json=>{
+    //         var data = JSON.stringify(json)
 
-            var data = JSON.stringify(json)
+    //         fs.writeFile('public/data/nb_results_full.json', data, finished)
+    //         function finished(err) {
+    //             console.log('all done')
+    //         }
+    //     })
 
-            fs.writeFile('public/data/nb_declaration.json', data, finished)
-            function finished(err) {
-                console.log('all done')
-            }
-        })
+    //     fetch(declarationurl)
+    //     .then(res=> {
+    //         if (res.ok) {
+    //             return res.json()
+    //         } 
+    //     })
+    //     .then(json=>{
+
+    //         var data = JSON.stringify(json)
+
+    //         fs.writeFile('public/data/nb_declaration.json', data, finished)
+    //         function finished(err) {
+    //             console.log('all done')
+    //         }
+    //     })
 
 }
 
@@ -161,20 +202,3 @@ app.listen(PORT, startTimer)
 // app.listen(PORT, ()=> {
 //     console.log(`Server test listening at port ${PORT}.`);
 // })
-
-// const nextFunction = (req,res,next) => {
-//     var date = new Date();
-//     var test = {
-//         "test": 'this is also a test',
-//         "date": date
-//     }
-
-//     var data = JSON.stringify(test);
-
-//     fs.writeFile('public/data/test.json', data, finished)
-
-//     function finished(err) {
-//         console.log('all done')
-//     }
-//     console.log(date)
-// }

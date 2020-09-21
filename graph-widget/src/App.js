@@ -84,6 +84,7 @@ function App(props) {
   const classes = styles(props);
 
   useEffect(()=>{
+
 	console.log(`Updating every ${timer/1000} seconds`)
 	getData();
 	startTimer();
@@ -110,6 +111,7 @@ function App(props) {
 
 
   const startTimer = () => {
+
 	setInterval(()=>{
 		console.log("updating")
 		getData();
@@ -117,8 +119,14 @@ function App(props) {
   }
 
   const getData = () => {
+	let province = 'nb'
+	try {
+		province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+	} catch (e) {
+		console.log('default province')
+	}
 	console.log("fetching")
-    axios.get('/overallresults')
+    axios.get(`/${province}/overallresults`)
       .then(res=>{
 		  if (res.status === 200) {
 			setData(res.data);
@@ -128,7 +136,7 @@ function App(props) {
 	  .catch(err=>{
 		  console.log("Error fetching election results")
 	  })
-	axios.get(`/declaration`)
+	axios.get(`/${province}/declaration`)
 	.then(function (res) {
 		console.log(res.data)
 		if (res.status === 200) {

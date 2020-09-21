@@ -45,5 +45,5 @@
     ]
   },
   "proxy": "http://localhost:4001",
-  "homepage": "http://localhost:4001/map-widget"
+  "homepage": "http://localhost:4001/map-widget/"
 }

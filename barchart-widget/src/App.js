@@ -58,16 +58,25 @@ const App = (props) => {
 	const [declaration, setDeclaration] = useState(null)
 	const [title, setTitle] = useState('')
 	const [timer, setTimer] = useState(30000)
-	const [seatTotal, setSeatTotal] = useState(49)
+	const [seatTotal, setSeats] = useState(0)
+	const [majority, setMajority] = useState(0)
     const [declarationText, setDeclarationText] = useState('')
 
 
 	useEffect(()=>{
+		let province = 'nb'
+		try {
+			province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+		} catch (e) {
+			console.log('default province')
+		}
 		console.log(`Updating every ${timer/1000} seconds`)
-		axios.get('/title')
+		axios.get(`/${province}/config`)
 			.then(res=>{
 				if (res.status === 200) {
-					setTitle(res.data)
+					setTitle(res.data.title)
+					setSeats(res.data.seats)
+					setMajority(res.data.majority)
 				}
 			})
 			.catch(err=>console.log("error setting title"))
@@ -76,7 +85,6 @@ const App = (props) => {
 	},[])
 	
 	useEffect(()=>{
-		console.log('check declaration', data, declaration)
 		try {
 			if (data && declaration) {
 				if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
@@ -101,8 +109,14 @@ const App = (props) => {
 	
 
 	const getData = () => {
+		let province = 'nb'
+		try {
+			province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+		} catch (e) {
+			console.log('default province')
+		}
 		console.log('fetching')
-		axios.get(`/overallresults`)
+		axios.get(`/${province}/overallresults`)
 			.then(function (res) {
 				console.log(res.data)
 				if (res.status === 200) {
@@ -112,7 +126,7 @@ const App = (props) => {
 			.catch(err=>{
 				console.log("Error fetching results")
 			})
-		axios.get(`/declaration`)
+		axios.get(`/${province}/declaration`)
 		.then(function (res) {
 			console.log(res.data)
 			if (res.status === 200) {
@@ -151,7 +165,7 @@ const App = (props) => {
 				<Declaration declarationText={declarationText} />
 			}	
 			{(data) && <div className={classes.barchart}>
-				<MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} data={data}/>
+				<MajorityMeter seatTotal={seatTotal} majority={majority} majorityPercent={(majority/seatTotal)*100} data={data}/>
 			</div>}
 			
 			<div className={classes.partyMap}>

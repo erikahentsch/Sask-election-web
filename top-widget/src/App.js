@@ -69,10 +69,16 @@ const App = (props) => {
 
 	useEffect(()=>{
 		console.log(`Updating every ${timer/1000} seconds`)
-		axios.get('/title')
+		let province = 'nb'
+		try {
+			province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+		} catch (e) {
+			console.log('default province')
+		}
+		axios.get(`/${province}/config`)
 			.then(res=>{
 				if (res.status === 200) {
-					setTitle(res.data)
+					setTitle(res.data.title)
 				}
 			})
 			.catch(err=>console.log("error setting title"))
@@ -107,15 +113,20 @@ const App = (props) => {
 	
 
 	const getData = () => {
-
-		axios.get(`/overallresults`)
+		let province = 'nb'
+		try {
+			province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+		} catch (e) {
+			console.log('default province')
+		}
+		axios.get(`/${province}/overallresults`)
 			.then(res=>{
 				if (res.status === 200) {
 					setData(res.data)
 				} 
 			})
 			.catch(err=>console.log("Error fetching overall results"))
-		axios.get(`/declaration`)
+		axios.get(`/${province}/declaration`)
 		.then(function (res) {
 			console.log(res.data)
 			if (res.status === 200) {

@@ -60,7 +60,8 @@ const selectedStyle={
             console.log('no mapReff')
             return
         } else {
-            axios.get('/geojson')
+            let province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+            axios.get(`/${province}/geojson`)
                 .then(res=>{
                     if (res.status === 200) {
                         setgeo(res.data)
@@ -78,7 +79,6 @@ const selectedStyle={
     }, [])
 
     useEffect(()=> {
-        console.log('here 1')
         if (props.selectedRiding) {
             zoomToED(props.selectedRiding.name)
             if (geoRef.current) {
@@ -94,7 +94,7 @@ const selectedStyle={
         } else {
             resetBounds()
         }
-    }, [props.selectedRiding])
+    }, [geoRef.current, props.selectedRiding])
 
     useEffect(()=> {
         if (geoRef.current) {
@@ -144,7 +144,6 @@ const selectedStyle={
 
 
     const handleFill = (feature) => {
-        console.log('handle here')
         if (feature) {
             let partyResults = getPartyResults(feature.properties.Name);
             let fill = 'rgb(89, 91, 91)'
@@ -192,7 +191,9 @@ const selectedStyle={
 
     const zoomToED = (ridingName) => {
         try {
+
             if (geoRef.current) {
+
                 const map = mapRef.current.leafletElement;
                 const geo = geoRef.current.leafletElement;
                 var findLayer = null;
@@ -226,7 +227,7 @@ const selectedStyle={
 
     function resetFeature(e) {
         if (props.selectedRiding) {
-            let layerName = e.layer.feature.properties.PED_Name_E
+            let layerName = e.layer.feature.properties.Name
             if (layerName.toUpperCase() !== props.selectedRiding.name.toUpperCase()) {
                 e.layer.setStyle(defaultStyle)
             } 

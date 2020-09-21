@@ -39,13 +39,25 @@ function App() {
   const [declarationText, setDeclarationText] = useState('')
 	const [declaration, setDeclaration] = useState(null)
   const [declaredColor, setDeclaredColor] = useState('')
+  const [prov, setProv] = useState('')
 
   const classes = styles();
 
   useEffect(()=>{
-    console.log(`Updating every ${timer/1000} seconds`)
-    getData()
-    startTimer()
+    let province = ''
+    try {
+      province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+      setProv(province)
+    } catch (e) {
+
+    } finally {
+      if (province) {
+        getData(province)
+        startTimer(province)
+      }
+      console.log(`Updating every ${timer/1000} seconds`)
+    }
+
   },[])
 
   useEffect(()=> {
@@ -54,7 +66,7 @@ function App() {
 
   const startTimer = () => {
       setInterval(()=>{
-          getData();
+          getData(prov);
       }, timer);
     }
 
@@ -80,8 +92,8 @@ function App() {
     },[data, parties, declaration])
 
   const getData = () => {
-    console.log("fetching")
-    axios.get('/fullresults')
+    let province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+    axios.get(`/${province}/fullresults`)
       .then(res=>{
         if (res.status === 200) {
           setData(res.data);
@@ -90,14 +102,14 @@ function App() {
       })
       .catch(err=>console.log("Error fetching FULLELECTIONDATA, check your env variables and try again", err))
     
-    axios.get('/overallresults')
+    axios.get(`/${province}/overallresults`)
       .then(res=>{
         if (res.status === 200) {
           setParties(res.data.partyResults)
         }
       })
       .catch(err=>console.log("Error fetching OVERALLRESULTS, check your env variables and try again"))
-    axios.get(`/declaration`)
+    axios.get(`/${province}/declaration`)
       .then(function (res) {
         if (res.status === 200) {
           setDeclaration(res.data)
@@ -132,11 +144,10 @@ function App() {
 
   const updateResults = () => {
     if (selectedResults) {
-      console.log('updating selected')
+      console.log('updating selected', selectedResults)
 
       let initResults = selectedResults.name;
       let newResults = data.data.find(riding=> riding.name === initResults)
-      // console.log(initResults, newResults)
       if (initResults === newResults.name) {
         setSelectedResults(newResults)
       }
