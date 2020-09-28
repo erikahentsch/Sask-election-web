@@ -54,6 +54,7 @@ const Sidebar = (props) =>  {
     const [results, setResults] = useState(null)
 
     useEffect(()=>{
+        console.log(props)
         if (props.results) {
             setResults(props.results)
             setMenu('results')
@@ -132,6 +133,7 @@ const Sidebar = (props) =>  {
                     <div className={classes.content}>
                         {props.data && menu === 'results' && 
                             <Results 
+                                prov={props.prov}
                                 screensize={props.small}
                                 data={results}
                                 parties={props.parties}

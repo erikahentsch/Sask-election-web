@@ -107,13 +107,15 @@ app.get('/:prov/testData', (req,res)=>{
     res.send(JSON.parse(file))
 })
 
-app.get('*/image/:filename', (req,res)=>{
+app.get('*/image/:prov/:filename', (req,res)=>{
     let filename = req.params.filename.slice(0,-4)
-    let image =  `/headshots/${filename}.jpg`
+    let prov = req.params.prov;
+
+    let image =  `/${prov}/headshots/${filename}.jpg`
 
     if (filename === `D'AMOURS_JC_LIB_48`) {
         console.log('true')
-        image =  `/headshots/DAMOURS_Jc_LIB_48.jpg`
+        image =  `/${prov}/headshots/DAMOURS_Jc_LIB_48.jpg`
     }
 
     res.redirect(image)
@@ -201,8 +203,8 @@ function getPartyData(prov) {
 }
 
 
-app.listen(PORT, startTimer)
+// app.listen(PORT, startTimer)
 
-// app.listen(PORT, ()=> {
-//     console.log(`Server test listening at port ${PORT}.`);
-// })
+app.listen(PORT, ()=> {
+    console.log(`Server test listening at port ${PORT}.`);
+})

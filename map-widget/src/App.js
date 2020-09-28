@@ -184,6 +184,7 @@ function App() {
           results={selectedResults} 
           handleSelectRiding={handleSelectRiding}
           small={screensize}
+          prov={prov}
           />
         {/* {!loading && <Pictureloader data={data}/>} */}
     </div>

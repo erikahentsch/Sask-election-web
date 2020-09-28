@@ -107,13 +107,14 @@ app.get('/:prov/testData', function (req, res) {
 
   res.send(JSON.parse(file));
 });
-app.get('*/image/:filename', function (req, res) {
+app.get('*/image/:prov/:filename', function (req, res) {
   var filename = req.params.filename.slice(0, -4);
-  var image = "/headshots/".concat(filename, ".jpg");
+  var prov = req.params.prov;
+  var image = "/".concat(prov, "/headshots/").concat(filename, ".jpg");
 
   if (filename === "D'AMOURS_JC_LIB_48") {
     console.log('true');
-    image = "/headshots/DAMOURS_Jc_LIB_48.jpg";
+    image = "/".concat(prov, "/headshots/DAMOURS_Jc_LIB_48.jpg");
   }
 
   res.redirect(image);
@@ -178,8 +179,9 @@ function getPartyData(prov) {
       console.log('finished fetching ' + prov + ' declaration data');
     }
   });
-}
+} // app.listen(PORT, startTimer)
 
-app.listen(PORT, startTimer); // app.listen(PORT, ()=> {
-//     console.log(`Server test listening at port ${PORT}.`);
-// })
+
+app.listen(PORT, function () {
+  console.log("Server test listening at port ".concat(PORT, "."));
+});
