@@ -125,59 +125,59 @@ function startTimer(req, res, next) {
 
   console.log(update_elections);
   update_elections.map(function (election) {
-    console.log(election.toLowerCase().trim());
-    getPartyData(election.toLowerCase().trim());
+    console.log('map party data', election.toLowerCase().trim());
+    var prov = election.toLowerCase().trim();
+    getPartyData(prov);
     setInterval(function () {
       console.log("getting party data");
-      getPartyData(election.toLowerCase().trim());
+      getPartyData(prov);
     }, process.env.TIMER || 600000);
   });
 } //get party data
 
 
 function getPartyData(prov) {
-  console.log('get party data', prov); // var resultsurl = process.env.RESULTSURL || `https://election-touchscreen.globalnews.ca/data/nb_full_2020.json`
-  // var overallurl = process.env.OVERALLURL || `https://election-touchscreen.globalnews.ca/data/nb_overall.json`
-  // var declarationurl = process.env.DECLARATIONURL || `https://election-touchscreen.globalnews.ca/data/nb_declaration.json`
-  // // fetch(overallurl)
-  // //     .then(res=> {
-  //         if (res.ok) {
-  //             return res.json()
-  //         } 
-  //     })
-  //     .then(json=>{
-  //         var data = JSON.stringify(json)
-  //         fs.writeFile('public/data/nb_overall.json', data, finished)
-  //         function finished(err) {
-  //             console.log('all done')
-  //         }
-  //     })
-  // fetch(resultsurl)
-  //     .then(res=> {
-  //         if (res.ok) {
-  //             return res.json()
-  //         } 
-  //     })
-  //     .then(json=>{
-  //         var data = JSON.stringify(json)
-  //         fs.writeFile('public/data/nb_results_full.json', data, finished)
-  //         function finished(err) {
-  //             console.log('all done')
-  //         }
-  //     })
-  //     fetch(declarationurl)
-  //     .then(res=> {
-  //         if (res.ok) {
-  //             return res.json()
-  //         } 
-  //     })
-  //     .then(json=>{
-  //         var data = JSON.stringify(json)
-  //         fs.writeFile('public/data/nb_declaration.json', data, finished)
-  //         function finished(err) {
-  //             console.log('all done')
-  //         }
-  //     })
+  console.log('get party data', prov);
+  var resultsurl = process.env.RESULTSURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_results_current.json");
+  var overallurl = process.env.OVERALLURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_overall.json");
+  var declarationurl = process.env.DECLARATIONURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_declaration.json");
+  console.log(resultsurl);
+  fetch(overallurl).then(function (res) {
+    if (res.ok) {
+      return res.json();
+    }
+  }).then(function (json) {
+    var data = JSON.stringify(json);
+    fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_overall.json"), data, finished);
+
+    function finished(err) {
+      console.log('finished fetching ' + prov + ' overall data');
+    }
+  });
+  fetch(resultsurl).then(function (res) {
+    if (res.ok) {
+      return res.json();
+    }
+  }).then(function (json) {
+    var data = JSON.stringify(json);
+    fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_results_full.json"), data, finished);
+
+    function finished(err) {
+      console.log('finished fetching ' + prov + ' full data');
+    }
+  });
+  fetch(declarationurl).then(function (res) {
+    if (res.ok) {
+      return res.json();
+    }
+  }).then(function (json) {
+    var data = JSON.stringify(json);
+    fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_declaration.json"), data, finished);
+
+    function finished(err) {
+      console.log('finished fetching ' + prov + ' declaration data');
+    }
+  });
 }
 
 app.listen(PORT, startTimer); // app.listen(PORT, ()=> {
