@@ -78,7 +78,7 @@ const Barchart = (props) => {
                 setMajorityPosition(props.majority/props.majority*100)
             }
         }
-    }, [props.data])
+    }, [props.data,props.seatTotal])
 
     var lead = 61
 
