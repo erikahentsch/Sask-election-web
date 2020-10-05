@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 
 import {makeStyles} from '@material-ui/core'
 
@@ -42,12 +42,19 @@ const Tooltip = (props) => {
     const classes = styles(props)
 
     const getWinningBy = () => {
-        return 50
+        try {
+            let winner = props.results.results[0]
+            let runnerup = props.results.results[1]
+            if (winner.votes > runnerup.votes) {
+                return `Leading by ${(winner.votes - runnerup.votes).toLocaleString('en')} votes`
+            }
+        } catch (e) {
+            // return ''
+        }
     }
 
     return (
         <div className={classes.geoTooltip}>
-            {console.log(props)}
             <div className={classes.tooltipName}>{props.results.name}</div>
             <div className={classes.tooltipPolls}>{props.results.pollsReported}/{props.results.pollsTotal} polls reported</div>
             {props.results.pollsReported > 0 && 

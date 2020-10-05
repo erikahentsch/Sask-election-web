@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles'
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -23,11 +23,9 @@ const useStyles=makeStyles({
 
 const Declaration = (props) => {
     const classes = useStyles()
-    
-
     return (
         <div className={props.declarationText && classes.root}>
-            <CheckCircleIcon color="green" />
+            <CheckCircleIcon />
             {props.declarationText}
         </div>
     )

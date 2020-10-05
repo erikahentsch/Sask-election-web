@@ -99,14 +99,13 @@ const styles = makeStyles(props=>({
 }))
 
 const Candidate = (props) => {
-    const {candidate, color} = props
+    const {candidate} = props
     const [prevCandidate, setCandidate] = useState('')
     const imgRef = useRef(null)
 
     useEffect(()=> {
         setCandidate(candidate.name)
-        console.log(props)
-        if (props.candidate) {
+        if (candidate) {
 
             if (prevCandidate === imgRef.current.name) {
                 imgRef.current.style.width = '100%'
@@ -118,7 +117,7 @@ const Candidate = (props) => {
 
             }
         }
-    }, [props.candidate])
+    }, [candidate])
     
     const classes = styles(props);
     var candidateName = candidate.name.split(' ')

@@ -6,11 +6,9 @@ import axios from 'axios'
 
 // import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-// import Map from './components/Map.js'
 import MapDiv from './components/MapTest'
 import Sidebar from './components/Sidebar.js'
 import LoadingAnimation from './components/LoadingAnimation'
-// import Pictureloader from './components/Pictureloader'
 import Declaration from './components/Declaration'
 
 const styles = makeStyles({

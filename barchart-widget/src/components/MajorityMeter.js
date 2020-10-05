@@ -45,31 +45,21 @@ const useStyles = makeStyles({
   
 
 function Bar(props) {
-    // const [width, setWidth] = useState(0)
     const { color, votes, ...other } = props;
     const classes = useStyles(props);
     return <div className={`animate-bar ${classes.bar}`} {...other} />;
 }
 
-function Line(props) {
-    const { color, majority, ...other } = props;
-    const classes = useStyles(props);
-    return <div className={classes.majorityLine} {...other} />;
-}
-
 const Barchart = (props) => {
     
-    // const { color, ...other } = props;
     const [maxSeats, setMaxSeats] = useState(25)
-    const [difference, setDifference] = useState(0);
     const [majorityPosition, setMajorityPosition] = useState(50);
-    const [leading, setLeading] = useState(0)
     const classes = useStyles(props)
     
     useEffect(()=> {
         if (props.data) {
             let leadingParty = props.data.partyResults[0];
-            console.log('leading', props.majority, leadingParty.seats)
+            console.log('leading', majorityPosition)
             if (leadingParty.seats >= props.majority) {
                 setMaxSeats(leadingParty.seats);
                 setMajorityPosition(props.majority/leadingParty.seats*100)
@@ -80,23 +70,17 @@ const Barchart = (props) => {
         }
     }, [props.data,props.seatTotal])
 
-    var lead = 61
-
-    var majority = (props.majority/props.seatTotal)*100
-
     return (
         <div className={classes.meter}>
             <div className={classes.majorityLabel} style={{right: `${100-majorityPosition}%`}}>{props.majority} seats needed for majority</div>
             {props.data && props.data.partyResults.map((party, i)=>{
                 console.log('max seats', maxSeats)
                 if (i < 4) {
-                    return <Bar color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '1%'} />
+                    return <Bar key={i} color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '1%'} />
                 } 
             })    
             }
-            {/* {console.log('majority',majority)} */}
             <div className={classes.majorityLine} style={{left: `${majorityPosition}%`}}/>
-
         </div>
     );
 }

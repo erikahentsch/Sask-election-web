@@ -54,12 +54,10 @@ const Sidebar = (props) =>  {
     const [results, setResults] = useState(null)
 
     useEffect(()=>{
-        console.log(props)
         if (props.results) {
             setResults(props.results)
             setMenu('results')
         } else {
-            console.log('no results')
             setResults(null)
             setMenu('location')
         }

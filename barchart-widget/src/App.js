@@ -5,7 +5,6 @@ import axios from 'axios'
 import 'babel-polyfill'
 
 //Components
-import Seat from './components/Seat'
 import Party from './components/Party'
 import MajorityMeter from './components/MajorityMeter';
 import Declaration from './components/Declaration';
