@@ -29,6 +29,9 @@ const styles = makeStyles({
         '& #tooltipWinnerName': {
             fontSize: 20,
             fontWeight: 'bolder'
+        },
+        '& #tooltipWinningBy' : {
+
         }
     }
 })
@@ -38,16 +41,20 @@ const Tooltip = (props) => {
 
     const classes = styles(props)
 
-
+    const getWinningBy = () => {
+        return 50
+    }
 
     return (
         <div className={classes.geoTooltip}>
+            {console.log(props)}
             <div className={classes.tooltipName}>{props.results.name}</div>
             <div className={classes.tooltipPolls}>{props.results.pollsReported}/{props.results.pollsTotal} polls reported</div>
             {props.results.pollsReported > 0 && 
             <div className={classes.tooltipWinner} style={{backgroundColor: props.color}}>
                 <div id="tooltipPartycode">{props.results.results[0].partyCode}</div>
                 <div id="tooltipWinnerName">{props.results.results[0].name}</div>
+                <div id="tooltipWinningBy">{getWinningBy()}</div>
             </div>}
         </div>
     )
