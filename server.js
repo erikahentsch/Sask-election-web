@@ -145,8 +145,10 @@ function startTimer(req,res,next) {
 //get party data
 function getPartyData(prov) {
 
+    if (prov) {
     console.log('get party data', prov)
-
+        
+    
     var resultsurl = process.env.RESULTSURL || `http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/${prov}_results_current.json`
     var overallurl = process.env.OVERALLURL || `http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/${prov}_overall.json`
     var declarationurl = process.env.DECLARATIONURL || `http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/${prov}_declaration.json`
@@ -199,12 +201,13 @@ function getPartyData(prov) {
                 console.log('finished fetching '+prov+' declaration data')
             }
         })
+    }
 
 }
 
 
-// app.listen(PORT, startTimer)
+app.listen(PORT, startTimer)
 
-app.listen(PORT, ()=> {
-    console.log(`Server test listening at port ${PORT}.`);
-})
+// app.listen(PORT, ()=> {
+//     console.log(`Server test listening at port ${PORT}.`);
+// })

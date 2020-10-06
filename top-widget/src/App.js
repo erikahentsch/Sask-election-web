@@ -79,6 +79,8 @@ const App = (props) => {
 			.then(res=>{
 				if (res.status === 200) {
 					setTitle(res.data.title)
+					setMajority(res.data.majority)
+					setSeatTotal(res.data.seats)
 				}
 			})
 			.catch(err=>console.log("error setting title"))
@@ -174,7 +176,7 @@ const App = (props) => {
 		<div className={classes.main}>
 			<div className={classes.titleRow}>
 				<div className={classes.title}>{title}</div>
-				{(data && data.partyResults[0].votes > 0) && <div className={classes.majorityMeter}>{majority} seats needed for majority 
+				{(data) && <div className={classes.majorityMeter}>{majority} seats needed for majority 
 					<MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} data={data}/>
 				</div>}
 			</div>

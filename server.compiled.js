@@ -138,50 +138,51 @@ function startTimer(req, res, next) {
 
 
 function getPartyData(prov) {
-  console.log('get party data', prov);
-  var resultsurl = process.env.RESULTSURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_results_current.json");
-  var overallurl = process.env.OVERALLURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_overall.json");
-  var declarationurl = process.env.DECLARATIONURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_declaration.json");
-  console.log(resultsurl);
-  fetch(overallurl).then(function (res) {
-    if (res.ok) {
-      return res.json();
-    }
-  }).then(function (json) {
-    var data = JSON.stringify(json);
-    fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_overall.json"), data, finished);
+  if (prov) {
+    console.log('get party data', prov);
+    var resultsurl = process.env.RESULTSURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_results_current.json");
+    var overallurl = process.env.OVERALLURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_overall.json");
+    var declarationurl = process.env.DECLARATIONURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_declaration.json");
+    console.log(resultsurl);
+    fetch(overallurl).then(function (res) {
+      if (res.ok) {
+        return res.json();
+      }
+    }).then(function (json) {
+      var data = JSON.stringify(json);
+      fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_overall.json"), data, finished);
 
-    function finished(err) {
-      console.log('finished fetching ' + prov + ' overall data');
-    }
-  });
-  fetch(resultsurl).then(function (res) {
-    if (res.ok) {
-      return res.json();
-    }
-  }).then(function (json) {
-    var data = JSON.stringify(json);
-    fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_results_full.json"), data, finished);
+      function finished(err) {
+        console.log('finished fetching ' + prov + ' overall data');
+      }
+    });
+    fetch(resultsurl).then(function (res) {
+      if (res.ok) {
+        return res.json();
+      }
+    }).then(function (json) {
+      var data = JSON.stringify(json);
+      fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_results_full.json"), data, finished);
 
-    function finished(err) {
-      console.log('finished fetching ' + prov + ' full data');
-    }
-  });
-  fetch(declarationurl).then(function (res) {
-    if (res.ok) {
-      return res.json();
-    }
-  }).then(function (json) {
-    var data = JSON.stringify(json);
-    fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_declaration.json"), data, finished);
+      function finished(err) {
+        console.log('finished fetching ' + prov + ' full data');
+      }
+    });
+    fetch(declarationurl).then(function (res) {
+      if (res.ok) {
+        return res.json();
+      }
+    }).then(function (json) {
+      var data = JSON.stringify(json);
+      fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_declaration.json"), data, finished);
 
-    function finished(err) {
-      console.log('finished fetching ' + prov + ' declaration data');
-    }
-  });
-} // app.listen(PORT, startTimer)
+      function finished(err) {
+        console.log('finished fetching ' + prov + ' declaration data');
+      }
+    });
+  }
+}
 
-
-app.listen(PORT, function () {
-  console.log("Server test listening at port ".concat(PORT, "."));
-});
+app.listen(PORT, startTimer); // app.listen(PORT, ()=> {
+//     console.log(`Server test listening at port ${PORT}.`);
+// })

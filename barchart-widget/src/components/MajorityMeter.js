@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     bar: {
       background: (props) =>
         props.color, 
-      width: (props) => props.votes,
+      width: '0%',
       borderRadius: '0px 5px 5px 0px',
       height: 10,
       margin: 2,
@@ -47,19 +47,19 @@ const useStyles = makeStyles({
 function Bar(props) {
     const { color, votes, ...other } = props;
     const classes = useStyles(props);
-    return <div className={`animate-bar ${classes.bar}`} {...other} />;
+    return <div className={`animate-bar ${classes.bar}`} style={{width: votes}} {...other} />;
 }
 
 const Barchart = (props) => {
     
-    const [maxSeats, setMaxSeats] = useState(25)
+    const [maxSeats, setMaxSeats] = useState(null)
     const [majorityPosition, setMajorityPosition] = useState(50);
     const classes = useStyles(props)
     
     useEffect(()=> {
         if (props.data) {
             let leadingParty = props.data.partyResults[0];
-            console.log('leading', majorityPosition)
+            console.log('leading', props.seatTotal)
             if (leadingParty.seats >= props.majority) {
                 setMaxSeats(leadingParty.seats);
                 setMajorityPosition(props.majority/leadingParty.seats*100)
@@ -73,8 +73,8 @@ const Barchart = (props) => {
     return (
         <div className={classes.meter}>
             <div className={classes.majorityLabel} style={{right: `${100-majorityPosition}%`}}>{props.majority} seats needed for majority</div>
-            {props.data && props.data.partyResults.map((party, i)=>{
-                console.log('max seats', maxSeats)
+            {props.data && maxSeats && props.data.partyResults.map((party, i)=>{
+                console.log('max seats', party.seats, maxSeats)
                 if (i < 4) {
                     return <Bar key={i} color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '1%'} />
                 } 
