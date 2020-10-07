@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import {makeStyles} from '@material-ui/core/styles';
 import axios from 'axios'
-import 'babel-polyfill'
 
 //Components
 import Party from './components/Party'
 import MajorityMeter from './components/MajorityMeter';
 import Declaration from './components/Declaration';
 
-require('es6-promise/auto');
 
 
 const styles = makeStyles({
