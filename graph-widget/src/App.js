@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios'
-import 'babel-polyfill'
 
 
 import {makeStyles} from '@material-ui/core/styles'
@@ -13,7 +12,6 @@ import PartyCard from './components/partyCard'
 import GainsDiv from './components/GainsDiv'
 import Declaration from './components/Declaration'
 
-require('es6-promise/auto');
 
 const styles = makeStyles({
 	main: {
