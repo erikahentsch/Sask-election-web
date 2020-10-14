@@ -147,9 +147,10 @@ function getPartyData(prov) {
 
     if (prov) {
     console.log('get party data', prov)
-        
     
-    var resultsurl = process.env.RESULTSURL || `http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/${prov}_results_current.json`
+    var datapath = process.env.DATA_PATH || 'http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/'
+    
+    var resultsurl = process.env.RESULTSURL || `${datapath}${prov}_results_current.json`
     var overallurl = process.env.OVERALLURL || `http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/${prov}_overall.json`
     var declarationurl = process.env.DECLARATIONURL || `http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/${prov}_declaration.json`
 
