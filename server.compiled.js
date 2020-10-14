@@ -59,7 +59,7 @@ app.get('/:prov/fullresults', function (req, res) {
     prov = req.params.prov;
   }
 
-  var results = fs.readFileSync("public/".concat(prov, "/data/").concat(prov, "_results_full.json"));
+  var results = fs.readFileSync("public/".concat(prov, "/data/").concat(prov, "_results.json"));
   res.send(JSON.parse(results));
 });
 app.get('/:prov/declaration', function (req, res) {
@@ -141,9 +141,9 @@ function getPartyData(prov) {
   if (prov) {
     console.log('get party data', prov);
     var datapath = process.env.DATA_PATH || 'http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/';
-    var resultsurl = process.env.RESULTSURL || "".concat(datapath).concat(prov, "_results_current.json");
-    var overallurl = process.env.OVERALLURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_overall.json");
-    var declarationurl = process.env.DECLARATIONURL || "http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/".concat(prov, "_declaration.json");
+    var resultsurl = process.env.RESULTSURL || "".concat(datapath).concat(prov, "_results.json");
+    var overallurl = process.env.OVERALLURL || "".concat(datapath).concat(prov, "_overall.json");
+    var declarationurl = process.env.DECLARATIONURL || "".concat(datapath).concat(prov, "_declaration.json");
     console.log(resultsurl);
     fetch(overallurl).then(function (res) {
       if (res.ok) {
@@ -163,7 +163,7 @@ function getPartyData(prov) {
       }
     }).then(function (json) {
       var data = JSON.stringify(json);
-      fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_results_full.json"), data, finished);
+      fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_results.json"), data, finished);
 
       function finished(err) {
         console.log('finished fetching ' + prov + ' full data');

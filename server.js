@@ -58,7 +58,7 @@ app.get('/:prov/fullresults', (req,res)=>{
     if (req.params.prov) {
         prov = req.params.prov
     }
-    let results = fs.readFileSync(`public/${prov}/data/${prov}_results_full.json`)
+    let results = fs.readFileSync(`public/${prov}/data/${prov}_results.json`)
     res.send(JSON.parse(results))
 })
 app.get('/:prov/declaration', (req,res)=>{
@@ -150,9 +150,9 @@ function getPartyData(prov) {
     
     var datapath = process.env.DATA_PATH || 'http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/'
     
-    var resultsurl = process.env.RESULTSURL || `${datapath}${prov}_results_current.json`
-    var overallurl = process.env.OVERALLURL || `http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/${prov}_overall.json`
-    var declarationurl = process.env.DECLARATIONURL || `http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/${prov}_declaration.json`
+    var resultsurl = process.env.RESULTSURL || `${datapath}${prov}_results.json`
+    var overallurl = process.env.OVERALLURL || `${datapath}${prov}_overall.json`
+    var declarationurl = process.env.DECLARATIONURL || `${datapath}${prov}_declaration.json`
 
     console.log(resultsurl)
 
@@ -181,7 +181,7 @@ function getPartyData(prov) {
 
             var data = JSON.stringify(json)
 
-            fs.writeFile(`public/${prov}/data/${prov}_results_full.json`, data, finished)
+            fs.writeFile(`public/${prov}/data/${prov}_results.json`, data, finished)
             function finished(err) {
                 console.log('finished fetching '+prov+' full data')
             }
