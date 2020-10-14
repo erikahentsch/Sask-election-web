@@ -49,3 +49,8 @@ DATA_PATH - http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/
     
 TIMER - 100000
     -> in ms. change this variable to adjust how frequently the app checks for data
+
+UPDATE_ELECTIONS - sk, bc
+    -> provides a list of elections for which to fetch new data. If province is not provided, app will look for local files for said election.
+
+    
