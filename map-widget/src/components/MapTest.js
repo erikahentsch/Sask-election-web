@@ -60,8 +60,7 @@ const selectedStyle={
             console.log('no mapReff')
             return
         } else {
-            let province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
-            axios.get(`/${province}/geojson`)
+            axios.get(`/${props.province}/geojson`)
                 .then(res=>{
                     if (res.status === 200) {
                         setgeo(res.data)

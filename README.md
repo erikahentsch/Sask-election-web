@@ -44,8 +44,8 @@ Required variables (with default):
 PORT - 4001 
     -> will need to be set-up in environment config
 
-DATABASE - https://elector.blcloud.net 
-    -> this variable tells the widget which flow database to look for each results endpoint. 
+DATA_PATH - http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/
+    -> this variable tells the widget to which folder blade is pushing data  
     
 TIMER - 100000
-    -> in ms. change this variable to adjust how frequently the app checks the database for data
+    -> in ms. change this variable to adjust how frequently the app checks for data

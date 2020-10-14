@@ -42,29 +42,29 @@ function App() {
   const classes = styles();
 
   useEffect(()=>{
-    let province = ''
-    try {
-      province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
-      setProv(province)
-    } catch (e) {
+    let province = 'nb'
+    var url = new URL(window.location.href)
 
-    } finally {
-      if (province) {
-        getData(province)
-        startTimer(province)
-      }
-      console.log(`Updating every ${timer/1000} seconds`)
+		if (url.searchParams.get('prov')) {
+      province = url.searchParams.get('prov')
+		}
+    setProv(province)
+    console.log('app,', province)
+
+    if (province) {
+      getData(province)
+      startTimer(province)
     }
-
+    console.log(`Updating every ${timer/1000} seconds`)
   },[])
 
   useEffect(()=> {
     getResultsFromURL()
   }, [loading])
 
-  const startTimer = () => {
+  const startTimer = (province) => {
       setInterval(()=>{
-          getData(prov);
+          getData(province);
       }, timer);
     }
 
@@ -89,8 +89,8 @@ function App() {
 
     },[data, parties, declaration])
 
-  const getData = () => {
-    let province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
+  const getData = (province) => {
+    console.log('fetching data')
     axios.get(`/${province}/fullresults`)
       .then(res=>{
         if (res.status === 200) {
@@ -169,6 +169,7 @@ function App() {
       {!loading  ? <MapDiv 
         data={data}
         parties={parties}
+        province={prov}
         handleSelectRiding={handleSelectRiding}
         selectedRiding={selectedResults}
         />

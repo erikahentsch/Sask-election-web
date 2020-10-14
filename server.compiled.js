@@ -150,11 +150,13 @@ function getPartyData(prov) {
         return res.json();
       }
     }).then(function (json) {
-      var data = JSON.stringify(json);
-      fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_overall.json"), data, finished);
+      if (json) {
+        var finished = function finished(err) {
+          console.log('finished fetching ' + prov + ' overall data');
+        };
 
-      function finished(err) {
-        console.log('finished fetching ' + prov + ' overall data');
+        var data = JSON.stringify(json);
+        fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_overall.json"), data, finished);
       }
     });
     fetch(resultsurl).then(function (res) {
@@ -162,23 +164,28 @@ function getPartyData(prov) {
         return res.json();
       }
     }).then(function (json) {
-      var data = JSON.stringify(json);
-      fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_results.json"), data, finished);
+      if (json) {
+        var finished = function finished(err) {
+          console.log('finished fetching ' + prov + ' full data');
+        };
 
-      function finished(err) {
-        console.log('finished fetching ' + prov + ' full data');
+        var data = JSON.stringify(json);
+        fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_results.json"), data, finished);
       }
     });
+    console.log(declarationurl);
     fetch(declarationurl).then(function (res) {
       if (res.ok) {
         return res.json();
       }
     }).then(function (json) {
-      var data = JSON.stringify(json);
-      fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_declaration.json"), data, finished);
+      if (json) {
+        var finished = function finished(err) {
+          console.log('finished fetching ' + prov + ' declaration data');
+        };
 
-      function finished(err) {
-        console.log('finished fetching ' + prov + ' declaration data');
+        var data = JSON.stringify(json);
+        fs.writeFile("public/".concat(prov, "/data/").concat(prov, "_declaration.json"), data, finished);
       }
     });
   }

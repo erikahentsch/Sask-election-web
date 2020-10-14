@@ -163,12 +163,12 @@ function getPartyData(prov) {
             } 
         })
         .then(json=>{
-
-            var data = JSON.stringify(json)
-
-            fs.writeFile(`public/${prov}/data/${prov}_overall.json`, data, finished)
-            function finished(err) {
-                console.log('finished fetching '+prov+' overall data')
+            if (json) {
+                var data = JSON.stringify(json)
+                fs.writeFile(`public/${prov}/data/${prov}_overall.json`, data, finished)
+                function finished(err) {
+                    console.log('finished fetching '+prov+' overall data')
+                }
             }
         })
     fetch(resultsurl)
@@ -178,15 +178,17 @@ function getPartyData(prov) {
             } 
         })
         .then(json=>{
+            if (json) {
+                var data = JSON.stringify(json)
 
-            var data = JSON.stringify(json)
-
-            fs.writeFile(`public/${prov}/data/${prov}_results.json`, data, finished)
-            function finished(err) {
-                console.log('finished fetching '+prov+' full data')
+                fs.writeFile(`public/${prov}/data/${prov}_results.json`, data, finished)
+                function finished(err) {
+                    console.log('finished fetching '+prov+' full data')
+                }
             }
         })
 
+        console.log(declarationurl)
         fetch(declarationurl)
         .then(res=> {
             if (res.ok) {
@@ -194,12 +196,12 @@ function getPartyData(prov) {
             } 
         })
         .then(json=>{
-
-            var data = JSON.stringify(json)
-
-            fs.writeFile(`public/${prov}/data/${prov}_declaration.json`, data, finished)
-            function finished(err) {
-                console.log('finished fetching '+prov+' declaration data')
+            if (json) {
+                var data = JSON.stringify(json)
+                fs.writeFile(`public/${prov}/data/${prov}_declaration.json`, data, finished)
+                function finished(err) {
+                    console.log('finished fetching '+prov+' declaration data')
+                }
             }
         })
     }

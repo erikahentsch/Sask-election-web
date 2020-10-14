@@ -68,11 +68,13 @@ const App = (props) => {
 	useEffect(()=>{
 		console.log(`Updating every ${timer/1000} seconds`)
 		let province = 'nb'
-		try {
-			province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
-		} catch (e) {
-			console.log('default province')
+		var url = new URL(window.location.href)
+
+		if (url.searchParams.get('prov')) {
+			province = url.searchParams.get('prov')
 		}
+		console.log('app,', province)
+
 		axios.get(`/${province}/config`)
 			.then(res=>{
 				if (res.status === 200) {
