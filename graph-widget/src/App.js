@@ -116,14 +116,21 @@ function App(props) {
 	}, timer);
   }
 
+  function getQueryString(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(window.location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+
   const getData = () => {
 	let province = 'nb'
-	var url = new URL(window.location.href)
-
-	if (url.searchParams.get('prov')) {
-		province = url.searchParams.get('prov')
-	}
-	console.log('app,', province)
+	var url = getQueryString('prov')
+    console.log('url', url)
+	
+	if (url) {
+      province = url
+    }
 
 	console.log("fetching")
     axios.get(`/${province}/overallresults`)

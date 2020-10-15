@@ -59,16 +59,21 @@ const App = (props) => {
 	const [majority, setMajority] = useState(0)
     const [declarationText, setDeclarationText] = useState('')
 
+	function getQueryString(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(window.location.search);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	  }
 
 	useEffect(()=>{
 		let province = 'nb'
-		var url = new URL(window.location.href)
-
-		if (url.searchParams.get('prov')) {
-			province = url.searchParams.get('prov')
+		var url = getQueryString('prov')
+		console.log('url', url)
+		if (url) {
+		  province = url
 		}
-		console.log('app,', province)
-
+		
 		console.log(`Updating every ${timer/1000} seconds`)
 		axios.get(`/${province}/config`)
 			.then(res=>{
