@@ -148,9 +148,9 @@ function getPartyData(prov) {
     if (prov) {
     console.log('get party data', prov)
     
-    var datapath = process.env.DATA_PATH || 'http://bannisterlake.com/dl/web-widgets/election-touchscreen/data/'
+    var datapath = process.env.DATA_PATH || 'https://election-touchscreen.globalnews.ca/data/'
     
-    var resultsurl = process.env.RESULTSURL || `${datapath}${prov}_results.json`
+    var resultsurl = process.env.RESULTSURL || `${datapath}${prov}_full_2020.json`
     var overallurl = process.env.OVERALLURL || `${datapath}${prov}_overall.json`
     var declarationurl = process.env.DECLARATIONURL || `${datapath}${prov}_declaration.json`
 
