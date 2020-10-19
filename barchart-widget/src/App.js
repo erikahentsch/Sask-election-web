@@ -78,6 +78,7 @@ const App = (props) => {
 		axios.get(`/${province}/config`)
 			.then(res=>{
 				if (res.status === 200) {
+					console.log(res)
 					setTitle(res.data.title)
 					setSeats(res.data.seats)
 					setMajority(res.data.majority)

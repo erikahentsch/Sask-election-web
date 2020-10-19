@@ -61,7 +61,7 @@ const Barchart = (props) => {
             let leadingParty = props.data.partyResults[0];
             // console.log('leading', props.seatTotal)
             if (leadingParty.seats >= props.majority) {
-                console.log('1')
+                console.log('1', props.majority, leadingParty.seats)
                 setMaxSeats(leadingParty.seats);
                 setMajorityPosition(props.majority/leadingParty.seats*100)
             } else {
@@ -70,7 +70,7 @@ const Barchart = (props) => {
                 setMajorityPosition(props.majority/props.seatTotal*100)
             }
         }
-    }, [props.data,props.seatTotal])
+    }, [props.data,props.seatTotal, props.majority])
 
     return (
         <div className={classes.meter}>
