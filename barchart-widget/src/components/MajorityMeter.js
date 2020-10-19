@@ -65,9 +65,9 @@ const Barchart = (props) => {
                 setMaxSeats(leadingParty.seats);
                 setMajorityPosition(props.majority/leadingParty.seats*100)
             } else {
-                console.log('2')
+                console.log('2', )
                 setMaxSeats(props.majority)
-                setMajorityPosition(props.majority/props.majority*100)
+                setMajorityPosition(props.majority/props.seatTotal*100)
             }
         }
     }, [props.data,props.seatTotal])
