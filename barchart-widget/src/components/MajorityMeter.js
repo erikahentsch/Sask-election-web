@@ -67,7 +67,7 @@ const Barchart = (props) => {
             } else {
                 console.log('2', )
                 setMaxSeats(props.majority)
-                setMajorityPosition(props.majority/props.seatTotal*100)
+                setMajorityPosition(props.majority/props.majority*100)
             }
         }
     }, [props.data,props.seatTotal, props.majority])

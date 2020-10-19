@@ -188,7 +188,7 @@ const App = (props) => {
 			<div className={classes.titleRow}>
 				<div className={classes.title}>{title}</div>
 				{(data) && <div className={classes.majorityMeter}>{majority} seats needed for majority 
-					<MajorityMeter seatTotal={seatTotal} majority={25} majorityPercent={(25/seatTotal)*100} data={data}/>
+					<MajorityMeter seatTotal={seatTotal} majority={majority} majorityPercent={(25/seatTotal)*100} data={data}/>
 				</div>}
 			</div>
 			{declarationText && 
