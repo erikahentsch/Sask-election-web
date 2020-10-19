@@ -76,10 +76,7 @@ const MajorityMeter = (props) => {
         <div className={classes.meter}>
             {/* <div className={classes.majorityLabel} style={{right: `${100-majorityPosition}%`}}>{props.majority} seats needed for majority</div> */}
             {props.data && props.data.partyResults.map((party, i)=>{
-                console.log('max seats', maxSeats)
-                if (i < 4) {
-                    return <Bar color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '2%'} />
-                } 
+                return <Bar color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '2%'} />
             })    
             }
             {/* {console.log('majority',majority)} */}
