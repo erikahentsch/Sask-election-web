@@ -80,15 +80,6 @@ const selectedStyle={
     useEffect(()=> {
         if (props.selectedRiding) {
             zoomToED(props.selectedRiding.name)
-            if (geoRef.current) {
-                const geo = geoRef.current.leafletElement;
-
-                geo.eachLayer(layer=>{
-                    if (layer.feature.properties.Name.toUpperCase() === props.selectedRiding.name.toUpperCase()) {
-                        layer.setStyle(selectedStyle)
-                    }
-                })
-            }
             
         } else {
             resetBounds()
@@ -122,7 +113,10 @@ const selectedStyle={
                 if (results.results[0].votes > 0) {
                 if (results.results[0].partyCode === 'NDP') {
                     return 'rgb(221, 102, 0)'
+                } else if (results.results[0].partyCode === 'PC') {
+                    return 'rgb(0, 51, 153)'
                 }
+
                 let fill = props.parties.find(party=>{
                     return party.nameShort === results.results[0].partyCode
                 })
@@ -149,7 +143,7 @@ const selectedStyle={
             if (partyResults) {
                 fill = getFillByResults(partyResults)
                 if (props.selectedRiding) {
-                    if (props.selectedRiding.name === feature.properties.Name) {
+                    if (props.selectedRiding.name.toUpperCase() === feature.properties.Name.toUpperCase()) {
                         return {
                             fillColor: fill,
                             weight: 3,
@@ -242,7 +236,7 @@ const selectedStyle={
                 const featureColor = getFillByResults(featureData)
                 if (featureData && featureColor) {
                     if (!layer._tooltip) {
-                        layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: false, direction: 'top'})
+                        layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: true, direction: 'auto'})
                     } else if (!layer._tooltip._content.includes(featureColor)) {
                         let newTooltip = ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />)
                         layer.setTooltipContent(newTooltip, {sticky: false, direction: 'top'})
@@ -256,6 +250,7 @@ const selectedStyle={
 
     return (
         <div className={classes.mapContainer}>
+            {console.log('render map')}
             <Map 
                 ref={mapRef} 
                 zoomSnap={0.25}

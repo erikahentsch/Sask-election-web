@@ -154,7 +154,7 @@ const App = (props) => {
 	var date = ''
 
 	if (data) {
-		data.partyResults.map(party=>{
+		data.partyResults.map((party, i)=>{
 			for (let j=0; j < party.seats; j ++) {
 				seats.push(<Seat key={`${party.nameShort}-${j}`} color={party.color} small={props.small} />)
 			}
@@ -162,8 +162,13 @@ const App = (props) => {
 				parties.push(<Party key={party.id} name={party.nameShort} seats={party.seats} votes={party.votesPercent} color={party.color} small={props.small} />)
 			// }
 		})
+		const containsOther = data.partyResults.findIndex(party=>party.nameShort === "OTH")
+		if (containsOther === -1) {
+			console.log('add other')
+			parties.push(<Party key={-1} name={'OTH'} seats={0} votes={0} color={'rgb(192, 192, 192)'} small={props.small} />)
+		}
+
 		if (seats.length < seatTotal+1) {
-			console.log(seats.length)
 			let seatsRemaining = seatTotal-seats.length
 			for (let k=0; k < seatsRemaining; k++) {
 				seats.push(<Seat small={props.small} key={`none-${k}`} color={'#cccccc'}/>)

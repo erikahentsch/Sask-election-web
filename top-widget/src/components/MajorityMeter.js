@@ -78,7 +78,7 @@ const MajorityMeter = (props) => {
             {props.data && props.data.partyResults.map((party, i)=>{
                 console.log('max seats', maxSeats)
                 if (i < 4) {
-                    return <Bar color={party.color} votes={`${(party.seats/maxSeats)*100}%`} />
+                    return <Bar color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '2%'} />
                 } 
             })    
             }

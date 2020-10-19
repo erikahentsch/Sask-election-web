@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/barchart-widget/precache-manifest.0194e3631a565e83681d1a4c065152c1.js"
+  "/barchart-widget/precache-manifest.b673ffd8fddd67072cea3bdac268f623.js"
 );
 
 self.addEventListener('message', (event) => {

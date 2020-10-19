@@ -150,6 +150,7 @@ function getPartyData(prov) {
     
     var datapath = process.env.DATA_PATH || 'https://election-touchscreen.globalnews.ca/data/'
     
+    
     var resultsurl = process.env.RESULTSURL || `${datapath}${prov}_full_2020.json`
     var overallurl = process.env.OVERALLURL || `${datapath}${prov}_overall.json`
     var declarationurl = process.env.DECLARATIONURL || `${datapath}${prov}_declaration.json`

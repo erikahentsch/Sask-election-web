@@ -105,7 +105,7 @@ const Candidate = (props) => {
 
     useEffect(()=> {
         setCandidate(candidate.name)
-        if (candidate) {
+        if (candidate && imgRef.current) {
 
             if (prevCandidate === imgRef.current.name) {
                 imgRef.current.style.width = '100%'
@@ -167,6 +167,8 @@ const Results = (props) => {
         let color = '#C0C0C0' 
         if (candidate.partyCode === "NDP") {
             return 'rgb(221, 102, 0)'
+        }  else if (candidate.partyCode === 'PC') {
+            return 'rgb(0, 51, 153)'
         }
         if (props.parties) {
             let findParty = props.parties.find(party=>party.nameShort === candidate.partyCode)
