@@ -77,10 +77,7 @@ const Barchart = (props) => {
             {console.log('line position', majorityPosition)}
             <div className={classes.majorityLabel} style={{right: `${100-majorityPosition}%`}}>{props.majority} seats needed for majority</div>
             {props.data && maxSeats && props.data.partyResults.map((party, i)=>{
-                // console.log('max seats', party.seats, maxSeats)
-                if (i < 4) {
-                    return <Bar key={i} color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '1%'} />
-                } 
+                return <Bar key={i} color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '1%'} />
             })    
             }
             <div className={classes.majorityLine} style={{left: `${majorityPosition}%`}}/>
