@@ -157,7 +157,11 @@ const App = (props) => {
 			// }
 		})
 		date = new Date(data.generated)
-
+		const containsOther = data.partyResults.findIndex(party=>party.nameShort === "OTH")
+		if (containsOther === -1) {
+			console.log('add other')
+			parties.push(<Party key={-1} name={'OTH'} seats={0} votes={0} color={'rgb(192, 192, 192)'} small={props.small} />)
+		}
 	}
 
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 
 import {makeStyles} from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -52,6 +52,8 @@ const Sidebar = (props) =>  {
     const classes=styles();
     const [menu, setMenu] = useState('location')
     const [results, setResults] = useState(null)
+    const nodeRef = useRef(null)
+
 
     useEffect(()=>{
         if (props.results) {
@@ -76,6 +78,8 @@ const Sidebar = (props) =>  {
                 className={`${classes.LocationButton} menu-item`}
                 onMouseEnter={()=>toggleArrow(props.resultId)}
                 onMouseLeave={()=>toggleArrow(0)}
+                onTouchStart={()=>toggleArrow(props.resultId)}
+                onTouchEnd={()=>{toggleArrow(0); handleSelectRiding(props.resultData)}}
                 onClick={()=>handleSelectRiding(props.resultData)}
             >
                 {props.children}
@@ -96,6 +100,7 @@ const Sidebar = (props) =>  {
                 in={menu==="location"} 
                 timeout={500}
                 unmountOnExit
+                nodeRef={nodeRef}
                 classNames="menu-primary"
             >
                 <div className="menu">
@@ -122,6 +127,7 @@ const Sidebar = (props) =>  {
                 in={menu==="results"} 
                 unmountOnExit
                 timeout={500}
+                nodeRef={nodeRef}
                 classNames="menu-secondary"
             >
                 <div className="menu">

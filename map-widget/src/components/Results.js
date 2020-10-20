@@ -105,7 +105,7 @@ const Candidate = (props) => {
 
     useEffect(()=> {
         setCandidate(candidate.name)
-        if (candidate && imgRef.current) {
+        if (candidate && imgRef.current.name) {
 
             if (prevCandidate === imgRef.current.name) {
                 imgRef.current.style.width = '100%'
