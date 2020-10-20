@@ -105,7 +105,7 @@ const Candidate = (props) => {
 
     useEffect(()=> {
         setCandidate(candidate.name)
-        if (candidate && imgRef.current.name) {
+        try {
 
             if (prevCandidate === imgRef.current.name) {
                 imgRef.current.style.width = '100%'
@@ -116,6 +116,8 @@ const Candidate = (props) => {
                 }, 1000)
 
             }
+        } catch (e) {
+            console.log('error resetting candidate image')
         }
     }, [candidate])
     

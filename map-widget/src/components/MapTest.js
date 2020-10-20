@@ -250,7 +250,6 @@ const selectedStyle={
 
     return (
         <div className={classes.mapContainer}>
-            {console.log('render map')}
             <Map 
                 ref={mapRef} 
                 zoomSnap={0.25}
