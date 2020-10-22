@@ -126,6 +126,9 @@ html, body, #root, .App {
 .leaflet-tooltip {
   transition: opacity 0.3s;
 }
+.leaflet-tooltip:before {
+  border: 0px !important;
+}
 
 ::-webkit-scrollbar {
   position: absolute !important;

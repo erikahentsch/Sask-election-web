@@ -255,7 +255,9 @@ const selectedStyle={
                 const featureColor = getFillByResults(featureData)
                 if (featureData && featureColor) {
                     if (!layer._tooltip) {
-                        layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip small={small} results={featureData} color={featureColor} />), {sticky: !isMobile, direction: isMobile ? 'top': 'auto'})
+                        layer.bindTooltip(
+                            ReactDOMServer.renderToString(<Tooltip small={small} results={featureData} color={featureColor} />), 
+                            {sticky: !isMobile, offset: isMobile ? [0, 50] : [0,0], direction: isMobile ? 'top': 'auto'})
                     } else if (!layer._tooltip._content.includes(featureColor)) {
                         let newTooltip = ReactDOMServer.renderToString(<Tooltip small={small} results={featureData} color={featureColor} />)
                         layer.setTooltipContent(newTooltip, {sticky: false, direction: 'top'})
