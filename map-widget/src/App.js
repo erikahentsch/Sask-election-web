@@ -32,7 +32,7 @@ function App() {
   const [loading, toggleLoading] = useState(true)
   const [parties, setParties] = useState(null)
   const [selectedResults, setSelectedResults] = useState(null)
-  const [timer, setTimer] = useState(10000)
+  const [timer, setTimer] = useState(30000)
   const [screensize, setScreenSize] = useState(window.innerWidth)
   const [declarationText, setDeclarationText] = useState('')
 	const [declaration, setDeclaration] = useState(null)
@@ -53,12 +53,10 @@ function App() {
     let province = 'nb'
 
     var url = getQueryString('prov')
-    console.log('url', url)
     if (url) {
       province = url
     }
     setProv(province)
-    console.log('app,', province)
 
     if (province) {
       getData(province)
@@ -151,8 +149,6 @@ function App() {
 
   const updateResults = () => {
     if (selectedResults) {
-      console.log('updating selected', selectedResults)
-
       let initResults = selectedResults.name;
       let newResults = data.data.find(riding=> riding.name === initResults)
       if (initResults === newResults.name) {
@@ -165,11 +161,6 @@ function App() {
     setSelectedResults(results)
   }
 
-  const getColorByName = () => {
-    let partyWinner = parties.find(party=>party.name === declaration.overallResult.partyName)
-    console.log('winner', partyWinner)
-    return 'red'
-  }
 
   return (
     <div id={'map-widget-app'} className={classes.app}>

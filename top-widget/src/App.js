@@ -61,9 +61,6 @@ const App = (props) => {
 	const [majority, setMajority] = useState(25)
 	const [declarationText, setDeclarationText] = useState('')
 	const [declaration, setDeclaration] = useState(null)
-	
-
- 	// const small = windo w.screen.width < 500
 
 	function getQueryString(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -76,7 +73,6 @@ const App = (props) => {
 		console.log(`Updating every ${timer/1000} seconds`)
 		let province = 'nb'
 		var url = getQueryString('prov')
-		console.log('url', url)
 		if (url) {
 			province = url
 		}
@@ -96,13 +92,10 @@ const App = (props) => {
 	},[])
 
 	useEffect(()=>{
-		console.log('check declaration', data, declaration)
 		try {
 			if (data && declaration) {
 				if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
 					let text = declaration.overallResult.partyName + ' ' + declaration.overallResult.resultText;
-					console.log(text)
-
 					setDeclarationText(text)
 				} else 
 				setDeclarationText('')
@@ -121,6 +114,7 @@ const App = (props) => {
 	
 
 	const getData = () => {
+		console.log('fetching')
 		let province = 'nb'
 		try {
 			province = window.location.search.split('/').find(el=>el.includes('?prov=')).split('=')[1];
@@ -136,7 +130,6 @@ const App = (props) => {
 			.catch(err=>console.log("Error fetching overall results"))
 		axios.get(`/${province}/declaration`)
 		.then(function (res) {
-			console.log(res.data)
 			if (res.status === 200) {
 				setDeclaration(res.data)
 			} 
@@ -164,7 +157,6 @@ const App = (props) => {
 		})
 		const containsOther = data.partyResults.findIndex(party=>party.nameShort === "OTH")
 		if (containsOther === -1) {
-			console.log('add other')
 			parties.push(<Party key={-1} name={'OTH'} seats={0} votes={0} color={'rgb(192, 192, 192)'} small={props.small} />)
 		}
 

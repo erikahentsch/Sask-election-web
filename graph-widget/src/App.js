@@ -89,13 +89,10 @@ function App(props) {
   },[])
 
   useEffect(()=>{
-	console.log('check declaration', data, declaration)
 	try {
 		if (data && declaration) {
 			if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
 				let text = declaration.overallResult.partyName + ' ' + declaration.overallResult.resultText;
-				console.log(text)
-
 				setDeclarationText(text)
 			} else 
 			setDeclarationText('')
@@ -126,12 +123,9 @@ function App(props) {
   const getData = () => {
 	let province = 'nb'
 	var url = getQueryString('prov')
-    console.log('url', url)
-	
 	if (url) {
       province = url
     }
-
 	console.log("fetching")
     axios.get(`/${province}/overallresults`)
       .then(res=>{
@@ -145,7 +139,6 @@ function App(props) {
 	  })
 	axios.get(`/${province}/declaration`)
 	.then(function (res) {
-		console.log(res.data)
 		if (res.status === 200) {
 			setDeclaration(res.data)
 		} 

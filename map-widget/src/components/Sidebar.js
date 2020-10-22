@@ -62,6 +62,7 @@ const Sidebar = (props) =>  {
         } else {
             setResults(null)
             setMenu('location')
+            toggleArrow(0)
         }
     },[props.results, props.data])
 
@@ -78,8 +79,10 @@ const Sidebar = (props) =>  {
                 className={`${classes.LocationButton} menu-item`}
                 onMouseEnter={()=>toggleArrow(props.resultId)}
                 onMouseLeave={()=>toggleArrow(0)}
-                onTouchStart={(e)=>toggleArrow(props.resultId)}
-                onTouchEnd={e=>{console.log('end', e); handleSelectRiding(props.resultData)}}
+                // onTouchStart={(e)=>{console.log('start',e);toggleArrow(props.resultId)}}
+                // onTouchCancel={(e)=>console.log('cancel', e)}
+                onTouchMove={e=>toggleArrow(props.resultId)}
+                onTouchEnd={e=>handleSelectRiding(props.resultData)}
                 onClick={()=>handleSelectRiding(props.resultData)}
             >
                 {props.children}

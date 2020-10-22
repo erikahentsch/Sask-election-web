@@ -7,12 +7,15 @@ const styles = makeStyles({
         fontFamily: 'Roboto, Ubuntu, Helvetica',
         display: 'flex',
         flexDirection: 'column',
-        transition: '1s'
+        transition: '1s', 
+        width: 200,
+        wordBreak: 'break-word',
+        whiteSpace: 'pre-wrap',
     },
     tooltipName: {
         fontSize: 20,
-
         fontWeight: 'bolder',
+        
     },
     tooltipPolls: {
         fontSize: 14,
@@ -28,7 +31,9 @@ const styles = makeStyles({
         },
         '& #tooltipWinnerName': {
             fontSize: 20,
-            fontWeight: 'bolder'
+            fontWeight: 'bolder',
+            // whiteSpace: 'pre-wrap',
+
         },
         '& #tooltipWinningBy' : {
 

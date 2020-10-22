@@ -160,12 +160,7 @@ const Results = (props) => {
     const classes = styles();
     const {data} = props;
 
-    useEffect(() => {
-        console.log('results render')
-    }, [props.data])
-
     const getPartyColor = (candidate) => {
-        // console.log(candidate)
         let color = '#C0C0C0' 
         if (candidate.partyCode === "NDP") {
             return 'rgb(221, 102, 0)'

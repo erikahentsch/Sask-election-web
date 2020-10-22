@@ -59,13 +59,10 @@ const Barchart = (props) => {
     useEffect(()=> {
         if (props.data) {
             let leadingParty = props.data.partyResults[0];
-            // console.log('leading', props.seatTotal)
             if (leadingParty.seats >= props.majority) {
-                console.log('1', props.majority, leadingParty.seats)
                 setMaxSeats(leadingParty.seats);
                 setMajorityPosition(props.majority/leadingParty.seats*100)
             } else {
-                console.log('2', )
                 setMaxSeats(props.majority)
                 setMajorityPosition(props.majority/props.majority*100)
             }
@@ -74,7 +71,6 @@ const Barchart = (props) => {
 
     return (
         <div className={classes.meter}>
-            {console.log('line position', majorityPosition)}
             <div className={classes.majorityLabel} style={{right: `${100-majorityPosition}%`}}>{props.majority} seats needed for majority</div>
             {props.data && maxSeats && props.data.partyResults.map((party, i)=>{
                 return <Bar key={i} color={party.color} votes={party.seats > 0 ? `${(party.seats/maxSeats)*100}%` : '0.5%'} />

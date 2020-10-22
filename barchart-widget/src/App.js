@@ -69,16 +69,13 @@ const App = (props) => {
 	useEffect(()=>{
 		let province = 'nb'
 		var url = getQueryString('prov')
-		console.log('url', url)
 		if (url) {
 		  province = url
 		}
-		
 		console.log(`Updating every ${timer/1000} seconds`)
 		axios.get(`/${province}/config`)
 			.then(res=>{
 				if (res.status === 200) {
-					console.log(res)
 					setTitle(res.data.title)
 					setSeats(res.data.seats)
 					setMajority(res.data.majority)
@@ -94,8 +91,6 @@ const App = (props) => {
 			if (data && declaration) {
 				if (declaration.overallResult.partyName && declaration.overallResult.resultText) {
 					let text = declaration.overallResult.partyName + ' ' + declaration.overallResult.resultText;
-					console.log(text)
-
 					setDeclarationText(text)
 				} else 
 				setDeclarationText('')
@@ -123,7 +118,6 @@ const App = (props) => {
 		console.log('fetching')
 		axios.get(`/${province}/overallresults`)
 			.then(function (res) {
-				console.log(res.data)
 				if (res.status === 200) {
 					setData(res.data)
 				} 
@@ -133,7 +127,6 @@ const App = (props) => {
 			})
 		axios.get(`/${province}/declaration`)
 		.then(function (res) {
-			console.log(res.data)
 			if (res.status === 200) {
 				setDeclaration(res.data)
 			} 
@@ -159,7 +152,6 @@ const App = (props) => {
 		date = new Date(data.generated)
 		const containsOther = data.partyResults.findIndex(party=>party.nameShort === "OTH")
 		if (containsOther === -1) {
-			console.log('add other')
 			parties.push(<Party key={-1} name={'OTH'} seats={0} votes={0} color={'rgb(192, 192, 192)'} small={props.small} />)
 		}
 	}

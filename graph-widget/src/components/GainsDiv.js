@@ -35,7 +35,6 @@ const Gains = (props) => {
         let tempMax = 0
         if (props.data) {
             props.data.partyResults.forEach(party=> {
-                console.log("party",party.seatChange, tempMax)
                 if (Math.abs(party.seatChange) > tempMax) {
                     tempMax = Math.abs(party.seatChange)
                 }

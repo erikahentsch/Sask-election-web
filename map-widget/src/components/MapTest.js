@@ -83,8 +83,10 @@ const selectedStyle={
             
         } else {
             resetBounds()
+
         }
-    }, [geoRef.current, props.selectedRiding])
+        
+    }, [props.selectedRiding])
 
     useEffect(()=> {
         if (geoRef.current) {
@@ -166,7 +168,7 @@ const selectedStyle={
         try {
             var layerBounds = e.layer.getBounds();
             if (currentBounds === layerBounds) {
-                e.layer.closeTooltip()
+                e.layer.closeTooltip();
             } 
             const map = mapRef.current.leafletElement;
             setCurrentBounds(layerBounds)
@@ -205,10 +207,11 @@ const selectedStyle={
     const resetBounds = () => {
         try {
             const map = mapRef.current.leafletElement;
-            map.fitBounds(initBounds)    
-            map.tooltipclose();
-
             props.handleSelectRiding(null)
+            map.fitBounds(initBounds)    
+            map.eachLayer(function(layer) {
+                if(layer.options.pane === "tooltipPane") layer.removeFrom(map);
+            });
         } catch (err) {
 
         }
@@ -228,17 +231,33 @@ const selectedStyle={
             e.layer.setStyle(defaultStyle)
         }
     }
-
+    function detectMob() {
+        const toMatch = [
+            /Android/i,
+            /webOS/i,
+            /iPhone/i,
+            /iPad/i,
+            /iPod/i,
+            /BlackBerry/i,
+            /Windows Phone/i
+        ];
+    
+        return toMatch.some((toMatchItem) => {
+            return navigator.userAgent.match(toMatchItem);
+        });
+    }
     const getTooltipData = (feature, layer) => {
         if (feature.properties ) {
             try {
+                const isMobile = detectMob()
+                const small = window.screen.width < 500
                 const featureData = getPartyResults(feature.properties.Name)
                 const featureColor = getFillByResults(featureData)
                 if (featureData && featureColor) {
                     if (!layer._tooltip) {
-                        layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />), {sticky: true, direction: 'auto'})
+                        layer.bindTooltip(ReactDOMServer.renderToString(<Tooltip small={small} results={featureData} color={featureColor} />), {sticky: !isMobile, direction: isMobile ? 'top': 'auto'})
                     } else if (!layer._tooltip._content.includes(featureColor)) {
-                        let newTooltip = ReactDOMServer.renderToString(<Tooltip results={featureData} color={featureColor} />)
+                        let newTooltip = ReactDOMServer.renderToString(<Tooltip small={small} results={featureData} color={featureColor} />)
                         layer.setTooltipContent(newTooltip, {sticky: false, direction: 'top'})
                     }
                 }
