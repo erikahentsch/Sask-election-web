@@ -86,7 +86,7 @@ const selectedStyle={
 
         }
         
-    }, [props.selectedRiding])
+    }, [props.selectedRiding, geoRef.current])
 
     useEffect(()=> {
         if (geoRef.current) {
