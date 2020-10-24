@@ -59,6 +59,7 @@ app.get('/:prov/fullresults', (req,res)=>{
         prov = req.params.prov
     }
     let results = fs.readFileSync(`public/${prov}/data/${prov}_results.json`)
+    // res.set('Cache-Control', 'public, max-age=30000')
     res.send(JSON.parse(results))
 })
 app.get('/:prov/declaration', (req,res)=>{

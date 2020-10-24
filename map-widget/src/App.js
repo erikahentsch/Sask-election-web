@@ -63,6 +63,7 @@ function App() {
       startTimer(province)
     }
     console.log(`Updating every ${timer/1000} seconds`)
+
   },[])
 
   useEffect(()=> {
@@ -70,13 +71,14 @@ function App() {
   }, [loading])
 
   const startTimer = (province) => {
-      setInterval(()=>{
+      let id = setInterval(()=>{
           getData(province);
       }, timer);
     }
 
   useEffect(()=> {
     updateResults()
+    
   }, [data])
 
   useEffect(()=>{

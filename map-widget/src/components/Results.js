@@ -119,6 +119,7 @@ const Candidate = (props) => {
         } catch (e) {
             console.log('error resetting candidate image')
         }
+
     }, [candidate])
     
     const classes = styles(props);
