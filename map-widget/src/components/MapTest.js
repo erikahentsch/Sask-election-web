@@ -247,6 +247,7 @@ const selectedStyle={
         });
     }
     const getTooltipData = (feature, layer) => {
+        console.log('toolgtip')
         if (feature.properties ) {
             try {
                 const isMobile = detectMob()
